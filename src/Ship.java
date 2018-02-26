@@ -1,25 +1,30 @@
+
 import java.awt.Point;
 import java.io.File;
 import java.util.Observable;
+
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
-public class Ship extends Observable implements NSMoving, EWMoving{
+public class Ship extends Observable{
 
 	Point currentLocation;
 	private AnchorPane ap;
 	private Observable o;
+	private Map map;
 
 	//TODO: ship images dont disappear as moving
 	//TODO: Vertical movement is reversed
 	Ship(Map map, AnchorPane ap)
 	{
+		this.map = map;
 		currentLocation = map.initShip();
 		this.ap = ap;
+		o = new Observable();
 	}
 	
-	public void loadImage()
+	private void loadShipImage()
 	{
 		Image shipImage = new Image(new File("images\\ship.png").toURI().toString(), 50, 50, true, true);
 		ImageView shipImageView = new ImageView(shipImage);
@@ -32,7 +37,7 @@ public class Ship extends Observable implements NSMoving, EWMoving{
 	{
 		if(currentLocation.y >= 1)
 		{
-			Point myPoint = getLocation();
+			Point myPoint = getShipLocation();
 			try
 			{
 				if(myPoint.y == 0) throw new NullPointerException(); 
@@ -44,7 +49,7 @@ public class Ship extends Observable implements NSMoving, EWMoving{
 				System.out.println("can not go up!");
 			}
 		}
-		loadImage();
+		loadShipImage();
 		o.notifyObservers(currentLocation);
 	}
 	
@@ -52,7 +57,7 @@ public class Ship extends Observable implements NSMoving, EWMoving{
 	{
 		if(currentLocation.y <= 9)
 		{
-			Point myPoint = getLocation();
+			Point myPoint = getShipLocation();
 			try
 			{
 				if(myPoint.y == 9) throw new NullPointerException(); 
@@ -64,7 +69,7 @@ public class Ship extends Observable implements NSMoving, EWMoving{
 				System.out.println("can not go down!");
 			}
 		}
-		loadImage();
+		loadShipImage();
 		o.notifyObservers(currentLocation);
 	}
 	
@@ -72,7 +77,7 @@ public class Ship extends Observable implements NSMoving, EWMoving{
 	{
 		if(currentLocation.x <= 9)
 		{
-			Point myPoint = getLocation();
+			Point myPoint = getShipLocation();
 			try
 			{
 				if(myPoint.y == 0) throw new NullPointerException();
@@ -86,15 +91,18 @@ public class Ship extends Observable implements NSMoving, EWMoving{
 				System.out.println("can not go right!");
 			}
 		}
-		loadImage();
+		loadShipImage();
 		o.notifyObservers(currentLocation);
 	}
 	
 	public void goWest()
 	{
-		if(currentLocation.x >= 1)
-		{
-			Point myPoint = getLocation();
+		if(currentLocation.x > 0)
+			if(map.checkLocation(currentLocation.x, currentLocation.y) == 0)
+				currentLocation.setLocation(currentLocation.x, currentLocation.y - 1);
+
+			/*
+			Point myPoint = getShipLocation();
 			try
 			{
 				if(myPoint.x == 0) throw new NullPointerException(); 
@@ -106,11 +114,11 @@ public class Ship extends Observable implements NSMoving, EWMoving{
 				System.out.println("can not go left!");
 			}
 		}
-		loadImage();
-		o.notifyObservers(currentLocation);
+		loadShipImage();
+		o.notifyObservers(currentLocation);*/
 	}
 	
-	public Point getLocation()
+	public Point getShipLocation()
 	{
 		return currentLocation;
 	}

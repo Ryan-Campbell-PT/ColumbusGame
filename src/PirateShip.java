@@ -6,7 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
-public class PirateShip implements Observer, NSMoving, EWMoving {
+public class PirateShip implements Observer {
 
 	private Map map;
 	private Point currentLocation;
@@ -19,7 +19,7 @@ public class PirateShip implements Observer, NSMoving, EWMoving {
 		currentLocation = om.initPirate();
 	}
 
-	public void loadImage()
+	private void loadPirateImage()
 	{
 		Image shipImage = new Image(new File("images\\pirateShip.png").toURI().toString(), 50, 50, true, true);
 		ImageView shipImageView = new ImageView(shipImage);
@@ -35,56 +35,57 @@ public class PirateShip implements Observer, NSMoving, EWMoving {
 	{
 		if (o instanceof Ship)
 		{
+			//TODO: some of these directions may be incorrect. Check them to be sure
 			Ship ship = (Ship)o;
 			Point destiny = ship.currentLocation;
 			if(destiny.getY() < currentLocation.getY())
-				if(!map.seaMap[currentLocation.x][currentLocation.y-1]) //== false
-					goNorth();
+				if(map.checkLocation(currentLocation.x, currentLocation.y - 1) == 0) //== false
+					followNorth();
 			if(destiny.getY() > currentLocation.getY())
-				if(!map.seaMap[currentLocation.x][currentLocation.y+1])
-					goSouth();
+				if(map.checkLocation(currentLocation.x, currentLocation.y + 1) == 0)
+					followSouth();
 			if(destiny.getX() > currentLocation.getX())
-				if(!map.seaMap[currentLocation.x+1][currentLocation.y])
-					goEast();
+				if(map.checkLocation(currentLocation.x + 1, currentLocation.y) == 0)
+					followEast();
 			if(destiny.getX() < currentLocation.getX())
-				if(!map.seaMap[currentLocation.x-1][currentLocation.y])
-					goWest();
+				if(map.checkLocation(currentLocation.x - 1, currentLocation.y) == 0)
+					followWest();
 		}
 	}
 
-	public void goNorth()
+	private void followNorth()
 	{
-		Point myPoint = getLocation();
+		Point myPoint = getShipLocation();
 		myPoint.setLocation(myPoint.getX(), myPoint.getY()+1);
 		currentLocation = myPoint;
-		loadImage();
+		loadPirateImage();
 	}
 
-	public void goSouth()
+	private void followSouth()
 	{
-		Point myPoint = getLocation();
+		Point myPoint = getShipLocation();
 		myPoint.setLocation(myPoint.getX(), myPoint.getY()-1);
 		currentLocation = myPoint;
-		loadImage();
+		loadPirateImage();
 	}
 	
-	public void goEast()
+	private void followEast()
 	{
-		Point myPoint = getLocation();
+		Point myPoint = getShipLocation();
 		myPoint.setLocation(myPoint.getX()+1, myPoint.getY());
 		currentLocation = myPoint;
-		loadImage();
+		loadPirateImage();
 	}
 	
-	public void goWest()
+	private void followWest()
 	{
-		Point myPoint = getLocation();
+		Point myPoint = getShipLocation();
 		myPoint.setLocation(myPoint.getX()-1, myPoint.getY());
 		currentLocation = myPoint;
-		loadImage();
+		loadPirateImage();
 	}
 	
-	public Point getLocation()
+	public Point getShipLocation()
 	{
 		return currentLocation;
 	}
