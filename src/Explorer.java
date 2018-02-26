@@ -11,6 +11,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.util.Observable;
+import java.util.Observer;
+
 public class Explorer extends Application {
 
 	Pane ap;
@@ -39,7 +43,7 @@ public class Explorer extends Application {
 				if(map[x][y] == true)
 				{
 					//rect.setFill(Color.GREEN);
-					Image island = new Image("images\\island.jpg", 50, 50, true, true);
+					Image island = new Image(new File("images\\island.jpg").toURI().toString(), 50, 50, true, true);
 					islandImageView = new ImageView(island);
 					islandImageView.setX(x*scalefactor);//edit to set island point in OceanMap
 					islandImageView.setY(y*scalefactor);//edit to set island point in OceanMap
@@ -59,8 +63,9 @@ public class Explorer extends Application {
 	
 	public void weighAnchor()
 	{
-		scene.setOnKeyPressed(new EventHandler<KeyEvent>()//Eclipse hates this line for some reason
+		scene.setOnKeyPressed(new EventHandler<KeyEvent>()
 		{
+			@Override
 			public void handle(KeyEvent ke)
 			{
 				switch(ke.getCode())
@@ -85,10 +90,11 @@ public class Explorer extends Application {
 			}
 		});
 	}
-	
+
+	//these three methods could for sure be a single method once we make our own observable class.
 	public void loadShipImage()
 	{
-		Image shipImage = new Image("images\\ship.png", 50, 50, true, true);
+		Image shipImage = new Image(new File("images\\ship.png").toURI().toString(), 50, 50, true, true);
 		shipImageView = new ImageView(shipImage);
 		shipImageView.setX(ship.getShipLocation().x*scalefactor);
 		shipImageView.setY(ship.getShipLocation().y*scalefactor);
@@ -97,7 +103,7 @@ public class Explorer extends Application {
 	
 	public void loadPirate1Image()
 	{
-		Image shipImage = new Image("images\\pirateShip.png", 50, 50, true, true);
+		Image shipImage = new Image(new File("images\\pirateShip.png").toURI().toString(), 50, 50, true, true);
 		pirate1ImageView = new ImageView(shipImage);
 		pirate1ImageView.setX(pirate1.getShipLocation().x*scalefactor);
 		pirate1ImageView.setY(pirate1.getShipLocation().y*scalefactor);
@@ -106,7 +112,7 @@ public class Explorer extends Application {
 	
 	public void loadPirate2Image()
 	{
-		Image shipImage = new Image("images\\pirateShip.png", 50, 50, true, true);
+		Image shipImage = new Image(new File("images\\pirateShip.png").toURI().toString(), 50, 50, true, true);
 		pirate2ImageView = new ImageView(shipImage);
 		pirate2ImageView.setX(pirate2.getShipLocation().x*scalefactor);
 		pirate2ImageView.setY(pirate2.getShipLocation().y*scalefactor);
@@ -123,7 +129,6 @@ public class Explorer extends Application {
 		
 		ship = new Ship(oceanMap);
 		loadShipImage();
-		
 		pirate1 = new PirateShip(ship, oceanMap);
 		loadPirate1Image();
 		pirate2 = new PirateShip(ship, oceanMap);
@@ -136,5 +141,5 @@ public class Explorer extends Application {
 		oceanStage.setScene(scene);
 		oceanStage.show();
 		weighAnchor();//if you comment this out you can see the map all the other work. The event handler is the only problem.
-	}	
+	}
 }
