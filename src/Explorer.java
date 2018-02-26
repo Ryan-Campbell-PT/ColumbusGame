@@ -17,21 +17,18 @@ import java.util.Observer;
 
 public class Explorer extends Application {
 
-	Pane ap;
-	Map oceanMap;
-	final int dimensions = 10;
-	final int islandCount = 6;
-	final int scalefactor = 50;
-	ImageView shipImageView;
-	ImageView islandImageView;
-	ImageView pirate1ImageView;
-	ImageView pirate2ImageView;
-	Ship ship;
-	Scene scene;
-	PirateShip pirate1;
-	PirateShip pirate2;
+	private Pane ap;
+	private Map oceanMap;
+	private final int dimensions = 10;
+	private final int islandCount = 6;
+	private final int scalefactor = 50;
+	private Ship ship;
+	private Scene scene;
+	private ImageView shipImageView;
+	//private PirateShip pirate1;
+	//private PirateShip pirate2;
 	
-	public void drawGrid()
+	private void drawGrid()
 	{
 		for(int x = 0; x < dimensions; x++)
 		{ 
@@ -40,13 +37,12 @@ public class Explorer extends Application {
 				Rectangle rect = new Rectangle(x*scalefactor, y*scalefactor, scalefactor, scalefactor);
 				rect.setStroke(Color.BLACK);
 				boolean[][] map = oceanMap.seaMap;
-				if(map[x][y] == true)
+				if(map[x][y]) //== true
 				{
-					//rect.setFill(Color.GREEN);
 					Image island = new Image(new File("images\\island.jpg").toURI().toString(), 50, 50, true, true);
-					islandImageView = new ImageView(island);
-					islandImageView.setX(x*scalefactor);//edit to set island point in OceanMap
-					islandImageView.setY(y*scalefactor);//edit to set island point in OceanMap
+					ImageView islandImageView = new ImageView(island);
+					islandImageView.setX(x * scalefactor);//edit to set island point in OceanMap
+					islandImageView.setY(y * scalefactor);//edit to set island point in OceanMap
 					ap.getChildren().add(islandImageView);
 				}
 				else
@@ -61,7 +57,7 @@ public class Explorer extends Application {
 		launch(args);
 	}
 	
-	public void weighAnchor()
+	private void weighAnchor()
 	{
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>()
 		{
@@ -92,7 +88,8 @@ public class Explorer extends Application {
 	}
 
 	//these three methods could for sure be a single method once we make our own observable class.
-	public void loadShipImage()
+
+	private void loadShipImage()
 	{
 		Image shipImage = new Image(new File("images\\ship.png").toURI().toString(), 50, 50, true, true);
 		shipImageView = new ImageView(shipImage);
@@ -100,24 +97,16 @@ public class Explorer extends Application {
 		shipImageView.setY(ship.getShipLocation().y*scalefactor);
 		ap.getChildren().add(shipImageView);
 	}
-	
-	public void loadPirate1Image()
+
+	private void loadPirateImage(String url, PirateShip pirate)
 	{
-		Image shipImage = new Image(new File("images\\pirateShip.png").toURI().toString(), 50, 50, true, true);
-		pirate1ImageView = new ImageView(shipImage);
-		pirate1ImageView.setX(pirate1.getShipLocation().x*scalefactor);
-		pirate1ImageView.setY(pirate1.getShipLocation().y*scalefactor);
-		ap.getChildren().add(pirate1ImageView);
+		Image shipImage = new Image(url, 50, 50, true, true);
+		ImageView ImageView = new ImageView(shipImage);
+		ImageView.setX(pirate.getShipLocation().x * scalefactor);
+		ImageView.setY(pirate.getShipLocation().y * scalefactor);
+		ap.getChildren().add(ImageView);
 	}
-	
-	public void loadPirate2Image()
-	{
-		Image shipImage = new Image(new File("images\\pirateShip.png").toURI().toString(), 50, 50, true, true);
-		pirate2ImageView = new ImageView(shipImage);
-		pirate2ImageView.setX(pirate2.getShipLocation().x*scalefactor);
-		pirate2ImageView.setY(pirate2.getShipLocation().y*scalefactor);
-		ap.getChildren().add(pirate2ImageView);
-	}
+
 
 	@Override
 	public void start(Stage oceanStage) throws Exception {
@@ -128,15 +117,16 @@ public class Explorer extends Application {
 		drawGrid();
 		
 		ship = new Ship(oceanMap);
-		loadShipImage();
-		pirate1 = new PirateShip(ship, oceanMap);
-		loadPirate1Image();
-		pirate2 = new PirateShip(ship, oceanMap);
-		loadPirate2Image();
+		PirateShip pirate1 = new PirateShip(ship, oceanMap);
+		PirateShip pirate2 = new PirateShip(ship, oceanMap);
+
+		loadShipImage(); //ship
+		loadPirateImage(new File("images\\pirateShip.png").toURI().toString(), pirate1); //pirate image 1
+		loadPirateImage(new File("images\\pirateShip.png").toURI().toString(), pirate2); //pirate image 2
 		
 		ship.addObserver(pirate1);
 		ship.addObserver(pirate2);
-		Scene scene = new Scene(ap, 500, 500);
+		scene = new Scene(ap, 500, 500);
 		oceanStage.setTitle("Chrissy Columbus");
 		oceanStage.setScene(scene);
 		oceanStage.show();

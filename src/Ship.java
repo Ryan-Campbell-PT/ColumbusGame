@@ -1,5 +1,6 @@
 
 import java.awt.Point;
+import java.io.File;
 import java.util.Observable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -7,27 +8,23 @@ import javafx.scene.layout.AnchorPane;
 
 public class Ship extends Observable{
 
-	Map oceanMap;
 	Point currentLocation;
-	ImageView shipImageView;
-	AnchorPane ap;
-	int scalefactor = 50;
-	Observable o;
-	//OceanExplorer oe;
-	
-	public Ship(Map map)
+	private AnchorPane ap;
+	private Observable o;
+
+	Ship(Map map)
 	{
 		//randle = new Random();
 		//map.shipLocation.setLocation(map.shipLocation.x = randle.nextInt(10), map.shipLocation.y = randle.nextInt(10));
 		currentLocation = map.initShip();
 	}
 	
-	public void loadShipImage()
+	private void loadShipImage()
 	{
-		Image shipImage = new Image("images\\ship.png", 50, 50, true, true);
-		shipImageView = new ImageView(shipImage);
-		shipImageView.setX(currentLocation.x*scalefactor);
-		shipImageView.setY(currentLocation.y*scalefactor);
+		Image shipImage = new Image(new File("images\\ship.png").toURI().toString(), 50, 50, true, true);
+		ImageView shipImageView = new ImageView(shipImage);
+		shipImageView.setX(currentLocation.x * 50); //scale factor
+		shipImageView.setY(currentLocation.y * 50);
 		ap.getChildren().add(shipImageView);
 	}
 	

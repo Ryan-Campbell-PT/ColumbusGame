@@ -4,16 +4,14 @@ import java.util.Random;
 public class Map
 {
 	boolean[][] seaMap;
-	//boolean[][] gimmieIslands;
-	int gimmieDimensions;
-	int islandCount;
-	public Point shipLocation;
-	
-	public Map(int dimensions, int islands)
+	private int dimensions;
+	private final int islandCount;
+
+	Map(int dimensions, int islands)
 	{
 		seaMap = new boolean[dimensions][dimensions];
 		islandCount = islands;
-		gimmieDimensions = dimensions;
+		this.dimensions = dimensions;
 	}
 	
 	public void placeIslands()
@@ -24,7 +22,7 @@ public class Map
 			Random randy1 = new Random();
 		    int x = randy1.nextInt(getDimensions());
 			int y = randy1.nextInt(getDimensions());
-			if(seaMap[x][y] != true)
+			if(!seaMap[x][y]) //!= true
 			{
 				seaMap[x][y] = true;
 				islandsToPlace--;
@@ -40,7 +38,7 @@ public class Map
 		x = randy1.nextInt(getDimensions());
 		y = randy1.nextInt(getDimensions());
 		Point newy = new Point(x, y);
-		while(seaMap[x][y] == true)
+		while(seaMap[x][y]) //true
 		{
 			x = randy1.nextInt(getDimensions());
 			y = randy1.nextInt(getDimensions());
@@ -57,7 +55,7 @@ public class Map
 		x = randy1.nextInt(getDimensions());
 		y = randy1.nextInt(getDimensions());
 		Point newy = new Point(x, y);
-		while(seaMap[x][y] == true)
+		while(seaMap[x][y]) //== true
 		{
 			x = randy1.nextInt(getDimensions());
 			y = randy1.nextInt(getDimensions());
@@ -71,15 +69,15 @@ public class Map
 		return seaMap;
 	}
 	
-	public int getDimensions()
+	int getDimensions()
 	{
-		return gimmieDimensions;
+		return dimensions;
 	}
 	
 	public boolean isOcean(int x, int y)
 	{
 		boolean osh = false;
-		while (seaMap[x][y] == false)
+		while (!seaMap[x][y]) //== false
 			osh = true;
 		return osh;
 	}
