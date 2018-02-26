@@ -21,11 +21,12 @@ public class Explorer extends Application {
 	private Map oceanMap;
 	private final int dimensions = 10;
 	private final int islandCount = 6;
-	private final int scalefactor = 50;
+	private final int scaleFactor = 50;
 	private Ship ship;
 	private Scene scene;
 	private ImageView shipImageView;
 
+	/*
 	private void drawGrid()
 	{
 		for(int x = 0; x < dimensions; x++)
@@ -34,8 +35,8 @@ public class Explorer extends Application {
 			{ 
 				Rectangle rect = new Rectangle(x*scalefactor, y*scalefactor, scalefactor, scalefactor);
 				rect.setStroke(Color.BLACK);
-				boolean[][] map = oceanMap.seaMap;
-				if(map[x][y]) //== true
+				int[][] map = oceanMap.getMap();
+				if(map[x][y] ) //== true
 				{
 					Image island = new Image(new File("images\\island.jpg").toURI().toString(), 50, 50, true, true);
 					ImageView islandImageView = new ImageView(island);
@@ -49,7 +50,22 @@ public class Explorer extends Application {
 			}
 		}
 	}
-	
+	*/
+	private void drawGrid()
+	{
+		for(int i = 0; i < dimensions; i++)
+			for(int j = 0; j < dimensions; j++)
+				drawRectangle(i, j, Color.PALETURQUOISE);
+	}
+
+	private void drawRectangle(int x, int y, Color color)
+	{
+		Rectangle rect = new Rectangle(x * scaleFactor, y * scaleFactor, scaleFactor, scaleFactor);
+		rect.setStroke(Color.BLACK);
+		rect.setFill(color);
+		ap.getChildren().add(rect);
+	}
+
 	public static void main(String[] args)
 	{
 		launch(args);
@@ -78,8 +94,8 @@ public class Explorer extends Application {
 				default:
 					break;
 			}
-			shipImageView.setX(ship.getShipLocation().x*scalefactor);
-			shipImageView.setY(ship.getShipLocation().y*scalefactor);
+			shipImageView.setX(ship.getShipLocation().x * scaleFactor);
+			shipImageView.setY(ship.getShipLocation().y * scaleFactor);
 		});
 	}
 
@@ -88,8 +104,8 @@ public class Explorer extends Application {
 	{
 		Image shipImage = new Image(new File("images\\ship.png").toURI().toString(), 50, 50, true, true);
 		shipImageView = new ImageView(shipImage);
-		shipImageView.setX(ship.getShipLocation().x*scalefactor);
-		shipImageView.setY(ship.getShipLocation().y*scalefactor);
+		shipImageView.setX(ship.getShipLocation().x * scaleFactor);
+		shipImageView.setY(ship.getShipLocation().y * scaleFactor);
 		ap.getChildren().add(shipImageView);
 	}
 
@@ -97,8 +113,8 @@ public class Explorer extends Application {
 	{
 		Image shipImage = new Image(url, 50, 50, true, true);
 		ImageView ImageView = new ImageView(shipImage);
-		ImageView.setX(pirate.getShipLocation().x * scalefactor);
-		ImageView.setY(pirate.getShipLocation().y * scalefactor);
+		ImageView.setX(pirate.getShipLocation().x * scaleFactor);
+		ImageView.setY(pirate.getShipLocation().y * scaleFactor);
 		ap.getChildren().add(ImageView);
 	}
 

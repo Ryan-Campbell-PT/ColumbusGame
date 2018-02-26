@@ -12,13 +12,16 @@ public class Ship extends Observable{
 	Point currentLocation;
 	private AnchorPane ap;
 	private Observable o;
+	private Map map;
 
 	//TODO: ship images dont disappear as moving
 	//TODO: Vertical movement is reversed
 	Ship(Map map, AnchorPane ap)
 	{
+		this.map = map;
 		currentLocation = map.initShip();
 		this.ap = ap;
+		o = new Observable();
 	}
 	
 	private void loadShipImage()
@@ -94,8 +97,11 @@ public class Ship extends Observable{
 	
 	public void goWest()
 	{
-		if(currentLocation.x >= 1)
-		{
+		if(currentLocation.x > 0)
+			if(map.checkLocation(currentLocation.x, currentLocation.y) == 0)
+				currentLocation.setLocation(currentLocation.x, currentLocation.y - 1);
+
+			/*
 			Point myPoint = getShipLocation();
 			try
 			{
@@ -109,7 +115,7 @@ public class Ship extends Observable{
 			}
 		}
 		loadShipImage();
-		o.notifyObservers(currentLocation);
+		o.notifyObservers(currentLocation);*/
 	}
 	
 	public Point getShipLocation()

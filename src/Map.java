@@ -1,15 +1,21 @@
 import java.awt.Point;
 import java.util.Random;
 
+/*
+0: Untouched spaces (movable locations)
+1: Non-harming space (island)
+2: Harming space (enemy)
+ */
 public class Map
 {
-	boolean[][] seaMap;
+	private int[][] seaMap;
 	private int dimensions;
 	private final int islandCount;
 
 	Map(int dimensions, int islands)
 	{
-		seaMap = new boolean[dimensions][dimensions];
+		//any untouched blocks are set to 0
+		seaMap = new int[dimensions][dimensions];
 		islandCount = islands;
 		this.dimensions = dimensions;
 	}
@@ -17,14 +23,14 @@ public class Map
 	public void placeIslands()
 	{
 		int islandsToPlace = islandCount;
-		while(islandsToPlace >0)
+		while(islandsToPlace > 0)
 		{
 			Random randy1 = new Random();
-		    int x = randy1.nextInt(getDimensions());
-			int y = randy1.nextInt(getDimensions());
-			if(!seaMap[x][y]) //!= true
+		    int x = randy1.nextInt(dimensions);
+			int y = randy1.nextInt(dimensions);
+			if(seaMap[x][y] == 0) // untouched location
 			{
-				seaMap[x][y] = true;
+				seaMap[x][y] = 1; //set it to a Non-harming space
 				islandsToPlace--;
 			}
 		}
@@ -33,49 +39,28 @@ public class Map
 	public Point initShip()
 	{
 		Random randy1 = new Random();
-		int x;
-		int y;
-		x = randy1.nextInt(getDimensions());
-		y = randy1.nextInt(getDimensions());
-		Point newy = new Point(x, y);
-		while(seaMap[x][y]) //true
-		{
-			x = randy1.nextInt(getDimensions());
-			y = randy1.nextInt(getDimensions());
-			newy = new Point(x, y);
-		}
+		Point newy = new Point(randy1.nextInt(dimensions), randy1.nextInt(dimensions));
+
+		while(checkLocation(newy.x, newy.y) != 0) //if the location is already taken
+			newy = new Point(randy1.nextInt(dimensions), randy1.nextInt(dimensions)); //continue creating new locations until a good space is found
+
 		return newy;
 	}
 	
 	public Point initPirate()
 	{
 		Random randy1 = new Random();
-		int x;
-		int y;
-		x = randy1.nextInt(getDimensions());
-		y = randy1.nextInt(getDimensions());
-		Point newy = new Point(x, y);
-		while(seaMap[x][y]) //== true
-		{
-			x = randy1.nextInt(getDimensions());
-			y = randy1.nextInt(getDimensions());
-			newy = new Point(x, y);
-		}
+		Point newy = new Point(randy1.nextInt(dimensions), randy1.nextInt(dimensions));
+
+		while(checkLocation(newy.x, newy.y) != 0) //^^
+			newy = new Point(randy1.nextInt(dimensions), randy1.nextInt(dimensions));
+
 		return newy;
 	}
 	
-	public boolean[][] getMap()
-	{
-		return seaMap;
-	}
+	public int[][] getMap() { return seaMap; }
 	
-	int getDimensions() { return dimensions; }
+	//int getDimensions() { return dimensions; } not necessary because you have the dimensions as a local variable
 	
-	public boolean isOcean(int x, int y)
-	{
-		boolean osh = false;
-		while (!seaMap[x][y]) //== false
-			osh = true;
-		return osh;
-	}
+	public int checkLocation(int x, int y) { return seaMap[x][y]; }
 }

@@ -35,19 +35,20 @@ public class PirateShip implements Observer {
 	{
 		if (o instanceof Ship)
 		{
+			//TODO: some of these directions may be incorrect. Check them to be sure
 			Ship ship = (Ship)o;
 			Point destiny = ship.currentLocation;
 			if(destiny.getY() < currentLocation.getY())
-				if(!map.seaMap[currentLocation.x][currentLocation.y-1]) //== false
+				if(map.checkLocation(currentLocation.x, currentLocation.y - 1) == 0) //== false
 					followNorth();
 			if(destiny.getY() > currentLocation.getY())
-				if(!map.seaMap[currentLocation.x][currentLocation.y+1])
+				if(map.checkLocation(currentLocation.x, currentLocation.y + 1) == 0)
 					followSouth();
 			if(destiny.getX() > currentLocation.getX())
-				if(!map.seaMap[currentLocation.x+1][currentLocation.y])
+				if(map.checkLocation(currentLocation.x + 1, currentLocation.y) == 0)
 					followEast();
 			if(destiny.getX() < currentLocation.getX())
-				if(!map.seaMap[currentLocation.x-1][currentLocation.y])
+				if(map.checkLocation(currentLocation.x - 1, currentLocation.y) == 0)
 					followWest();
 		}
 	}
