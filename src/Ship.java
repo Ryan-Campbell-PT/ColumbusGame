@@ -2,6 +2,7 @@
 import java.awt.Point;
 import java.io.File;
 import java.util.Observable;
+
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -12,11 +13,12 @@ public class Ship extends Observable{
 	private AnchorPane ap;
 	private Observable o;
 
-	Ship(Map map)
+	//TODO: ship images dont disappear as moving
+	//TODO: Vertical movement is reversed
+	Ship(Map map, AnchorPane ap)
 	{
-		//randle = new Random();
-		//map.shipLocation.setLocation(map.shipLocation.x = randle.nextInt(10), map.shipLocation.y = randle.nextInt(10));
 		currentLocation = map.initShip();
+		this.ap = ap;
 	}
 	
 	private void loadShipImage()

@@ -17,7 +17,7 @@ import java.util.Observer;
 
 public class Explorer extends Application {
 
-	private Pane ap;
+	private AnchorPane ap;
 	private Map oceanMap;
 	private final int dimensions = 10;
 	private final int islandCount = 6;
@@ -25,9 +25,7 @@ public class Explorer extends Application {
 	private Ship ship;
 	private Scene scene;
 	private ImageView shipImageView;
-	//private PirateShip pirate1;
-	//private PirateShip pirate2;
-	
+
 	private void drawGrid()
 	{
 		for(int x = 0; x < dimensions; x++)
@@ -87,8 +85,7 @@ public class Explorer extends Application {
 		});
 	}
 
-	//these three methods could for sure be a single method once we make our own observable class.
-
+	// we can definitely reduce these methods to a single method. Lets keep that in mind while we code
 	private void loadShipImage()
 	{
 		Image shipImage = new Image(new File("images\\ship.png").toURI().toString(), 50, 50, true, true);
@@ -116,7 +113,7 @@ public class Explorer extends Application {
 		oceanMap.placeIslands();		
 		drawGrid();
 		
-		ship = new Ship(oceanMap);
+		ship = new Ship(oceanMap, ap);
 		PirateShip pirate1 = new PirateShip(ship, oceanMap);
 		PirateShip pirate2 = new PirateShip(ship, oceanMap);
 

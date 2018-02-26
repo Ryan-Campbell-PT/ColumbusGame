@@ -69,10 +69,7 @@ public class Map
 		return seaMap;
 	}
 	
-	int getDimensions()
-	{
-		return dimensions;
-	}
+	int getDimensions() { return dimensions; }
 	
 	public boolean isOcean(int x, int y)
 	{
