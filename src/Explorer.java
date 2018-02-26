@@ -57,15 +57,12 @@ public class Explorer extends Application {
 	
 	private void weighAnchor()
 	{
-		scene.setOnKeyPressed(new EventHandler<KeyEvent>()
+		//this is essentially the same code as before, except it doesnt have
+		//the handle() function
+		scene.setOnKeyPressed((KeyEvent event)->
 		{
-			@Override
-			public void handle(KeyEvent ke)
+			switch (event.getCode())
 			{
-				switch(ke.getCode())
-				{
-				default:
-					break;
 				case RIGHT:
 					ship.goEast();
 					break;
@@ -78,10 +75,11 @@ public class Explorer extends Application {
 				case DOWN:
 					ship.goSouth();
 					break;
-				}
-				shipImageView.setX(ship.getShipLocation().x*scalefactor);
-				shipImageView.setY(ship.getShipLocation().y*scalefactor);
+				default:
+					break;
 			}
+			shipImageView.setX(ship.getShipLocation().x*scalefactor);
+			shipImageView.setY(ship.getShipLocation().y*scalefactor);
 		});
 	}
 
