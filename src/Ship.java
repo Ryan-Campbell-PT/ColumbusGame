@@ -1,13 +1,11 @@
-
 import java.awt.Point;
 import java.io.File;
 import java.util.Observable;
-
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
-public class Ship extends Observable{
+public class Ship extends Observable implements NSMoving, EWMoving{
 
 	Point currentLocation;
 	private AnchorPane ap;
@@ -21,7 +19,7 @@ public class Ship extends Observable{
 		this.ap = ap;
 	}
 	
-	private void loadShipImage()
+	public void loadImage()
 	{
 		Image shipImage = new Image(new File("images\\ship.png").toURI().toString(), 50, 50, true, true);
 		ImageView shipImageView = new ImageView(shipImage);
@@ -34,7 +32,7 @@ public class Ship extends Observable{
 	{
 		if(currentLocation.y >= 1)
 		{
-			Point myPoint = getShipLocation();
+			Point myPoint = getLocation();
 			try
 			{
 				if(myPoint.y == 0) throw new NullPointerException(); 
@@ -46,7 +44,7 @@ public class Ship extends Observable{
 				System.out.println("can not go up!");
 			}
 		}
-		loadShipImage();
+		loadImage();
 		o.notifyObservers(currentLocation);
 	}
 	
@@ -54,7 +52,7 @@ public class Ship extends Observable{
 	{
 		if(currentLocation.y <= 9)
 		{
-			Point myPoint = getShipLocation();
+			Point myPoint = getLocation();
 			try
 			{
 				if(myPoint.y == 9) throw new NullPointerException(); 
@@ -66,7 +64,7 @@ public class Ship extends Observable{
 				System.out.println("can not go down!");
 			}
 		}
-		loadShipImage();
+		loadImage();
 		o.notifyObservers(currentLocation);
 	}
 	
@@ -74,7 +72,7 @@ public class Ship extends Observable{
 	{
 		if(currentLocation.x <= 9)
 		{
-			Point myPoint = getShipLocation();
+			Point myPoint = getLocation();
 			try
 			{
 				if(myPoint.y == 0) throw new NullPointerException();
@@ -88,7 +86,7 @@ public class Ship extends Observable{
 				System.out.println("can not go right!");
 			}
 		}
-		loadShipImage();
+		loadImage();
 		o.notifyObservers(currentLocation);
 	}
 	
@@ -96,7 +94,7 @@ public class Ship extends Observable{
 	{
 		if(currentLocation.x >= 1)
 		{
-			Point myPoint = getShipLocation();
+			Point myPoint = getLocation();
 			try
 			{
 				if(myPoint.x == 0) throw new NullPointerException(); 
@@ -108,11 +106,11 @@ public class Ship extends Observable{
 				System.out.println("can not go left!");
 			}
 		}
-		loadShipImage();
+		loadImage();
 		o.notifyObservers(currentLocation);
 	}
 	
-	public Point getShipLocation()
+	public Point getLocation()
 	{
 		return currentLocation;
 	}
