@@ -52,6 +52,7 @@ public class Ship extends Observable //implements NSMoving, EWMoving{
 		}
 	}
 
+	//TODO: We could likely turn these into a single method
 	private void goNorth()
 	{
 		if(currentLocation.y > 0)
@@ -88,8 +89,5 @@ public class Ship extends Observable //implements NSMoving, EWMoving{
 		o.notifyObservers(currentLocation);
 	}
 
-	public Point getPlayerShipLocation()
-	{
-		return currentLocation;
-	}
+	public Point getPlayerShipLocation() { return currentLocation; }
 }

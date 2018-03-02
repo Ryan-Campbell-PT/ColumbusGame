@@ -104,7 +104,7 @@ public class Map
 		while(checkLocation(newy.x, newy.y) != 0) //^^
 			newy = new Point(randy1.nextInt(dimensions), randy1.nextInt(dimensions));
 
-		seaMap[newy.x][newy.y] = 2; //set them to a damaging enemy
+		setPoint(newy.x, newy.y, 2); //set them to a damaging enemy
 		return newy;
 	}
 

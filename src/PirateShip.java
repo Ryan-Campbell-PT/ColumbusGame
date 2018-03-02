@@ -10,8 +10,6 @@ public class PirateShip implements Observer//, NSMoving, EWMoving {
 {
 	private Map map;
 	private Point currentLocation;
-	private AnchorPane anchorPane;
-	//private Ship playerShip;
 
 	PirateShip(Observable o)
 	{
@@ -25,18 +23,21 @@ public class PirateShip implements Observer//, NSMoving, EWMoving {
 	{
 		if (o instanceof Ship)
 		{
-			//TODO: some of these directions may be incorrect. Check them to be sure
 			Ship playerShip = (Ship)o;
-			if(playerShip.getPlayerShipLocation().getY() < currentLocation.getY())
+
+			if(playerShip.getPlayerShipLocation().y < currentLocation.y)
 				if(map.checkLocation(currentLocation.x, currentLocation.y - 1) == 0) //open space
 					followNorth();
-			else if(playerShip.getPlayerShipLocation().getY() > currentLocation.getY())
+
+			else if(playerShip.getPlayerShipLocation().y > currentLocation.y)
 				if(map.checkLocation(currentLocation.x, currentLocation.y + 1) == 0)
 					followSouth();
-			else if(playerShip.getPlayerShipLocation().getX() > currentLocation.getX())
+
+			else if(playerShip.getPlayerShipLocation().x > currentLocation.x)
 				if(map.checkLocation(currentLocation.x + 1, currentLocation.y) == 0)
 					followEast();
-			else if(playerShip.getPlayerShipLocation().getX() < currentLocation.getX())
+
+			else if(playerShip.getPlayerShipLocation().x < currentLocation.x)
 				if(map.checkLocation(currentLocation.x - 1, currentLocation.y) == 0)
 					followWest();
 		}
@@ -77,8 +78,5 @@ public class PirateShip implements Observer//, NSMoving, EWMoving {
 		currentLocation.setLocation(currentLocation.x - 1, currentLocation.y);
 	}
 	
-	public Point getPirateShipLocation()
-	{
-		return currentLocation;
-	}
+	public Point getPirateShipLocation() { return currentLocation; }
 }
