@@ -1,13 +1,11 @@
-
 import java.awt.Point;
 import java.io.File;
 import java.util.Observable;
-
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
-public class Ship extends Observable{
+public class Ship extends Observable implements NSMoving, EWMoving{
 
 	private Point currentLocation;
 	private AnchorPane ap;
@@ -22,7 +20,7 @@ public class Ship extends Observable{
 		o = new Observable();
 	}
 	
-	private void loadShipImage()
+	public void loadImage()
 	{
 		Image shipImage = new Image(new File("images\\ship.png").toURI().toString(), 50, 50, true, true);
 		ImageView shipImageView = new ImageView(shipImage);
@@ -37,6 +35,7 @@ public class Ship extends Observable{
 			if(map.checkLocation(currentLocation.x, currentLocation.y - 1) == 0)
 				currentLocation.setLocation(currentLocation.x, currentLocation.y - 1);
 
+
 		o.notifyObservers(currentLocation);
 	}
 	
@@ -45,6 +44,7 @@ public class Ship extends Observable{
 		if(currentLocation.y < 9)
 			if(map.checkLocation(currentLocation.x, currentLocation.y + 1) == 0)
 				currentLocation.setLocation(currentLocation.x, currentLocation.y + 1);
+
 
 		o.notifyObservers(currentLocation);
 	}
@@ -68,6 +68,8 @@ public class Ship extends Observable{
 	}
 	
 	public Point getPlayerShipLocation()
+
+
 	{
 		return currentLocation;
 	}
