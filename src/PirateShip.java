@@ -20,17 +20,6 @@ public class PirateShip implements Observer//, NSMoving, EWMoving {
 		currentLocation = map.initPirate();
 	}
 
-	public void loadImage()
-	{
-		Image shipImage = new Image(new File("images\\pirateShip.png").toURI().toString(), 50, 50, true, true);
-		ImageView shipImageView = new ImageView(shipImage);
-		shipImageView.setX(currentLocation.x * 50); //scale factor
-		shipImageView.setY(currentLocation.y * 50);
-
-		//anchorPane is never assigned. could cause problems
-		anchorPane.getChildren().add(shipImageView);
-	}
-	
 	@Override
 	public void update(Observable o, Object args)
 	{
@@ -53,49 +42,39 @@ public class PirateShip implements Observer//, NSMoving, EWMoving {
 		}
 	}
 
-	//TODO: These may not work just yet
-	//TODO: Check the location on the map if its not taken, set the pirateShips current location on the map to
-	//to 0 (to indicate nothing is there, then set the newly moved location to 2 (to indicate enemy)
+	//TODO: These functions could definitely be turned into a single function, may want to do in the future
 	private void followNorth()
 	{
-		/*Point myPoint = getShipLocation();
-		myPoint.setLocation(myPoint.getX(), myPoint.getY()+1);
-		currentLocation = myPoint;
-		loadPirateImage();
-		*/
-		currentLocation.setLocation(currentLocation.x, currentLocation.y + 1);
-
+		//set the current location to 0 (to indicate its no longer being used)
+		map.setPoint(currentLocation.x, currentLocation.y, 0);
+		//set the going to location to enemy
+		map.setPoint(currentLocation.x, currentLocation.y - 1, 2);
+		//change the ships location
+		currentLocation.setLocation(currentLocation.x, currentLocation.y - 1);
 	}
 
 	private void followSouth()
 	{
-	/*	Point myPoint = getShipLocation();
-		myPoint.setLocation(myPoint.getX(), myPoint.getY()-1);
-		currentLocation = myPoint;
-		loadPirateImage();
-*/
-		currentLocation.setLocation(currentLocation.x, currentLocation.y - 1);
-
+		//^^
+		map.setPoint(currentLocation.x, currentLocation.y, 0);
+		map.setPoint(currentLocation.x, currentLocation.y + 1, 2);
+		currentLocation.setLocation(currentLocation.x, currentLocation.y + 1);
 	}
 	
 	private void followEast()
 	{
-	/*	Point myPoint = getShipLocation();
-		myPoint.setLocation(myPoint.getX()+1, myPoint.getY());
-		currentLocation = myPoint;
-		loadPirateImage();
-*/
-		currentLocation.setLocation(currentLocation.x + 1, currentLocation.y + 1);
+		//^^
+		map.setPoint(currentLocation.x, currentLocation.y, 0);
+		map.setPoint(currentLocation.x + 1, currentLocation.y, 2);
+		currentLocation.setLocation(currentLocation.x + 1, currentLocation.y);
 	}
 	
 	private void followWest()
 	{
-		/*Point myPoint = getShipLocation();
-		myPoint.setLocation(myPoint.getX()-1, myPoint.getY());
-		currentLocation = myPoint;
-		loadPirateImage();
-*/
-		currentLocation.setLocation(currentLocation.x - 1, currentLocation.y + 1);
+		//^^
+		map.setPoint(currentLocation.x, currentLocation.y, 0);
+		map.setPoint(currentLocation.x - 1, currentLocation.y, 2);
+		currentLocation.setLocation(currentLocation.x - 1, currentLocation.y);
 	}
 	
 	public Point getPirateShipLocation()

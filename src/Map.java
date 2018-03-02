@@ -108,5 +108,7 @@ public class Map
 		return newy;
 	}
 
+	public void setPoint(int x, int y, int status) { seaMap[x][y] = status; }
+
 	public int checkLocation(int x, int y) { return seaMap[x][y]; }
 }
