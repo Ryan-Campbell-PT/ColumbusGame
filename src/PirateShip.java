@@ -11,7 +11,8 @@ public class PirateShip implements Observer {
 	private Map map;
 	private Point currentLocation;
 	private AnchorPane anchorPane;
-	
+	private Ship playerShip;
+
 	PirateShip(Observable o, Map om)
 	{
 		o.addObserver(this);
@@ -36,56 +37,66 @@ public class PirateShip implements Observer {
 		if (o instanceof Ship)
 		{
 			//TODO: some of these directions may be incorrect. Check them to be sure
-			Ship ship = (Ship)o;
-			Point destiny = ship.currentLocation;
-			if(destiny.getY() < currentLocation.getY())
-				if(map.checkLocation(currentLocation.x, currentLocation.y - 1) == 0) //== false
+			playerShip = (Ship)o;
+			if(playerShip.getPlayerShipLocation().getY() < currentLocation.getY())
+				if(map.checkLocation(currentLocation.x, currentLocation.y - 1) == 0) //open space
 					followNorth();
-			if(destiny.getY() > currentLocation.getY())
+			else if(playerShip.getPlayerShipLocation().getY() > currentLocation.getY())
 				if(map.checkLocation(currentLocation.x, currentLocation.y + 1) == 0)
 					followSouth();
-			if(destiny.getX() > currentLocation.getX())
+			else if(playerShip.getPlayerShipLocation().getX() > currentLocation.getX())
 				if(map.checkLocation(currentLocation.x + 1, currentLocation.y) == 0)
 					followEast();
-			if(destiny.getX() < currentLocation.getX())
+			else if(playerShip.getPlayerShipLocation().getX() < currentLocation.getX())
 				if(map.checkLocation(currentLocation.x - 1, currentLocation.y) == 0)
 					followWest();
 		}
 	}
 
+	//TODO: These may not work just yet
+	//TODO: Check the location on the map if its not taken, set the pirateShips current location on the map to
+	//to 0 (to indicate nothing is there, then set the newly moved location to 2 (to indicate enemy)
 	private void followNorth()
 	{
-		Point myPoint = getShipLocation();
+		/*Point myPoint = getShipLocation();
 		myPoint.setLocation(myPoint.getX(), myPoint.getY()+1);
 		currentLocation = myPoint;
 		loadPirateImage();
+		*/
+		currentLocation.setLocation(currentLocation.x, currentLocation.y + 1);
 	}
 
 	private void followSouth()
 	{
-		Point myPoint = getShipLocation();
+	/*	Point myPoint = getShipLocation();
 		myPoint.setLocation(myPoint.getX(), myPoint.getY()-1);
 		currentLocation = myPoint;
 		loadPirateImage();
+*/
+		currentLocation.setLocation(currentLocation.x, currentLocation.y - 1);
 	}
 	
 	private void followEast()
 	{
-		Point myPoint = getShipLocation();
+	/*	Point myPoint = getShipLocation();
 		myPoint.setLocation(myPoint.getX()+1, myPoint.getY());
 		currentLocation = myPoint;
 		loadPirateImage();
+*/
+		currentLocation.setLocation(currentLocation.x + 1, currentLocation.y + 1);
 	}
 	
 	private void followWest()
 	{
-		Point myPoint = getShipLocation();
+		/*Point myPoint = getShipLocation();
 		myPoint.setLocation(myPoint.getX()-1, myPoint.getY());
 		currentLocation = myPoint;
 		loadPirateImage();
+*/
+		currentLocation.setLocation(currentLocation.x - 1, currentLocation.y + 1);
 	}
 	
-	public Point getShipLocation()
+	public Point getPirateShipLocation()
 	{
 		return currentLocation;
 	}

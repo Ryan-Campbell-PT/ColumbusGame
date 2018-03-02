@@ -94,8 +94,8 @@ public class Explorer extends Application {
 				default:
 					break;
 			}
-			shipImageView.setX(ship.getShipLocation().x * scaleFactor);
-			shipImageView.setY(ship.getShipLocation().y * scaleFactor);
+			shipImageView.setX(ship.getPlayerShipLocation().x * scaleFactor);
+			shipImageView.setY(ship.getPlayerShipLocation().y * scaleFactor);
 		});
 	}
 
@@ -104,8 +104,8 @@ public class Explorer extends Application {
 	{
 		Image shipImage = new Image(new File("images\\ship.png").toURI().toString(), 50, 50, true, true);
 		shipImageView = new ImageView(shipImage);
-		shipImageView.setX(ship.getShipLocation().x * scaleFactor);
-		shipImageView.setY(ship.getShipLocation().y * scaleFactor);
+		shipImageView.setX(ship.getPlayerShipLocation().x * scaleFactor);
+		shipImageView.setY(ship.getPlayerShipLocation().y * scaleFactor);
 		ap.getChildren().add(shipImageView);
 	}
 
@@ -113,8 +113,8 @@ public class Explorer extends Application {
 	{
 		Image shipImage = new Image(url, 50, 50, true, true);
 		ImageView ImageView = new ImageView(shipImage);
-		ImageView.setX(pirate.getShipLocation().x * scaleFactor);
-		ImageView.setY(pirate.getShipLocation().y * scaleFactor);
+		ImageView.setX(pirate.getPirateShipLocation().x * scaleFactor);
+		ImageView.setY(pirate.getPirateShipLocation().y * scaleFactor);
 		ap.getChildren().add(ImageView);
 	}
 
@@ -122,11 +122,10 @@ public class Explorer extends Application {
 	@Override
 	public void start(Stage oceanStage) throws Exception {
 		ap = new AnchorPane();
-		oceanMap = new Map(dimensions, islandCount);
-		oceanMap.getMap();
-		oceanMap.placeIslands(ap);
+		oceanMap = Map.initiate(dimensions, islandCount);
 		drawGrid();
-		
+		oceanMap.placeIslands(ap);
+
 		ship = new Ship(oceanMap, ap);
 		PirateShip pirate1 = new PirateShip(ship, oceanMap);
 		PirateShip pirate2 = new PirateShip(ship, oceanMap);

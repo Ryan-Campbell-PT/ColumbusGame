@@ -18,8 +18,17 @@ public class Map
 	private int[][] seaMap;
 	private int dimensions;
 	private final int islandCount;
+	private static Map instance; //singleton to make sure there is always only one map
 
-	Map(int dimensions, int islands)
+	public static Map initiate(int dimensions, int islandCount)
+	{
+		if(instance == null)
+			instance = new Map(dimensions, islandCount);
+
+		return instance;
+	}
+
+	private Map(int dimensions, int islands)
 	{
 		//any untouched blocks are set to 0
 		seaMap = new int[dimensions][dimensions];
@@ -46,14 +55,13 @@ public class Map
 
 	private void placeIslandImage(int x, int y, AnchorPane ap)
 	{
-		/*Image islandImage = new Image(new File("images\\island.jpg").toURI().toString(), 50, 50, true, true);
+		Image islandImage = new Image(new File("images\\island.jpg").toURI().toString(), 50, 50, true, true);
 		ImageView island = new ImageView(islandImage);
 		island.setX(x * 50); //scale factor
 		island.setY(y * 50);
-		System.out.println("Islands x: " + x + "\nIslands y: " + y);
-		*/
-
-
+		island.setScaleX(.95); //I felt the sizes looked a little too much
+		island.setScaleY(.95);
+		ap.getChildren().add(island);
 	}
 
 
@@ -76,6 +84,7 @@ public class Map
 		while(checkLocation(newy.x, newy.y) != 0) //^^
 			newy = new Point(randy1.nextInt(dimensions), randy1.nextInt(dimensions));
 
+		seaMap[newy.x][newy.y] = 2; //set them to a damaging enemy
 		return newy;
 	}
 	
