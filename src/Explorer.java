@@ -30,9 +30,9 @@ public class Explorer extends Application {
 	private void drawGrid()
 	{
 		for(int x = 0; x < dimensions; x++)
-		{ 
+		{
 			for(int y = 0; y < dimensions; y++)
-			{ 
+			{
 				Rectangle rect = new Rectangle(x*scalefactor, y*scalefactor, scalefactor, scalefactor);
 				rect.setStroke(Color.BLACK);
 				int[][] map = oceanMap.getMap();
@@ -124,7 +124,7 @@ public class Explorer extends Application {
 		ap = new AnchorPane();
 		oceanMap = new Map(dimensions, islandCount);
 		oceanMap.getMap();
-		oceanMap.placeIslands();		
+		oceanMap.placeIslands(ap);
 		drawGrid();
 		
 		ship = new Ship(oceanMap, ap);

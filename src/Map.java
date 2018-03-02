@@ -1,4 +1,11 @@
-import java.awt.Point;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+
+import java.awt.*;
+import java.io.File;
 import java.util.Random;
 
 /*
@@ -20,7 +27,7 @@ public class Map
 		this.dimensions = dimensions;
 	}
 	
-	public void placeIslands()
+	public void placeIslands(AnchorPane ap)
 	{
 		int islandsToPlace = islandCount;
 		while(islandsToPlace > 0)
@@ -31,11 +38,25 @@ public class Map
 			if(seaMap[x][y] == 0) // untouched location
 			{
 				seaMap[x][y] = 1; //set it to a Non-harming space
+				placeIslandImage(x, y, ap);
 				islandsToPlace--;
 			}
 		}
 	}
-	
+
+	private void placeIslandImage(int x, int y, AnchorPane ap)
+	{
+		/*Image islandImage = new Image(new File("images\\island.jpg").toURI().toString(), 50, 50, true, true);
+		ImageView island = new ImageView(islandImage);
+		island.setX(x * 50); //scale factor
+		island.setY(y * 50);
+		System.out.println("Islands x: " + x + "\nIslands y: " + y);
+		*/
+
+
+	}
+
+
 	public Point initShip()
 	{
 		Random randy1 = new Random();

@@ -35,87 +35,38 @@ public class Ship extends Observable{
 	
 	public void goNorth()
 	{
-		if(currentLocation.y >= 1)
-		{
-			Point myPoint = getShipLocation();
-			try
-			{
-				if(myPoint.y == 0) throw new NullPointerException(); 
-					myPoint.setLocation(myPoint.getX(), myPoint.getY()+1);
-					currentLocation = myPoint;
-			}
-			catch (NullPointerException e)
-			{
-				System.out.println("can not go up!");
-			}
-		}
-		loadShipImage();
+		if(currentLocation.y > 0)
+			if(map.checkLocation(currentLocation.x, currentLocation.y - 1) == 0)
+				currentLocation.setLocation(currentLocation.x, currentLocation.y - 1);
+
 		o.notifyObservers(currentLocation);
 	}
 	
 	public void goSouth()
 	{
-		if(currentLocation.y <= 9)
-		{
-			Point myPoint = getShipLocation();
-			try
-			{
-				if(myPoint.y == 9) throw new NullPointerException(); 
-					myPoint.setLocation(myPoint.getX(), myPoint.getY()-1);
-					currentLocation = myPoint;
-			}
-			catch (NullPointerException e)
-			{
-				System.out.println("can not go down!");
-			}
-		}
-		loadShipImage();
+		if(currentLocation.y < 9)
+			if(map.checkLocation(currentLocation.x, currentLocation.y + 1) == 0)
+				currentLocation.setLocation(currentLocation.x, currentLocation.y + 1);
+
 		o.notifyObservers(currentLocation);
 	}
 	
 	public void goEast()
 	{
-		if(currentLocation.x <= 9)
-		{
-			Point myPoint = getShipLocation();
-			try
-			{
-				if(myPoint.y == 0) throw new NullPointerException();
-				{
-					myPoint.setLocation(myPoint.getX()+1, myPoint.getY());
-					currentLocation = myPoint;
-				}
-			}
-			catch (NullPointerException e)
-			{
-				System.out.println("can not go right!");
-			}
-		}
-		loadShipImage();
+		if(currentLocation.x < 9)
+			if(map.checkLocation(currentLocation.x + 1, currentLocation.y) == 0)
+				currentLocation.setLocation(currentLocation.x + 1, currentLocation.y);
+
 		o.notifyObservers(currentLocation);
 	}
 	
 	public void goWest()
 	{
 		if(currentLocation.x > 0)
-			if(map.checkLocation(currentLocation.x, currentLocation.y) == 0)
-				currentLocation.setLocation(currentLocation.x, currentLocation.y - 1);
+			if(map.checkLocation(currentLocation.x - 1, currentLocation.y) == 0)
+				currentLocation.setLocation(currentLocation.x - 1, currentLocation.y);
 
-			/*
-			Point myPoint = getShipLocation();
-			try
-			{
-				if(myPoint.x == 0) throw new NullPointerException(); 
-					myPoint.setLocation(myPoint.getX() -1, myPoint.getY());
-					currentLocation = myPoint;
-			}
-			catch (NullPointerException e)
-			{
-				System.out.println("can not go left!");
-			}
-		}
-		loadShipImage();
-		o.notifyObservers(currentLocation);*/
+		o.notifyObservers(currentLocation);
 	}
 	
 	public Point getShipLocation()
