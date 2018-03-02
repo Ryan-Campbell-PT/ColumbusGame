@@ -28,6 +28,8 @@ public class Map
 		return instance;
 	}
 
+	public static Map getInstance() { return instance; }
+
 	private Map(int dimensions, int islands)
 	{
 		//any untouched blocks are set to 0
@@ -87,10 +89,6 @@ public class Map
 		seaMap[newy.x][newy.y] = 2; //set them to a damaging enemy
 		return newy;
 	}
-	
-	public int[][] getMap() { return seaMap; }
-	
-	//int getDimensions() { return dimensions; } not necessary because you have the dimensions as a local variable
-	
+
 	public int checkLocation(int x, int y) { return seaMap[x][y]; }
 }

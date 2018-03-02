@@ -6,18 +6,18 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
-public class PirateShip implements Observer, NSMoving, EWMoving {
-
+public class PirateShip implements Observer //, NSMoving, EWMoving {
+{
 	private Map map;
 	private Point currentLocation;
 	private AnchorPane anchorPane;
 	private Ship playerShip;
 
-	PirateShip(Observable o, Map om)
+	PirateShip(Observable o)
 	{
 		o.addObserver(this);
-		map = om;
-		currentLocation = om.initPirate();
+		map = Map.getInstance();
+		currentLocation = map.initPirate();
 	}
 
 	public void loadImage()
@@ -67,7 +67,7 @@ public class PirateShip implements Observer, NSMoving, EWMoving {
 
 	}
 
-	public void goSouth()
+	private void followSouth()
 	{
 	/*	Point myPoint = getShipLocation();
 		myPoint.setLocation(myPoint.getX(), myPoint.getY()-1);
@@ -78,7 +78,7 @@ public class PirateShip implements Observer, NSMoving, EWMoving {
 
 	}
 	
-	public void goEast()
+	private void followEast()
 	{
 	/*	Point myPoint = getShipLocation();
 		myPoint.setLocation(myPoint.getX()+1, myPoint.getY());
@@ -88,7 +88,7 @@ public class PirateShip implements Observer, NSMoving, EWMoving {
 		currentLocation.setLocation(currentLocation.x + 1, currentLocation.y + 1);
 	}
 	
-	public void goWest()
+	private void followWest()
 	{
 		/*Point myPoint = getShipLocation();
 		myPoint.setLocation(myPoint.getX()-1, myPoint.getY());

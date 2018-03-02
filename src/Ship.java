@@ -5,16 +5,16 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
-public class Ship extends Observable implements NSMoving, EWMoving{
-
+public class Ship extends Observable //implements NSMoving, EWMoving{
+{
 	private Point currentLocation;
 	private AnchorPane ap;
 	private Observable o;
 	private Map map;
 
-	Ship(Map map, AnchorPane ap)
+	Ship(AnchorPane ap)
 	{
-		this.map = map;
+		map = Map.getInstance();
 		currentLocation = map.initShip();
 		this.ap = ap;
 		o = new Observable();

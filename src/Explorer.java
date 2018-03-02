@@ -26,31 +26,6 @@ public class Explorer extends Application {
 	private Scene scene;
 	private ImageView shipImageView;
 
-	/*
-	private void drawGrid()
-	{
-		for(int x = 0; x < dimensions; x++)
-		{
-			for(int y = 0; y < dimensions; y++)
-			{
-				Rectangle rect = new Rectangle(x*scalefactor, y*scalefactor, scalefactor, scalefactor);
-				rect.setStroke(Color.BLACK);
-				int[][] map = oceanMap.getMap();
-				if(map[x][y] ) //== true
-				{
-					Image island = new Image(new File("images\\island.jpg").toURI().toString(), 50, 50, true, true);
-					ImageView islandImageView = new ImageView(island);
-					islandImageView.setX(x * scalefactor);//edit to set island point in OceanMap
-					islandImageView.setY(y * scalefactor);//edit to set island point in OceanMap
-					ap.getChildren().add(islandImageView);
-				}
-				else
-					rect.setFill(Color.PALETURQUOISE);
-				ap.getChildren().add(rect);
-			}
-		}
-	}
-	*/
 	private void drawGrid()
 	{
 		for(int i = 0; i < dimensions; i++)
@@ -126,9 +101,9 @@ public class Explorer extends Application {
 		drawGrid();
 		oceanMap.placeIslands(ap);
 
-		ship = new Ship(oceanMap, ap);
-		PirateShip pirate1 = new PirateShip(ship, oceanMap);
-		PirateShip pirate2 = new PirateShip(ship, oceanMap);
+		ship = new Ship(ap);
+		PirateShip pirate1 = new PirateShip(ship);
+		PirateShip pirate2 = new PirateShip(ship);
 
 		loadShipImage(); //ship
 		loadPirateImage(new File("images\\pirateShip.png").toURI().toString(), pirate1); //pirate image 1
