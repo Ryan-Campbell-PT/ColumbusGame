@@ -11,7 +11,8 @@ public class PirateShip implements Observer, NSMoving, EWMoving {
 	private Map map;
 	private Point currentLocation;
 	private AnchorPane anchorPane;
-	
+	private Ship playerShip;
+
 	PirateShip(Observable o, Map om)
 	{
 		o.addObserver(this);
@@ -35,56 +36,69 @@ public class PirateShip implements Observer, NSMoving, EWMoving {
 	{
 		if (o instanceof Ship)
 		{
-			Ship ship = (Ship)o;
-			Point destiny = ship.currentLocation;
-			if(destiny.getY() < currentLocation.getY())
-				if(!map.seaMap[currentLocation.x][currentLocation.y-1]) //== false
-					goNorth();
-			if(destiny.getY() > currentLocation.getY())
-				if(!map.seaMap[currentLocation.x][currentLocation.y+1])
-					goSouth();
-			if(destiny.getX() > currentLocation.getX())
-				if(!map.seaMap[currentLocation.x+1][currentLocation.y])
-					goEast();
-			if(destiny.getX() < currentLocation.getX())
-				if(!map.seaMap[currentLocation.x-1][currentLocation.y])
-					goWest();
+			//TODO: some of these directions may be incorrect. Check them to be sure
+			playerShip = (Ship)o;
+			if(playerShip.getPlayerShipLocation().getY() < currentLocation.getY())
+				if(map.checkLocation(currentLocation.x, currentLocation.y - 1) == 0) //open space
+					followNorth();
+			else if(playerShip.getPlayerShipLocation().getY() > currentLocation.getY())
+				if(map.checkLocation(currentLocation.x, currentLocation.y + 1) == 0)
+					followSouth();
+			else if(playerShip.getPlayerShipLocation().getX() > currentLocation.getX())
+				if(map.checkLocation(currentLocation.x + 1, currentLocation.y) == 0)
+					followEast();
+			else if(playerShip.getPlayerShipLocation().getX() < currentLocation.getX())
+				if(map.checkLocation(currentLocation.x - 1, currentLocation.y) == 0)
+					followWest();
 		}
 	}
 
-	public void goNorth()
+	//TODO: These may not work just yet
+	//TODO: Check the location on the map if its not taken, set the pirateShips current location on the map to
+	//to 0 (to indicate nothing is there, then set the newly moved location to 2 (to indicate enemy)
+	private void followNorth()
 	{
-		Point myPoint = getLocation();
+		/*Point myPoint = getShipLocation();
 		myPoint.setLocation(myPoint.getX(), myPoint.getY()+1);
 		currentLocation = myPoint;
-		loadImage();
+		loadPirateImage();
+		*/
+		currentLocation.setLocation(currentLocation.x, currentLocation.y + 1);
+
 	}
 
 	public void goSouth()
 	{
-		Point myPoint = getLocation();
+	/*	Point myPoint = getShipLocation();
 		myPoint.setLocation(myPoint.getX(), myPoint.getY()-1);
 		currentLocation = myPoint;
-		loadImage();
+		loadPirateImage();
+*/
+		currentLocation.setLocation(currentLocation.x, currentLocation.y - 1);
+
 	}
 	
 	public void goEast()
 	{
-		Point myPoint = getLocation();
+	/*	Point myPoint = getShipLocation();
 		myPoint.setLocation(myPoint.getX()+1, myPoint.getY());
 		currentLocation = myPoint;
-		loadImage();
+		loadPirateImage();
+*/
+		currentLocation.setLocation(currentLocation.x + 1, currentLocation.y + 1);
 	}
 	
 	public void goWest()
 	{
-		Point myPoint = getLocation();
+		/*Point myPoint = getShipLocation();
 		myPoint.setLocation(myPoint.getX()-1, myPoint.getY());
 		currentLocation = myPoint;
-		loadImage();
+		loadPirateImage();
+*/
+		currentLocation.setLocation(currentLocation.x - 1, currentLocation.y + 1);
 	}
 	
-	public Point getLocation()
+	public Point getPirateShipLocation()
 	{
 		return currentLocation;
 	}
