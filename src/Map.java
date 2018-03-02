@@ -3,6 +3,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import sun.plugin.javascript.navig.Anchor;
 
 import java.awt.*;
 import java.io.File;
@@ -12,33 +13,36 @@ import java.util.Random;
 0: Untouched spaces (movable locations)
 1: Non-harming space (island)
 2: Harming space (enemy)
- */
+3: Treasure (winning condition)
+*/
 public class Map
 {
 	private int[][] seaMap;
 	private int dimensions;
 	private final int islandCount;
+	private AnchorPane ap;
 	private static Map instance; //singleton to make sure there is always only one map
 
-	public static Map initiate(int dimensions, int islandCount)
+	public static Map initiate(int dimensions, int islandCount, AnchorPane ap)
 	{
 		if(instance == null)
-			instance = new Map(dimensions, islandCount);
+			instance = new Map(dimensions, islandCount, ap);
 
 		return instance;
 	}
 
 	public static Map getInstance() { return instance; }
 
-	private Map(int dimensions, int islands)
+	private Map(int dimensions, int islandCount, AnchorPane ap)
 	{
 		//any untouched blocks are set to 0
 		seaMap = new int[dimensions][dimensions];
-		islandCount = islands;
+		this.islandCount = islandCount;
+		this.ap = ap;
 		this.dimensions = dimensions;
 	}
 	
-	public void placeIslands(AnchorPane ap)
+	public void placeIslands()
 	{
 		int islandsToPlace = islandCount;
 		while(islandsToPlace > 0)
@@ -49,21 +53,35 @@ public class Map
 			if(seaMap[x][y] == 0) // untouched location
 			{
 				seaMap[x][y] = 1; //set it to a Non-harming space
-				placeIslandImage(x, y, ap);
+				placeImage(x, y, new File("images\\island.jpg").toURI().toString());
 				islandsToPlace--;
 			}
 		}
 	}
 
-	private void placeIslandImage(int x, int y, AnchorPane ap)
+	//create a single treasure that leads to a win condition
+	//TODO: Will need to design a splash screen or something to indicate winning. May not want to have it random
+	public void placeTreasure()
 	{
-		Image islandImage = new Image(new File("images\\island.jpg").toURI().toString(), 50, 50, true, true);
-		ImageView island = new ImageView(islandImage);
-		island.setX(x * 50); //scale factor
-		island.setY(y * 50);
-		island.setScaleX(.95); //I felt the sizes looked a little too much
-		island.setScaleY(.95);
-		ap.getChildren().add(island);
+		Random rand = new Random();
+		int x = rand.nextInt(dimensions);
+		int y = rand.nextInt(dimensions);
+		if(seaMap[x][y] == 0) // untouched location
+		{
+			seaMap[x][y] = 3; //set it to the treasure spot
+			placeImage(x, y, new File("images\\treasureChest.png").toURI().toString());
+		}
+	}
+
+	private void placeImage(int x, int y, String imageLocation)
+	{
+		Image image = new Image(imageLocation, 50, 50, true, true);
+		ImageView imageView = new ImageView(image);
+		imageView.setX(x * 50); //scale factor
+		imageView.setY(y * 50);
+		imageView.setScaleX(.95); //I felt the sizes looked a little too much
+		imageView.setScaleY(.95);
+		ap.getChildren().add(imageView);
 	}
 
 

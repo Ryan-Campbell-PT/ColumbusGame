@@ -19,8 +19,8 @@ public class Explorer extends Application {
 
 	private AnchorPane ap;
 	private Map oceanMap;
-	private final int dimensions = 10;
-	private final int islandCount = 6;
+	private final int dimensions = 15;
+	private final int islandCount = dimensions / 2;
 	private final int scaleFactor = 50;
 	private Ship ship;
 	private Scene scene;
@@ -81,11 +81,15 @@ public class Explorer extends Application {
 
 
 	@Override
-	public void start(Stage oceanStage) throws Exception {
-		ap = new AnchorPane();
-		oceanMap = Map.initiate(dimensions, islandCount);
+	public void start(Stage oceanStage) throws Exception
+    {
+        //TODO: we could probably turn this all into a single method. Can be something we do towards the end
+        //map creation
+        ap = new AnchorPane();
+		oceanMap = Map.initiate(dimensions, islandCount, ap);
 		drawGrid();
-		oceanMap.placeIslands(ap);
+		oceanMap.placeIslands();
+        oceanMap.placeTreasure();
 
 		ship = new Ship(ap);
 		PirateShip pirate1 = new PirateShip(ship);

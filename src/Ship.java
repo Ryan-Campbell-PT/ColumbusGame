@@ -58,7 +58,6 @@ public class Ship extends Observable //implements NSMoving, EWMoving{
 			if(map.checkLocation(currentLocation.x, currentLocation.y - 1) == 0)
 				currentLocation.setLocation(currentLocation.x, currentLocation.y - 1);
 
-
 		o.notifyObservers(currentLocation);
 	}
 
@@ -67,7 +66,6 @@ public class Ship extends Observable //implements NSMoving, EWMoving{
 		if(currentLocation.y < 9)
 			if(map.checkLocation(currentLocation.x, currentLocation.y + 1) == 0)
 				currentLocation.setLocation(currentLocation.x, currentLocation.y + 1);
-
 
 		o.notifyObservers(currentLocation);
 	}
@@ -92,15 +90,6 @@ public class Ship extends Observable //implements NSMoving, EWMoving{
 
 	public Point getPlayerShipLocation()
 	{
-		return currentLocation;
-	}
-
-	public Point setShipLocation(int x, int y)
-	{
-		Point myPoint  = new Point();
-		myPoint.x = x;
-		myPoint.y = y;
-		currentLocation = myPoint;
 		return currentLocation;
 	}
 }

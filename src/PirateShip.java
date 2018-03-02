@@ -15,7 +15,7 @@ public class PirateShip implements Observer//, NSMoving, EWMoving {
 
 	PirateShip(Observable o)
 	{
-		//o.addObserver(this);
+		o.addObserver(this);
 		map = Map.getInstance();
 		currentLocation = map.initPirate();
 	}
