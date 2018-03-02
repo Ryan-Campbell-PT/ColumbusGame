@@ -9,13 +9,11 @@ import javafx.scene.layout.AnchorPane;
 
 public class Ship extends Observable{
 
-	Point currentLocation;
+	private Point currentLocation;
 	private AnchorPane ap;
 	private Observable o;
 	private Map map;
 
-	//TODO: ship images dont disappear as moving
-	//TODO: Vertical movement is reversed
 	Ship(Map map, AnchorPane ap)
 	{
 		this.map = map;
@@ -69,7 +67,7 @@ public class Ship extends Observable{
 		o.notifyObservers(currentLocation);
 	}
 	
-	public Point getShipLocation()
+	public Point getPlayerShipLocation()
 	{
 		return currentLocation;
 	}
