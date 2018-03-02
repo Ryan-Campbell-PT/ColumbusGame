@@ -6,16 +6,16 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
-public class PirateShip implements Observer //, NSMoving, EWMoving {
+public class PirateShip implements Observer//, NSMoving, EWMoving {
 {
 	private Map map;
 	private Point currentLocation;
 	private AnchorPane anchorPane;
-	private Ship playerShip;
+	//private Ship playerShip;
 
 	PirateShip(Observable o)
 	{
-		o.addObserver(this);
+		//o.addObserver(this);
 		map = Map.getInstance();
 		currentLocation = map.initPirate();
 	}
@@ -37,7 +37,7 @@ public class PirateShip implements Observer //, NSMoving, EWMoving {
 		if (o instanceof Ship)
 		{
 			//TODO: some of these directions may be incorrect. Check them to be sure
-			playerShip = (Ship)o;
+			Ship playerShip = (Ship)o;
 			if(playerShip.getPlayerShipLocation().getY() < currentLocation.getY())
 				if(map.checkLocation(currentLocation.x, currentLocation.y - 1) == 0) //open space
 					followNorth();

@@ -3,6 +3,8 @@ import java.io.File;
 import java.util.Observable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 
 public class Ship extends Observable //implements NSMoving, EWMoving{
@@ -19,7 +21,7 @@ public class Ship extends Observable //implements NSMoving, EWMoving{
 		this.ap = ap;
 		o = new Observable();
 	}
-	
+
 	public void loadImage()
 	{
 		Image shipImage = new Image(new File("images\\ship.png").toURI().toString(), 50, 50, true, true);
@@ -28,8 +30,29 @@ public class Ship extends Observable //implements NSMoving, EWMoving{
 		shipImageView.setY(currentLocation.y * 50);
 		ap.getChildren().add(shipImageView);
 	}
-	
-	public void goNorth()
+
+	public void goDirection(KeyCode event)
+	{
+		switch(event)
+		{
+			case RIGHT:
+				goEast();
+				break;
+			case LEFT:
+				goWest();
+				break;
+			case UP:
+				goNorth();
+				break;
+			case DOWN:
+				goSouth();
+				break;
+			default:
+				break;
+		}
+	}
+
+	private void goNorth()
 	{
 		if(currentLocation.y > 0)
 			if(map.checkLocation(currentLocation.x, currentLocation.y - 1) == 0)
@@ -38,8 +61,8 @@ public class Ship extends Observable //implements NSMoving, EWMoving{
 
 		o.notifyObservers(currentLocation);
 	}
-	
-	public void goSouth()
+
+	private void goSouth()
 	{
 		if(currentLocation.y < 9)
 			if(map.checkLocation(currentLocation.x, currentLocation.y + 1) == 0)
@@ -48,8 +71,8 @@ public class Ship extends Observable //implements NSMoving, EWMoving{
 
 		o.notifyObservers(currentLocation);
 	}
-	
-	public void goEast()
+
+	private void goEast()
 	{
 		if(currentLocation.x < 9)
 			if(map.checkLocation(currentLocation.x + 1, currentLocation.y) == 0)
@@ -57,8 +80,8 @@ public class Ship extends Observable //implements NSMoving, EWMoving{
 
 		o.notifyObservers(currentLocation);
 	}
-	
-	public void goWest()
+
+	private void goWest()
 	{
 		if(currentLocation.x > 0)
 			if(map.checkLocation(currentLocation.x - 1, currentLocation.y) == 0)
@@ -66,14 +89,12 @@ public class Ship extends Observable //implements NSMoving, EWMoving{
 
 		o.notifyObservers(currentLocation);
 	}
-	
+
 	public Point getPlayerShipLocation()
-
-
 	{
 		return currentLocation;
 	}
-	
+
 	public Point setShipLocation(int x, int y)
 	{
 		Point myPoint  = new Point();

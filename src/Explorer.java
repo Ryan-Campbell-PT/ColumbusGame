@@ -52,23 +52,9 @@ public class Explorer extends Application {
 		//the handle() function
 		scene.setOnKeyPressed((KeyEvent event)->
 		{
-			switch (event.getCode())
-			{
-				case RIGHT:
-					ship.goEast();
-					break;
-				case LEFT:
-					ship.goWest();
-					break;
-				case UP:
-					ship.goNorth();
-					break;
-				case DOWN:
-					ship.goSouth();
-					break;
-				default:
-					break;
-			}
+			//ship will handle which location to go
+			ship.goDirection(event.getCode());
+
 			shipImageView.setX(ship.getPlayerShipLocation().x * scaleFactor);
 			shipImageView.setY(ship.getPlayerShipLocation().y * scaleFactor);
 		});
