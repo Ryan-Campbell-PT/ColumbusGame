@@ -1,8 +1,11 @@
 import java.awt.Point;
 import java.util.Random;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 public class Map
 {
+	Explorer ex;
 	boolean[][] seaMap;
 	private int dimensions;
 	private final int islandCount;
@@ -65,11 +68,10 @@ public class Map
 	}
 	
 	public boolean[][] getMap()
-	{
-		return seaMap;
-	}
+	{return seaMap;}
 	
-	int getDimensions() { return dimensions; }
+	int getDimensions()
+	{return dimensions;}
 	
 	public boolean isOcean(int x, int y)
 	{
@@ -77,5 +79,15 @@ public class Map
 		while (!seaMap[x][y]) //== false
 			osh = true;
 		return osh;
+	}
+	
+	public void refreshOcean(int x, int y)
+	{
+		int scalefactor = ex.scalefactor;
+		if(isOcean(x, y))
+		{
+			Rectangle rect = new Rectangle(x*scalefactor, y*scalefactor, scalefactor, scalefactor);
+			rect.setFill(Color.PALETURQUOISE);
+		}
 	}
 }

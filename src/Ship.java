@@ -10,6 +10,9 @@ public class Ship extends Observable implements NSMoving, EWMoving{
 	Point currentLocation;
 	private AnchorPane ap;
 	private Observable o;
+	Map map;
+	boolean[][] world;
+	Point prevpoint = currentLocation;
 
 	//TODO: ship images dont disappear as moving
 	//TODO: Vertical movement is reversed
@@ -25,6 +28,7 @@ public class Ship extends Observable implements NSMoving, EWMoving{
 		ImageView shipImageView = new ImageView(shipImage);
 		shipImageView.setX(currentLocation.x * 50); //scale factor
 		shipImageView.setY(currentLocation.y * 50);
+		//ap.getChildren().clear();//this is the dumbest thing you can do Quinton
 		ap.getChildren().add(shipImageView);
 	}
 	
@@ -35,13 +39,17 @@ public class Ship extends Observable implements NSMoving, EWMoving{
 			Point myPoint = getLocation();
 			try
 			{
-				if(myPoint.y == 0) throw new NullPointerException(); 
-					myPoint.setLocation(myPoint.getX(), myPoint.getY()+1);
+				if(myPoint.y == 0) throw new NullPointerException();
+				{
+					Point prevpoint = currentLocation;
+					myPoint.setLocation(myPoint.getX(), myPoint.getY()-1);
 					currentLocation = myPoint;
-			}
+					map.seaMap[prevpoint.x][prevpoint.y] = false;
+					map.refreshOcean(prevpoint.x, prevpoint.y);
+				}}
 			catch (NullPointerException e)
 			{
-				System.out.println("can not go up!");
+				System.out.println("can not go down!");
 			}
 		}
 		loadImage();
@@ -55,9 +63,14 @@ public class Ship extends Observable implements NSMoving, EWMoving{
 			Point myPoint = getLocation();
 			try
 			{
-				if(myPoint.y == 9) throw new NullPointerException(); 
-					myPoint.setLocation(myPoint.getX(), myPoint.getY()-1);
+				if(myPoint.y == 9) throw new NullPointerException();
+				{
+					Point prevpoint = currentLocation;
+					myPoint.setLocation(myPoint.getX(), myPoint.getY()+1);
 					currentLocation = myPoint;
+					map.seaMap[prevpoint.x][prevpoint.y] = false;
+					map.refreshOcean(prevpoint.x, prevpoint.y);
+				}
 			}
 			catch (NullPointerException e)
 			{
@@ -77,8 +90,11 @@ public class Ship extends Observable implements NSMoving, EWMoving{
 			{
 				if(myPoint.y == 0) throw new NullPointerException();
 				{
+					Point prevpoint = currentLocation;
 					myPoint.setLocation(myPoint.getX()+1, myPoint.getY());
 					currentLocation = myPoint;
+					map.seaMap[prevpoint.x][prevpoint.y] = false;
+					map.refreshOcean(prevpoint.x, prevpoint.y);
 				}
 			}
 			catch (NullPointerException e)
@@ -98,8 +114,13 @@ public class Ship extends Observable implements NSMoving, EWMoving{
 			try
 			{
 				if(myPoint.x == 0) throw new NullPointerException(); 
+				{
+					Point prevpoint = currentLocation;
 					myPoint.setLocation(myPoint.getX() -1, myPoint.getY());
 					currentLocation = myPoint;
+					map.seaMap[prevpoint.x][prevpoint.y] = false;
+					map.refreshOcean(prevpoint.x, prevpoint.y);
+				}
 			}
 			catch (NullPointerException e)
 			{
@@ -121,6 +142,7 @@ public class Ship extends Observable implements NSMoving, EWMoving{
 		myPoint.x = x;
 		myPoint.y = y;
 		currentLocation = myPoint;
+		map.refreshOcean(prevpoint.x, prevpoint.y);
 		return currentLocation;
 	}
 }

@@ -1,6 +1,4 @@
-
 import javafx.application.*;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -10,8 +8,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import java.io.File;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.Observable;//why are we observing this?
+import java.util.Observer;//same question?
 
 public class Explorer extends Application {
 
@@ -19,7 +17,7 @@ public class Explorer extends Application {
 	private Map oceanMap;
 	private final int dimensions = 10;
 	private final int islandCount = 6;
-	private final int scalefactor = 50;
+	final int scalefactor = 50;
 	private Ship ship;
 	private Scene scene;
 	private ImageView shipImageView;
@@ -37,8 +35,8 @@ public class Explorer extends Application {
 				{
 					Image island = new Image(new File("images\\island.jpg").toURI().toString(), 50, 50, true, true);
 					ImageView islandImageView = new ImageView(island);
-					islandImageView.setX(x * scalefactor);//edit to set island point in OceanMap
-					islandImageView.setY(y * scalefactor);//edit to set island point in OceanMap
+					islandImageView.setX(x*scalefactor);//edit to set island point in OceanMap
+					islandImageView.setY(y*scalefactor);//edit to set island point in OceanMap
 					ap.getChildren().add(islandImageView);
 				}
 				else
@@ -102,7 +100,8 @@ public class Explorer extends Application {
 
 
 	@Override
-	public void start(Stage oceanStage) throws Exception {
+	public void start(Stage oceanStage) throws Exception
+	{
 		ap = new AnchorPane();
 		oceanMap = new Map(dimensions, islandCount);
 		oceanMap.getMap();
@@ -123,6 +122,5 @@ public class Explorer extends Application {
 		oceanStage.setTitle("Chrissy Columbus");
 		oceanStage.setScene(scene);
 		oceanStage.show();
-		weighAnchor();//if you comment this out you can see the map all the other work. The event handler is the only problem.
-	}
-}
+		weighAnchor();
+}}
