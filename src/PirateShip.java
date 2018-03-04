@@ -1,91 +1,78 @@
 import java.awt.Point;
-import java.io.File;
 import java.util.Observable;
 import java.util.Observer;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 
-public class PirateShip implements Observer, NSMoving, EWMoving {
-
+public class PirateShip implements Observer//, NSMoving, EWMoving {
+{
 	private Map map;
 	private Point currentLocation;
-	private AnchorPane anchorPane;
-	
-	PirateShip(Observable o, Map om)
+
+	PirateShip(Observable o)
 	{
 		o.addObserver(this);
-		map = om;
-		currentLocation = om.initPirate();
+		map = Map.getInstance();
+		currentLocation = map.initPirate();
 	}
 
-	public void loadImage()
-	{
-		Image shipImage = new Image(new File("images\\pirateShip.png").toURI().toString(), 50, 50, true, true);
-		ImageView shipImageView = new ImageView(shipImage);
-		shipImageView.setX(currentLocation.x * 50); //scale factor
-		shipImageView.setY(currentLocation.y * 50);
-
-		//anchorPane is never assigned. could cause problems
-		anchorPane.getChildren().add(shipImageView);
-	}
-	
 	@Override
 	public void update(Observable o, Object args)
 	{
 		if (o instanceof Ship)
 		{
-			Ship ship = (Ship)o;
-			Point destiny = ship.currentLocation;
-			if(destiny.getY() < currentLocation.getY())
-				if(!map.seaMap[currentLocation.x][currentLocation.y-1]) //== false
-					goNorth();
-			if(destiny.getY() > currentLocation.getY())
-				if(!map.seaMap[currentLocation.x][currentLocation.y+1])
-					goSouth();
-			if(destiny.getX() > currentLocation.getX())
-				if(!map.seaMap[currentLocation.x+1][currentLocation.y])
-					goEast();
-			if(destiny.getX() < currentLocation.getX())
-				if(!map.seaMap[currentLocation.x-1][currentLocation.y])
-					goWest();
+			Ship playerShip = (Ship)o;
+
+			if(playerShip.getPlayerShipLocation().y < currentLocation.y)
+				if(map.checkLocation(currentLocation.x, currentLocation.y - 1) == 0) //open space
+					followNorth();
+
+			else if(playerShip.getPlayerShipLocation().y > currentLocation.y)
+				if(map.checkLocation(currentLocation.x, currentLocation.y + 1) == 0)
+					followSouth();
+
+			else if(playerShip.getPlayerShipLocation().x > currentLocation.x)
+				if(map.checkLocation(currentLocation.x + 1, currentLocation.y) == 0)
+					followEast();
+
+			else if(playerShip.getPlayerShipLocation().x < currentLocation.x)
+				if(map.checkLocation(currentLocation.x - 1, currentLocation.y) == 0)
+					followWest();
 		}
 	}
 
-	public void goNorth()
+	//TODO: These functions could definitely be turned into a single function, may want to do in the future
+	private void followNorth()
 	{
-		Point myPoint = getLocation();
-		myPoint.setLocation(myPoint.getX(), myPoint.getY()+1);
-		currentLocation = myPoint;
-		loadImage();
+		//set the current location to 0 (to indicate its no longer being used)
+		map.setPoint(currentLocation.x, currentLocation.y, 0);
+		//set the going to location to enemy
+		map.setPoint(currentLocation.x, currentLocation.y - 1, 2);
+		//change the ships location
+		currentLocation.setLocation(currentLocation.x, currentLocation.y - 1);
 	}
 
-	public void goSouth()
+	private void followSouth()
 	{
-		Point myPoint = getLocation();
-		myPoint.setLocation(myPoint.getX(), myPoint.getY()-1);
-		currentLocation = myPoint;
-		loadImage();
+		//^^
+		map.setPoint(currentLocation.x, currentLocation.y, 0);
+		map.setPoint(currentLocation.x, currentLocation.y + 1, 2);
+		currentLocation.setLocation(currentLocation.x, currentLocation.y + 1);
 	}
 	
-	public void goEast()
+	private void followEast()
 	{
-		Point myPoint = getLocation();
-		myPoint.setLocation(myPoint.getX()+1, myPoint.getY());
-		currentLocation = myPoint;
-		loadImage();
+		//^^
+		map.setPoint(currentLocation.x, currentLocation.y, 0);
+		map.setPoint(currentLocation.x + 1, currentLocation.y, 2);
+		currentLocation.setLocation(currentLocation.x + 1, currentLocation.y);
 	}
 	
-	public void goWest()
+	private void followWest()
 	{
-		Point myPoint = getLocation();
-		myPoint.setLocation(myPoint.getX()-1, myPoint.getY());
-		currentLocation = myPoint;
-		loadImage();
+		//^^
+		map.setPoint(currentLocation.x, currentLocation.y, 0);
+		map.setPoint(currentLocation.x - 1, currentLocation.y, 2);
+		currentLocation.setLocation(currentLocation.x - 1, currentLocation.y);
 	}
 	
-	public Point getLocation()
-	{
-		return currentLocation;
-	}
+	public Point getPirateShipLocation() { return currentLocation; }
 }

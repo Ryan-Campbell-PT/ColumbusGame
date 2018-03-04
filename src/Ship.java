@@ -1,148 +1,78 @@
 import java.awt.Point;
-import java.io.File;
 import java.util.Observable;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 
-public class Ship extends Observable implements NSMoving, EWMoving{
-
-	Point currentLocation;
-	private AnchorPane ap;
+public class Ship extends Observable //implements NSMoving, EWMoving{
+{
+	private Point currentLocation;
 	private Observable o;
-	Map map;
-	boolean[][] world;
-	Point prevpoint = currentLocation;
+	private Map map;
 
-	//TODO: ship images dont disappear as moving
-	//TODO: Vertical movement is reversed
-	Ship(Map map, AnchorPane ap)
+	Ship(AnchorPane ap)
 	{
+		map = Map.getInstance();
 		currentLocation = map.initShip();
-		this.ap = ap;
+		o = new Observable();
 	}
-	
-	public void loadImage()
+
+	public void goDirection(KeyCode event)
 	{
-		Image shipImage = new Image(new File("images\\ship.png").toURI().toString(), 50, 50, true, true);
-		ImageView shipImageView = new ImageView(shipImage);
-		shipImageView.setX(currentLocation.x * 50); //scale factor
-		shipImageView.setY(currentLocation.y * 50);
-		//ap.getChildren().clear();//this is the dumbest thing you can do Quinton
-		ap.getChildren().add(shipImageView);
-	}
-	
-	public void goNorth()
-	{
-		if(currentLocation.y >= 1)
+		switch(event)
 		{
-			Point myPoint = getLocation();
-			try
-			{
-				if(myPoint.y == 0) throw new NullPointerException();
-				{
-					Point prevpoint = currentLocation;
-					myPoint.setLocation(myPoint.getX(), myPoint.getY()-1);
-					currentLocation = myPoint;
-					map.seaMap[prevpoint.x][prevpoint.y] = false;
-					map.refreshOcean(prevpoint.x, prevpoint.y);
-				}}
-			catch (NullPointerException e)
-			{
-				System.out.println("can not go down!");
-			}
+			case RIGHT:
+				goEast();
+				break;
+			case LEFT:
+				goWest();
+				break;
+			case UP:
+				goNorth();
+				break;
+			case DOWN:
+				goSouth();
+				break;
+			default:
+				break;
 		}
-		loadImage();
+	}
+
+	//TODO: We could likely turn these into a single method
+	private void goNorth()
+	{
+		if(currentLocation.y > 0)
+			if(map.checkLocation(currentLocation.x, currentLocation.y - 1) == 0)
+				currentLocation.setLocation(currentLocation.x, currentLocation.y - 1);
+
 		o.notifyObservers(currentLocation);
 	}
-	
-	public void goSouth()
+
+	private void goSouth()
 	{
-		if(currentLocation.y <= 9)
-		{
-			Point myPoint = getLocation();
-			try
-			{
-				if(myPoint.y == 9) throw new NullPointerException();
-				{
-					Point prevpoint = currentLocation;
-					myPoint.setLocation(myPoint.getX(), myPoint.getY()+1);
-					currentLocation = myPoint;
-					map.seaMap[prevpoint.x][prevpoint.y] = false;
-					map.refreshOcean(prevpoint.x, prevpoint.y);
-				}
-			}
-			catch (NullPointerException e)
-			{
-				System.out.println("can not go down!");
-			}
-		}
-		loadImage();
+		if(currentLocation.y < Explorer.getDimensions() - 1)
+			if(map.checkLocation(currentLocation.x, currentLocation.y + 1) == 0)
+				currentLocation.setLocation(currentLocation.x, currentLocation.y + 1);
+
 		o.notifyObservers(currentLocation);
 	}
-	
-	public void goEast()
+
+	private void goEast()
 	{
-		if(currentLocation.x <= 9)
-		{
-			Point myPoint = getLocation();
-			try
-			{
-				if(myPoint.y == 0) throw new NullPointerException();
-				{
-					Point prevpoint = currentLocation;
-					myPoint.setLocation(myPoint.getX()+1, myPoint.getY());
-					currentLocation = myPoint;
-					map.seaMap[prevpoint.x][prevpoint.y] = false;
-					map.refreshOcean(prevpoint.x, prevpoint.y);
-				}
-			}
-			catch (NullPointerException e)
-			{
-				System.out.println("can not go right!");
-			}
-		}
-		loadImage();
+		if(currentLocation.x < Explorer.getDimensions() - 1)
+			if(map.checkLocation(currentLocation.x + 1, currentLocation.y) == 0)
+				currentLocation.setLocation(currentLocation.x + 1, currentLocation.y);
+
 		o.notifyObservers(currentLocation);
 	}
-	
-	public void goWest()
+
+	private void goWest()
 	{
-		if(currentLocation.x >= 1)
-		{
-			Point myPoint = getLocation();
-			try
-			{
-				if(myPoint.x == 0) throw new NullPointerException(); 
-				{
-					Point prevpoint = currentLocation;
-					myPoint.setLocation(myPoint.getX() -1, myPoint.getY());
-					currentLocation = myPoint;
-					map.seaMap[prevpoint.x][prevpoint.y] = false;
-					map.refreshOcean(prevpoint.x, prevpoint.y);
-				}
-			}
-			catch (NullPointerException e)
-			{
-				System.out.println("can not go left!");
-			}
-		}
-		loadImage();
+		if(currentLocation.x > 0)
+			if(map.checkLocation(currentLocation.x - 1, currentLocation.y) == 0)
+				currentLocation.setLocation(currentLocation.x - 1, currentLocation.y);
+
 		o.notifyObservers(currentLocation);
 	}
-	
-	public Point getLocation()
-	{
-		return currentLocation;
-	}
-	
-	public Point setShipLocation(int x, int y)
-	{
-		Point myPoint  = new Point();
-		myPoint.x = x;
-		myPoint.y = y;
-		currentLocation = myPoint;
-		map.refreshOcean(prevpoint.x, prevpoint.y);
-		return currentLocation;
-	}
+
+	public Point getPlayerShipLocation() { return currentLocation; }
 }

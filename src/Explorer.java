@@ -7,45 +7,35 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+
 import java.io.File;
-import java.util.Observable;//why are we observing this?
-import java.util.Observer;//same question?
 
 public class Explorer extends Application {
 
-	private AnchorPane ap;
-	private Map oceanMap;
-	private final int dimensions = 10;
-	private final int islandCount = 6;
-	final int scalefactor = 50;
+	//I made these static variables so we can have one instance of all necessary statistics
+	//and not need to pass them into functions and classes throughout the project
+	private static AnchorPane ap;
+	private final static int dimensions = 15;
+	private final static int scaleFactor = 50;
 	private Ship ship;
 	private Scene scene;
 	private ImageView shipImageView;
 
 	private void drawGrid()
 	{
-		for(int x = 0; x < dimensions; x++)
-		{ 
-			for(int y = 0; y < dimensions; y++)
-			{ 
-				Rectangle rect = new Rectangle(x*scalefactor, y*scalefactor, scalefactor, scalefactor);
-				rect.setStroke(Color.BLACK);
-				boolean[][] map = oceanMap.seaMap;
-				if(map[x][y]) //== true
-				{
-					Image island = new Image(new File("images\\island.jpg").toURI().toString(), 50, 50, true, true);
-					ImageView islandImageView = new ImageView(island);
-					islandImageView.setX(x*scalefactor);//edit to set island point in OceanMap
-					islandImageView.setY(y*scalefactor);//edit to set island point in OceanMap
-					ap.getChildren().add(islandImageView);
-				}
-				else
-					rect.setFill(Color.PALETURQUOISE);
-				ap.getChildren().add(rect);
-			}
-		}
+		for(int i = 0; i < dimensions; i++)
+			for(int j = 0; j < dimensions; j++)
+				drawRectangle(i, j, Color.PALETURQUOISE);
 	}
-	
+
+	private void drawRectangle(int x, int y, Color color)
+	{
+		Rectangle rect = new Rectangle(x * scaleFactor, y * scaleFactor, scaleFactor, scaleFactor);
+		rect.setStroke(Color.BLACK);
+		rect.setFill(color);
+		ap.getChildren().add(rect);
+	}
+
 	public static void main(String[] args)
 	{
 		launch(args);
@@ -57,25 +47,11 @@ public class Explorer extends Application {
 		//the handle() function
 		scene.setOnKeyPressed((KeyEvent event)->
 		{
-			switch (event.getCode())
-			{
-				case RIGHT:
-					ship.goEast();
-					break;
-				case LEFT:
-					ship.goWest();
-					break;
-				case UP:
-					ship.goNorth();
-					break;
-				case DOWN:
-					ship.goSouth();
-					break;
-				default:
-					break;
-			}
-			shipImageView.setX(ship.getLocation().x*scalefactor);
-			shipImageView.setY(ship.getLocation().y*scalefactor);
+			//ship will handle which location to go
+			ship.goDirection(event.getCode());
+
+			shipImageView.setX(ship.getPlayerShipLocation().x * scaleFactor);
+			shipImageView.setY(ship.getPlayerShipLocation().y * scaleFactor);
 		});
 	}
 
@@ -84,8 +60,8 @@ public class Explorer extends Application {
 	{
 		Image shipImage = new Image(new File("images\\ship.png").toURI().toString(), 50, 50, true, true);
 		shipImageView = new ImageView(shipImage);
-		shipImageView.setX(ship.getLocation().x*scalefactor);
-		shipImageView.setY(ship.getLocation().y*scalefactor);
+		shipImageView.setX(ship.getPlayerShipLocation().x * scaleFactor);
+		shipImageView.setY(ship.getPlayerShipLocation().y * scaleFactor);
 		ap.getChildren().add(shipImageView);
 	}
 
@@ -93,24 +69,26 @@ public class Explorer extends Application {
 	{
 		Image shipImage = new Image(url, 50, 50, true, true);
 		ImageView ImageView = new ImageView(shipImage);
-		ImageView.setX(pirate.getLocation().x * scalefactor);
-		ImageView.setY(pirate.getLocation().y * scalefactor);
+		ImageView.setX(pirate.getPirateShipLocation().x * scaleFactor);
+		ImageView.setY(pirate.getPirateShipLocation().y * scaleFactor);
 		ap.getChildren().add(ImageView);
 	}
 
 
 	@Override
 	public void start(Stage oceanStage) throws Exception
-	{
-		ap = new AnchorPane();
-		oceanMap = new Map(dimensions, islandCount);
-		oceanMap.getMap();
-		oceanMap.placeIslands();		
+    {
+        //TODO: we could probably turn this all into a single method. Can be something we do towards the end
+        //map creation
+        ap = new AnchorPane();
+		Map.initiate(getDimensions(), getIslandCount(), getAp());
 		drawGrid();
-		
-		ship = new Ship(oceanMap, ap);
-		PirateShip pirate1 = new PirateShip(ship, oceanMap);
-		PirateShip pirate2 = new PirateShip(ship, oceanMap);
+		Map.getInstance().placeIslands();
+		Map.getInstance().placeTreasure();
+
+		ship = new Ship(getAp());
+		PirateShip pirate1 = new PirateShip(ship);
+		PirateShip pirate2 = new PirateShip(ship);
 
 		loadShipImage(); //ship
 		loadPirateImage(new File("images\\pirateShip.png").toURI().toString(), pirate1); //pirate image 1
@@ -118,9 +96,16 @@ public class Explorer extends Application {
 		
 		ship.addObserver(pirate1);
 		ship.addObserver(pirate2);
-		scene = new Scene(ap, 500, 500);
+		scene = new Scene(ap, 750, 750);
 		oceanStage.setTitle("Chrissy Columbus");
 		oceanStage.setScene(scene);
 		oceanStage.show();
-		weighAnchor();
-}}
+		weighAnchor();//if you comment this out you can see the map all the other work. The event handler is the only problem.
+	}
+
+
+	public static AnchorPane getAp() { return ap; }
+	public static int getDimensions() { return dimensions; }
+	public static int getIslandCount() { return dimensions / 2; }
+	public static int getScaleFactor() { return scaleFactor; }
+}
