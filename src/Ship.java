@@ -1,13 +1,9 @@
 import java.awt.Point;
 import java.util.Observable;
 import javafx.scene.input.KeyCode;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 
-public class Ship extends Observable //implements NSMoving, EWMoving{
+public class Ship extends Observable implements NSMoving, EWMoving
 {
 	private Point currentLocation;
 	private Observable o;
@@ -42,7 +38,7 @@ public class Ship extends Observable //implements NSMoving, EWMoving{
 	}
 
 	//TODO: We could likely turn these into a single method
-	private void goNorth()
+	public void goNorth()
 	{
 		if(currentLocation.y > 0)
 			if(map.checkLocation(currentLocation.x, currentLocation.y - 1) == 0)
@@ -51,7 +47,7 @@ public class Ship extends Observable //implements NSMoving, EWMoving{
 		o.notifyObservers(currentLocation);
 	}
 
-	private void goSouth()
+	public void goSouth()
 	{
 		if(currentLocation.y < Explorer.getDimensions() - 1)
 			if(map.checkLocation(currentLocation.x, currentLocation.y + 1) == 0)
@@ -60,7 +56,7 @@ public class Ship extends Observable //implements NSMoving, EWMoving{
 		o.notifyObservers(currentLocation);
 	}
 
-	private void goEast()
+	public void goEast()
 	{
 		if(currentLocation.x < Explorer.getDimensions() - 1)
 			if(map.checkLocation(currentLocation.x + 1, currentLocation.y) == 0)
@@ -69,7 +65,7 @@ public class Ship extends Observable //implements NSMoving, EWMoving{
 		o.notifyObservers(currentLocation);
 	}
 
-	private void goWest()
+	public void goWest()
 	{
 		if(currentLocation.x > 0)
 			if(map.checkLocation(currentLocation.x - 1, currentLocation.y) == 0)
@@ -78,5 +74,5 @@ public class Ship extends Observable //implements NSMoving, EWMoving{
 		o.notifyObservers(currentLocation);
 	}
 
-	public Point getPlayerShipLocation() { return currentLocation; }
+	public Point getLocation() { return currentLocation; }
 }

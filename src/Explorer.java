@@ -4,7 +4,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -50,9 +49,8 @@ public class Explorer extends Application {
 		{
 			//ship will handle which location to go
 			ship.goDirection(event.getCode());
-
-			shipImageView.setX(ship.getPlayerShipLocation().x * scaleFactor);
-			shipImageView.setY(ship.getPlayerShipLocation().y * scaleFactor);
+			shipImageView.setX(ship.getLocation().x * scaleFactor);
+			shipImageView.setY(ship.getLocation().y * scaleFactor);
 		});
 	}
 
@@ -61,8 +59,8 @@ public class Explorer extends Application {
 	{
 		Image shipImage = new Image(new File("images\\ship.png").toURI().toString(), 50, 50, true, true);
 		shipImageView = new ImageView(shipImage);
-		shipImageView.setX(ship.getPlayerShipLocation().x * scaleFactor);
-		shipImageView.setY(ship.getPlayerShipLocation().y * scaleFactor);
+		shipImageView.setX(ship.getLocation().x * scaleFactor);
+		shipImageView.setY(ship.getLocation().y * scaleFactor);
 		ap.getChildren().add(shipImageView);
 	}
 
@@ -70,8 +68,8 @@ public class Explorer extends Application {
 	{
 		Image shipImage = new Image(url, 50, 50, true, true);
 		ImageView ImageView = new ImageView(shipImage);
-		ImageView.setX(pirate.getPirateShipLocation().x * scaleFactor);
-		ImageView.setY(pirate.getPirateShipLocation().y * scaleFactor);
+		ImageView.setX(pirate.getLocation().x * scaleFactor);
+		ImageView.setY(pirate.getLocation().y * scaleFactor);
 		ap.getChildren().add(ImageView);
 	}
 

@@ -2,7 +2,7 @@ import java.awt.Point;
 import java.util.Observable;
 import java.util.Observer;
 
-public class PirateShip implements Observer//, NSMoving, EWMoving {
+public class PirateShip implements Observer, NSMoving, EWMoving
 {
 	private Map map;
 	private Point currentLocation;
@@ -21,58 +21,54 @@ public class PirateShip implements Observer//, NSMoving, EWMoving {
 		{
 			Ship playerShip = (Ship)o;
 
-			if(playerShip.getPlayerShipLocation().y < currentLocation.y)
+			if(playerShip.getLocation().y < currentLocation.y)
 				if(map.checkLocation(currentLocation.x, currentLocation.y - 1) == 0) //open space
-					followNorth();
+					goNorth();
 
-			else if(playerShip.getPlayerShipLocation().y > currentLocation.y)
+			else if(playerShip.getLocation().y > currentLocation.y)
 				if(map.checkLocation(currentLocation.x, currentLocation.y + 1) == 0)
-					followSouth();
+					goSouth();
 
-			else if(playerShip.getPlayerShipLocation().x > currentLocation.x)
+			else if(playerShip.getLocation().x > currentLocation.x)
 				if(map.checkLocation(currentLocation.x + 1, currentLocation.y) == 0)
-					followEast();
+					goEast();
 
-			else if(playerShip.getPlayerShipLocation().x < currentLocation.x)
+			else if(playerShip.getLocation().x < currentLocation.x)
 				if(map.checkLocation(currentLocation.x - 1, currentLocation.y) == 0)
-					followWest();
+					goWest();
 		}
 	}
 
-	//TODO: These functions could definitely be turned into a single function, may want to do in the future
-	private void followNorth()
-	{
-		//set the current location to 0 (to indicate its no longer being used)
-		map.setPoint(currentLocation.x, currentLocation.y, 0);
-		//set the going to location to enemy
-		map.setPoint(currentLocation.x, currentLocation.y - 1, 2);
-		//change the ships location
-		currentLocation.setLocation(currentLocation.x, currentLocation.y - 1);
-	}
+	public Point getLocation() { return currentLocation; }
 
-	private void followSouth()
+	public void goWest()
 	{
-		//^^
-		map.setPoint(currentLocation.x, currentLocation.y, 0);
-		map.setPoint(currentLocation.x, currentLocation.y + 1, 2);
-		currentLocation.setLocation(currentLocation.x, currentLocation.y + 1);
-	}
-	
-	private void followEast()
-	{
-		//^^
-		map.setPoint(currentLocation.x, currentLocation.y, 0);
-		map.setPoint(currentLocation.x + 1, currentLocation.y, 2);
-		currentLocation.setLocation(currentLocation.x + 1, currentLocation.y);
-	}
-	
-	private void followWest()
-	{
-		//^^
 		map.setPoint(currentLocation.x, currentLocation.y, 0);
 		map.setPoint(currentLocation.x - 1, currentLocation.y, 2);
 		currentLocation.setLocation(currentLocation.x - 1, currentLocation.y);
 	}
-	
-	public Point getPirateShipLocation() { return currentLocation; }
+
+	@Override
+	public void goEast()
+	{
+		map.setPoint(currentLocation.x, currentLocation.y, 0);
+		map.setPoint(currentLocation.x + 1, currentLocation.y, 2);
+		currentLocation.setLocation(currentLocation.x + 1, currentLocation.y);
+	}
+
+	@Override
+	public void goNorth()
+	{
+		map.setPoint(currentLocation.x, currentLocation.y, 0);
+		map.setPoint(currentLocation.x, currentLocation.y - 1, 2);
+		currentLocation.setLocation(currentLocation.x, currentLocation.y - 1);
+	}
+
+	@Override
+	public void goSouth()
+	{
+		map.setPoint(currentLocation.x, currentLocation.y, 0);
+		map.setPoint(currentLocation.x, currentLocation.y + 1, 2);
+		currentLocation.setLocation(currentLocation.x, currentLocation.y + 1);
+	}
 }

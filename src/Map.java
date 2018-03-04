@@ -1,8 +1,6 @@
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import java.awt.*;
 import java.io.File;
 import java.util.Random;
