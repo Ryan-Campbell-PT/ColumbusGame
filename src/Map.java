@@ -1,6 +1,8 @@
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import java.awt.*;
 import java.io.File;
 import java.util.Random;
@@ -100,5 +102,4 @@ public class Map
 
 	public void setPoint(int x, int y, int status) { seaMap[x][y] = status; }
 
-	public int checkLocation(int x, int y) { return seaMap[x][y]; }
-}
+	public int checkLocation(int x, int y) { return seaMap[x][y]; }}

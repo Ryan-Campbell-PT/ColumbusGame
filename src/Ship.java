@@ -1,6 +1,10 @@
 import java.awt.Point;
 import java.util.Observable;
 import javafx.scene.input.KeyCode;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 
 public class Ship extends Observable //implements NSMoving, EWMoving{
