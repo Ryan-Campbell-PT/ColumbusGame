@@ -18,9 +18,6 @@ import java.util.Random;
 public class Map
 {
 	private int[][] seaMap;
-	private int dimensions;
-	private final int islandCount;
-	private AnchorPane ap;
 	private static Map instance; //singleton to make sure there is always only one map
 
 	public static Map initiate(int dimensions, int islandCount, AnchorPane ap)
@@ -37,19 +34,16 @@ public class Map
 	{
 		//any untouched blocks are set to 0
 		seaMap = new int[dimensions][dimensions];
-		this.islandCount = islandCount;
-		this.ap = ap;
-		this.dimensions = dimensions;
 	}
 	
 	public void placeIslands()
 	{
-		int islandsToPlace = islandCount;
+		int islandsToPlace = Explorer.getIslandCount();
 		while(islandsToPlace > 0)
 		{
 			Random randy1 = new Random();
-		    int x = randy1.nextInt(dimensions);
-			int y = randy1.nextInt(dimensions);
+		    int x = randy1.nextInt(Explorer.getDimensions());
+			int y = randy1.nextInt(Explorer.getDimensions());
 			if(seaMap[x][y] == 0) // untouched location
 			{
 				seaMap[x][y] = 1; //set it to a Non-harming space
@@ -64,8 +58,8 @@ public class Map
 	public void placeTreasure()
 	{
 		Random rand = new Random();
-		int x = rand.nextInt(dimensions);
-		int y = rand.nextInt(dimensions);
+		int x = rand.nextInt(Explorer.getDimensions());
+		int y = rand.nextInt(Explorer.getDimensions());
 		if(seaMap[x][y] == 0) // untouched location
 		{
 			seaMap[x][y] = 3; //set it to the treasure spot
@@ -75,23 +69,23 @@ public class Map
 
 	private void placeImage(int x, int y, String imageLocation)
 	{
-		Image image = new Image(imageLocation, 50, 50, true, true);
+		Image image = new Image(imageLocation, Explorer.getScaleFactor(), Explorer.getScaleFactor(), true, true);
 		ImageView imageView = new ImageView(image);
-		imageView.setX(x * 50); //scale factor
-		imageView.setY(y * 50);
+		imageView.setX(x * Explorer.getScaleFactor()); //scale factor
+		imageView.setY(y * Explorer.getScaleFactor());
 		imageView.setScaleX(.95); //I felt the sizes looked a little too much
 		imageView.setScaleY(.95);
-		ap.getChildren().add(imageView);
+		Explorer.getAp().getChildren().add(imageView);
 	}
 
 
 	public Point initShip()
 	{
 		Random randy1 = new Random();
-		Point newy = new Point(randy1.nextInt(dimensions), randy1.nextInt(dimensions));
+		Point newy = new Point(randy1.nextInt(Explorer.getDimensions()), randy1.nextInt(Explorer.getDimensions()));
 
 		while(checkLocation(newy.x, newy.y) != 0) //if the location is already taken
-			newy = new Point(randy1.nextInt(dimensions), randy1.nextInt(dimensions)); //continue creating new locations until a good space is found
+			newy = new Point(randy1.nextInt(Explorer.getDimensions()), randy1.nextInt(Explorer.getDimensions())); //continue creating new locations until a good space is found
 
 		return newy;
 	}
@@ -99,10 +93,10 @@ public class Map
 	public Point initPirate()
 	{
 		Random randy1 = new Random();
-		Point newy = new Point(randy1.nextInt(dimensions), randy1.nextInt(dimensions));
+		Point newy = new Point(randy1.nextInt(Explorer.getDimensions()), randy1.nextInt(Explorer.getDimensions()));
 
 		while(checkLocation(newy.x, newy.y) != 0) //^^
-			newy = new Point(randy1.nextInt(dimensions), randy1.nextInt(dimensions));
+			newy = new Point(randy1.nextInt(Explorer.getDimensions()), randy1.nextInt(Explorer.getDimensions()));
 
 		setPoint(newy.x, newy.y, 2); //set them to a damaging enemy
 		return newy;

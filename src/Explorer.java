@@ -17,11 +17,11 @@ import java.util.Observer;
 
 public class Explorer extends Application {
 
-	private AnchorPane ap;
-	private Map oceanMap;
-	private final int dimensions = 15;
-	private final int islandCount = dimensions / 2;
-	private final int scaleFactor = 50;
+	//I made these static variables so we can have one instance of all necessary statistics
+	//and not need to pass them into functions and classes throughout the project
+	private static AnchorPane ap;
+	private final static int dimensions = 15;
+	private final static int scaleFactor = 50;
 	private Ship ship;
 	private Scene scene;
 	private ImageView shipImageView;
@@ -86,12 +86,12 @@ public class Explorer extends Application {
         //TODO: we could probably turn this all into a single method. Can be something we do towards the end
         //map creation
         ap = new AnchorPane();
-		oceanMap = Map.initiate(dimensions, islandCount, ap);
+		Map.initiate(getDimensions(), getIslandCount(), getAp());
 		drawGrid();
-		oceanMap.placeIslands();
-        oceanMap.placeTreasure();
+		Map.getInstance().placeIslands();
+		Map.getInstance().placeTreasure();
 
-		ship = new Ship(ap);
+		ship = new Ship(getAp());
 		PirateShip pirate1 = new PirateShip(ship);
 		PirateShip pirate2 = new PirateShip(ship);
 
@@ -101,10 +101,16 @@ public class Explorer extends Application {
 		
 		ship.addObserver(pirate1);
 		ship.addObserver(pirate2);
-		scene = new Scene(ap, 500, 500);
+		scene = new Scene(ap, 750, 750);
 		oceanStage.setTitle("Chrissy Columbus");
 		oceanStage.setScene(scene);
 		oceanStage.show();
 		weighAnchor();//if you comment this out you can see the map all the other work. The event handler is the only problem.
 	}
+
+
+	public static AnchorPane getAp() { return ap; }
+	public static int getDimensions() { return dimensions; }
+	public static int getIslandCount() { return dimensions / 2; }
+	public static int getScaleFactor() { return scaleFactor; }
 }

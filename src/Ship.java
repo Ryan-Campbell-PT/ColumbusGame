@@ -10,7 +10,6 @@ import javafx.scene.layout.AnchorPane;
 public class Ship extends Observable //implements NSMoving, EWMoving{
 {
 	private Point currentLocation;
-	private AnchorPane ap;
 	private Observable o;
 	private Map map;
 
@@ -18,17 +17,7 @@ public class Ship extends Observable //implements NSMoving, EWMoving{
 	{
 		map = Map.getInstance();
 		currentLocation = map.initShip();
-		this.ap = ap;
 		o = new Observable();
-	}
-
-	public void loadImage()
-	{
-		Image shipImage = new Image(new File("images\\ship.png").toURI().toString(), 50, 50, true, true);
-		ImageView shipImageView = new ImageView(shipImage);
-		shipImageView.setX(currentLocation.x * 50); //scale factor
-		shipImageView.setY(currentLocation.y * 50);
-		ap.getChildren().add(shipImageView);
 	}
 
 	public void goDirection(KeyCode event)
@@ -64,7 +53,7 @@ public class Ship extends Observable //implements NSMoving, EWMoving{
 
 	private void goSouth()
 	{
-		if(currentLocation.y < 9)
+		if(currentLocation.y < Explorer.getDimensions() - 1)
 			if(map.checkLocation(currentLocation.x, currentLocation.y + 1) == 0)
 				currentLocation.setLocation(currentLocation.x, currentLocation.y + 1);
 
@@ -73,7 +62,7 @@ public class Ship extends Observable //implements NSMoving, EWMoving{
 
 	private void goEast()
 	{
-		if(currentLocation.x < 9)
+		if(currentLocation.x < Explorer.getDimensions() - 1)
 			if(map.checkLocation(currentLocation.x + 1, currentLocation.y) == 0)
 				currentLocation.setLocation(currentLocation.x + 1, currentLocation.y);
 
