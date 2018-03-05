@@ -21,8 +21,11 @@ public class PirateShip implements Observer, NSMoving, EWMoving
 		{
 			Ship playerShip = (Ship)o;
 
+
+			//System.out.println("X: " + playerShip.getLocation().x + " Y: " + playerShip.getLocation().y);
+
 			if(playerShip.getLocation().y < currentLocation.y)
-				if(map.checkLocation(currentLocation.x, currentLocation.y - 1) == 0) //open space
+				if (map.checkLocation(currentLocation.x, currentLocation.y - 1) == 0) //open space
 					goNorth();
 
 			else if(playerShip.getLocation().y > currentLocation.y)

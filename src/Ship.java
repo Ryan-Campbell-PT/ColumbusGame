@@ -1,19 +1,16 @@
 import java.awt.Point;
 import java.util.Observable;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.AnchorPane;
 
 public class Ship extends Observable implements NSMoving, EWMoving
 {
 	private Point currentLocation;
-	private Observable o;
 	private Map map;
 
 	Ship()
 	{
 		map = Map.getInstance();
 		currentLocation = map.initShip();
-		o = new Observable();
 	}
 
 	public void goDirection(KeyCode event)
@@ -37,6 +34,14 @@ public class Ship extends Observable implements NSMoving, EWMoving
 		}
 	}
 
+	//this is necessary for whatever reason
+	@Override
+	public void notifyObservers()
+	{
+		setChanged();
+		super.notifyObservers();
+	}
+
 	//TODO: We could likely turn these into a single method
 	public void goNorth()
 	{
@@ -44,7 +49,7 @@ public class Ship extends Observable implements NSMoving, EWMoving
 			if(map.checkLocation(currentLocation.x, currentLocation.y - 1) == 0)
 				currentLocation.setLocation(currentLocation.x, currentLocation.y - 1);
 
-		o.notifyObservers(currentLocation);
+		this.notifyObservers();
 	}
 
 	public void goSouth()
@@ -53,7 +58,7 @@ public class Ship extends Observable implements NSMoving, EWMoving
 			if(map.checkLocation(currentLocation.x, currentLocation.y + 1) == 0)
 				currentLocation.setLocation(currentLocation.x, currentLocation.y + 1);
 
-		o.notifyObservers(currentLocation);
+		this.notifyObservers();
 	}
 
 	public void goEast()
@@ -62,7 +67,7 @@ public class Ship extends Observable implements NSMoving, EWMoving
 			if(map.checkLocation(currentLocation.x + 1, currentLocation.y) == 0)
 				currentLocation.setLocation(currentLocation.x + 1, currentLocation.y);
 
-		o.notifyObservers(currentLocation);
+		this.notifyObservers();
 	}
 
 	public void goWest()
@@ -71,7 +76,7 @@ public class Ship extends Observable implements NSMoving, EWMoving
 			if(map.checkLocation(currentLocation.x - 1, currentLocation.y) == 0)
 				currentLocation.setLocation(currentLocation.x - 1, currentLocation.y);
 
-		o.notifyObservers(currentLocation);
+		this.notifyObservers();
 	}
 
 	public Point getLocation() { return currentLocation; }

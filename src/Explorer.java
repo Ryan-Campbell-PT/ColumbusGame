@@ -92,9 +92,12 @@ public class Explorer extends Application {
 		loadShipImage(); //ship
 		loadPirateImage(new File("images\\pirateShip.png").toURI().toString(), pirate1); //pirate image 1
 		loadPirateImage(new File("images\\pirateShip.png").toURI().toString(), pirate2); //pirate image 2
-		
+
+		WhirlpoolFactory factory = new WhirlpoolFactory(ship);
+		ship.addObserver(factory);
 		ship.addObserver(pirate1);
 		ship.addObserver(pirate2);
+
 		scene = new Scene(ap, 750, 750);
 		oceanStage.setTitle("Chrissy Columbus");
 		oceanStage.setScene(scene);

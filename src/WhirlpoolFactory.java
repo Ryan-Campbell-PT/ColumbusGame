@@ -3,22 +3,28 @@ import javafx.scene.image.ImageView;
 
 import java.awt.*;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.Queue;
-import java.util.Random;
+import java.util.*;
 
+/**
+ * The idea behind WhirlpoolFactory is to keep track of all whirlpools being created
+ * and to never create a whirlpool that isnt necessary
+ */
 public class WhirlpoolFactory implements Observer
 {
     Queue<Whirlpool> list; //this will record all created whirlpools
     private int randomNum, iter;
-    Point shipLocation;
 
-    WhirlpoolFactory(Point shipLocation)
+    //I want to change these in the future. Will do later
+    private Point shipLocation;
+    private Ship ship;
+
+    WhirlpoolFactory(Ship ship)
     {
-        this.shipLocation = shipLocation;
+        list = new LinkedList<>();
+        this.shipLocation = ship.getLocation();
         randomNum = new Random().nextInt(15);
+        ship.addObserver(this);
+        this.ship = ship;
     }
 
     @Override
@@ -35,7 +41,11 @@ public class WhirlpoolFactory implements Observer
                 {
 
                         if(list.size() == 0)
-                            list.add(new Whirlpool());
+                        {
+                            Whirlpool pool = new Whirlpool();
+                            list.add(pool);
+                            ship.addObserver(pool);
+                        }
 
                         else
                         {
@@ -47,7 +57,11 @@ public class WhirlpoolFactory implements Observer
         }
     }
 
-
+    /**
+     * Whirlpool class is a private class that is what the user will be seeing on the grid
+     *
+     * Whirlpools have their own variables that decide how long the whirlpools are existing on the grid
+     */
     private class Whirlpool implements Observer
     {
         private int randomNum, iter;
@@ -74,9 +88,7 @@ public class WhirlpoolFactory implements Observer
 
         private void create()
         {
-            randomNum = 0;
-            iter = 0;
-
+            System.out.println("Created");
             Random rand = new Random();
             int x = rand.nextInt(Explorer.getDimensions());
             int y = rand.nextInt(Explorer.getDimensions());
@@ -98,6 +110,9 @@ public class WhirlpoolFactory implements Observer
             }
             location2 = new Point(x, y);
 
+            iter = 0;
+            randomNum = rand.nextInt(30);
+
             loadImage1();
             loadImage2();
         }
@@ -106,12 +121,14 @@ public class WhirlpoolFactory implements Observer
         {
             Explorer.getAp().getChildren().remove(imageView1);
             Explorer.getAp().getChildren().remove(imageView2);
+
+            list.add(this); //add it back to the factory for use later
         }
 
         //definitely can turn these into one
         private void loadImage1()
         {
-            javafx.scene.image.Image image = new javafx.scene.image.Image(new File("images\\whirlpool.jpg").toURI().toString(), 50, 50, true, true);
+            Image image = new Image(new File("images\\whirlpool.jpg").toURI().toString(), 50, 50, true, true);
             imageView1 = new ImageView(image);
             imageView1.setX(location1.x * Explorer.getScaleFactor());
             imageView1.setY(location1.y * Explorer.getScaleFactor());
@@ -120,7 +137,7 @@ public class WhirlpoolFactory implements Observer
 
         private void loadImage2()
         {
-            javafx.scene.image.Image image = new Image(new File("images\\whirlpool.jpg").toURI().toString(), 50, 50, true, true);
+            Image image = new Image(new File("images\\whirlpool.jpg").toURI().toString(), 50, 50, true, true);
             imageView2 = new ImageView(image);
             imageView2.setX(location2.x * Explorer.getScaleFactor());
             imageView2.setY(location2.y * Explorer.getScaleFactor());
