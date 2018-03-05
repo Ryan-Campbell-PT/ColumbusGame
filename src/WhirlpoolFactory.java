@@ -11,7 +11,7 @@ import java.util.*;
  */
 public class WhirlpoolFactory implements Observer
 {
-    Queue<Whirlpool> list; //this will record all created whirlpools
+    LinkedList<Whirlpool> list; //this will record all created whirlpools that arent on the screen
     private int randomNum, iter;
 
     //I want to change these in the future. Will do later
@@ -22,7 +22,7 @@ public class WhirlpoolFactory implements Observer
     {
         list = new LinkedList<>();
         this.shipLocation = ship.getLocation();
-        randomNum = new Random().nextInt(15);
+        randomNum = new Random().nextInt(30);
         ship.addObserver(this);
         this.ship = ship;
     }
@@ -39,19 +39,20 @@ public class WhirlpoolFactory implements Observer
             {
                 if(iter >= randomNum)
                 {
+                    if(list.size() == 0)
+                    {
+                        Whirlpool pool = new Whirlpool();
+                    }
 
-                        if(list.size() == 0)
-                        {
-                            Whirlpool pool = new Whirlpool();
-                            list.add(pool);
-                            ship.addObserver(pool);
-                        }
 
-                        else
-                        {
-                            Whirlpool pool = list.remove();
-                            pool.create();
-                        }
+                    else
+                    {
+                        Whirlpool pool = list.removeFirst();
+                        pool.create();
+                    }
+
+                    randomNum = new Random().nextInt(60);
+                    iter = 0;
                 }
             }
         }
@@ -88,7 +89,6 @@ public class WhirlpoolFactory implements Observer
 
         private void create()
         {
-            System.out.println("Created");
             Random rand = new Random();
             int x = rand.nextInt(Explorer.getDimensions());
             int y = rand.nextInt(Explorer.getDimensions());
@@ -112,6 +112,8 @@ public class WhirlpoolFactory implements Observer
 
             iter = 0;
             randomNum = rand.nextInt(30);
+            ship.addObserver(this);
+            //list.add(this);
 
             loadImage1();
             loadImage2();
@@ -123,6 +125,7 @@ public class WhirlpoolFactory implements Observer
             Explorer.getAp().getChildren().remove(imageView2);
 
             list.add(this); //add it back to the factory for use later
+            ship.deleteObserver(this);
         }
 
         //definitely can turn these into one
