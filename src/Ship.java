@@ -9,7 +9,7 @@ public class Ship extends Observable implements NSMoving, EWMoving
 	private Observable o;
 	private Map map;
 
-	Ship(AnchorPane ap)
+	Ship()
 	{
 		map = Map.getInstance();
 		currentLocation = map.initShip();

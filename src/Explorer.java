@@ -85,7 +85,7 @@ public class Explorer extends Application {
 		Map.getInstance().placeIslands();
 		Map.getInstance().placeTreasure();
 
-		ship = new Ship(getAp());
+		ship = new Ship();
 		PirateShip pirate1 = new PirateShip(ship);
 		PirateShip pirate2 = new PirateShip(ship);
 
