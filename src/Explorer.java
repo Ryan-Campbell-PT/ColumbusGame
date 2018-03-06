@@ -89,8 +89,8 @@ public class Explorer extends Application {
         //create all the necessary objects
         ap = new AnchorPane();
 		ship = new Ship();
-		PirateShip pirate1 = new PirateShip(ship);
-		PirateShip pirate2 = new PirateShip(ship);
+		pirate1 = new PirateShip(ship);
+		pirate2 = new PirateShip(ship);
 		scene = new Scene(ap, dimensions * 50, dimensions * 50);
 		WhirlpoolFactory factory = new WhirlpoolFactory(ship);
 
