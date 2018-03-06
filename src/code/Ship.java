@@ -1,3 +1,4 @@
+package code;
 import java.awt.Point;
 import java.util.Observable;
 import javafx.scene.input.KeyCode;
