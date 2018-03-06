@@ -22,7 +22,7 @@ public class Explorer extends Application {
 	private PirateShip pirate2;
 	private Scene scene;
 	private ImageView shipImageView;
-	private ImageView pirateImageView;
+	private ImageView pirateImageView1, pirateImageView2;
 	private ArrayList<PirateShip> pirates;
 	//only one pirate moves. if we iterate this way it may work.
 	//it could also consolidate a big chunck of code here.
@@ -58,19 +58,18 @@ public class Explorer extends Application {
 			shipImageView.setX(ship.getLocation().x * scaleFactor);
 			shipImageView.setY(ship.getLocation().y * scaleFactor);
 			// here we can implement the arraylist. Simple for loop and what not
-			for(int i = 0; i < pirates.size() - 1; i++)//basically this
+			/*for(int i = 0; i < pirates.size() - 1; i++)//basically this
 			{
 				pirateImageView.setX(pirates.get(i).getLocation().x * scaleFactor);
 				pirateImageView.setY(pirates.get(i).getLocation().y * scaleFactor);
-			}
-			/*
-			pirateImageView.setX(pirate1.getLocation().x * scaleFactor);
+			}*/
 
-			pirateImageView.setY(pirate1.getLocation().y * scaleFactor);
-			
-			pirateImageView.setX(pirate2.getLocation().x * scaleFactor);
-			pirateImageView.setY(pirate2.getLocation().y * scaleFactor);
-		*/});
+			pirateImageView1.setX(pirate1.getLocation().x * scaleFactor);
+			pirateImageView1.setY(pirate1.getLocation().y * scaleFactor);
+
+			pirateImageView2.setX(pirate2.getLocation().x * scaleFactor);
+			pirateImageView2.setY(pirate2.getLocation().y * scaleFactor);
+		});
 	}
 
 	// we can definitely reduce these methods to a single method. Lets keep that in mind while we code
@@ -83,15 +82,23 @@ public class Explorer extends Application {
 		ap.getChildren().add(shipImageView);
 	}
 
-	private void loadPirateImage(String url, PirateShip pirate)
+	private void loadPirateImage1(String url, PirateShip pirate)
 	{
 		Image shipImage = new Image(url, 50, 50, true, true);
-		pirateImageView = new ImageView(shipImage);
-		pirateImageView.setX(pirate.getLocation().x * scaleFactor);
-		pirateImageView.setY(pirate.getLocation().y * scaleFactor);
-		ap.getChildren().add(pirateImageView);
+		pirateImageView1 = new ImageView(shipImage);
+		pirateImageView1.setX(pirate.getLocation().x * scaleFactor);
+		pirateImageView1.setY(pirate.getLocation().y * scaleFactor);
+		ap.getChildren().add(pirateImageView1);
 	}
 
+	private void loadPirateImage2(String url, PirateShip pirate)
+	{
+		Image shipImage = new Image(url, 50, 50, true, true);
+		pirateImageView2 = new ImageView(shipImage);
+		pirateImageView2.setX(pirate.getLocation().x * scaleFactor);
+		pirateImageView2.setY(pirate.getLocation().y * scaleFactor);
+		ap.getChildren().add(pirateImageView2);
+	}
 
 	@Override
 	public void start(Stage oceanStage)
@@ -113,8 +120,8 @@ public class Explorer extends Application {
 
 		//load in the images
 		loadShipImage(); //ship
-		loadPirateImage(new File("images\\pirateShip.png").toURI().toString(), pirate1); //pirate image 1
-		loadPirateImage(new File("images\\pirateShip.png").toURI().toString(), pirate2); //pirate image 2
+		loadPirateImage1(new File("images\\pirateShip.png").toURI().toString(), pirate1); //pirate image 1
+		loadPirateImage2(new File("images\\pirateShip.png").toURI().toString(), pirate2); //pirate image 2
 
 		//add the observers
 		ship.addObserver(factory);
