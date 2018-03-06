@@ -58,8 +58,13 @@ public class Explorer extends Application {
 			shipImageView.setX(ship.getLocation().x * scaleFactor);
 			shipImageView.setY(ship.getLocation().y * scaleFactor);
 			// here we can implement the arraylist. Simple for loop and what not
+			/*for(int i = 0; i<pirates.size(); i++)//basically this
+			{
+				pirateImageView.setX(pirates[i].getLocation().x * scaleFactor);
+				pirateImageView.setY(pirates[i].getLocation().y * scaleFactor);
+			}*/
 			pirateImageView.setX(pirate1.getLocation().x * scaleFactor);
-			pirateImageView.setY(pirate1.getLocation().y * scaleFactor);
+			pirateImageView.setY(pirate2.getLocation().y * scaleFactor);
 			
 			pirateImageView.setX(pirate2.getLocation().x * scaleFactor);
 			pirateImageView.setY(pirate2.getLocation().y * scaleFactor);
@@ -95,6 +100,8 @@ public class Explorer extends Application {
 		ship = new Ship();
 		pirate1 = new PirateShip(ship);
 		pirate2 = new PirateShip(ship);
+		pirates.add(pirate1);
+		pirates.add(pirate2);
 		scene = new Scene(ap, dimensions * 50, dimensions * 50);
 		WhirlpoolFactory factory = new WhirlpoolFactory(ship);
 
