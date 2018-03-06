@@ -58,17 +58,19 @@ public class Explorer extends Application {
 			shipImageView.setX(ship.getLocation().x * scaleFactor);
 			shipImageView.setY(ship.getLocation().y * scaleFactor);
 			// here we can implement the arraylist. Simple for loop and what not
-			/*for(int i = 0; i<pirates.size(); i++)//basically this
+			for(int i = 0; i < pirates.size() - 1; i++)//basically this
 			{
-				pirateImageView.setX(pirates[i].getLocation().x * scaleFactor);
-				pirateImageView.setY(pirates[i].getLocation().y * scaleFactor);
-			}*/
+				pirateImageView.setX(pirates.get(i).getLocation().x * scaleFactor);
+				pirateImageView.setY(pirates.get(i).getLocation().y * scaleFactor);
+			}
+			/*
 			pirateImageView.setX(pirate1.getLocation().x * scaleFactor);
-			pirateImageView.setY(pirate2.getLocation().y * scaleFactor);
+
+			pirateImageView.setY(pirate1.getLocation().y * scaleFactor);
 			
 			pirateImageView.setX(pirate2.getLocation().x * scaleFactor);
 			pirateImageView.setY(pirate2.getLocation().y * scaleFactor);
-		});
+		*/});
 	}
 
 	// we can definitely reduce these methods to a single method. Lets keep that in mind while we code
@@ -92,7 +94,7 @@ public class Explorer extends Application {
 
 
 	@Override
-	public void start(Stage oceanStage) throws Exception
+	public void start(Stage oceanStage)
     {
         //TODO: we could probably turn this all into a single method. Can be something we do towards the end
         //create all the necessary objects
@@ -100,8 +102,7 @@ public class Explorer extends Application {
 		ship = new Ship();
 		pirate1 = new PirateShip(ship);
 		pirate2 = new PirateShip(ship);
-		pirates.add(pirate1);
-		pirates.add(pirate2);
+		pirates = new ArrayList<>();
 		scene = new Scene(ap, dimensions * 50, dimensions * 50);
 		WhirlpoolFactory factory = new WhirlpoolFactory(ship);
 
@@ -119,6 +120,9 @@ public class Explorer extends Application {
 		ship.addObserver(factory);
 		ship.addObserver(pirate1);
 		ship.addObserver(pirate2);
+
+		pirates.add(pirate1);
+		pirates.add(pirate2);
 
 		//finish the misc stuff
 		oceanStage.setTitle("Chrissy Columbus");
