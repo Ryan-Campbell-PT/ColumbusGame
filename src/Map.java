@@ -1,6 +1,5 @@
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import java.awt.*;
 import java.io.File;
 import java.util.Random;
@@ -10,26 +9,25 @@ import java.util.Random;
 1: Non-harming space (island)
 2: Harming space (enemy)
 3: Treasure (winning condition)
+4: Whirlpool (teleport mechanic)
 */
 public class Map
 {
 	private int[][] seaMap;
 	private static Map instance; //singleton to make sure there is always only one map
 
-	public static Map initiate(int dimensions, int islandCount, AnchorPane ap)
+	public static Map getInstance()
 	{
 		if(instance == null)
-			instance = new Map(dimensions, islandCount, ap);
+			instance = new Map();
 
 		return instance;
 	}
 
-	public static Map getInstance() { return instance; }
-
-	private Map(int dimensions, int islandCount, AnchorPane ap)
+	private Map()
 	{
 		//any untouched blocks are set to 0
-		seaMap = new int[dimensions][dimensions];
+		seaMap = new int[Explorer.getDimensions()][Explorer.getDimensions()];
 	}
 	
 	public void placeIslands()
@@ -65,16 +63,15 @@ public class Map
 
 	private void placeImage(int x, int y, String imageLocation)
 	{
-		Image image = new Image(imageLocation, Explorer.getScaleFactor(), Explorer.getScaleFactor(), true, true);
+		//I felt the sizes looked a little large, so i reduced the width and height slightly
+		Image image = new Image(imageLocation, Explorer.getScaleFactor() * .95, Explorer.getScaleFactor() * .95, true, true);
 		ImageView imageView = new ImageView(image);
 		imageView.setX(x * Explorer.getScaleFactor()); //scale factor
 		imageView.setY(y * Explorer.getScaleFactor());
-		imageView.setScaleX(.95); //I felt the sizes looked a little too much
-		imageView.setScaleY(.95);
 		Explorer.getAp().getChildren().add(imageView);
 	}
 
-
+	//I definitly feel these two methods could be reduced or changed to look better
 	public Point initShip()
 	{
 		Random randy1 = new Random();

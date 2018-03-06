@@ -21,9 +21,6 @@ public class PirateShip implements Observer, NSMoving, EWMoving
 		{
 			Ship playerShip = (Ship)o;
 
-
-			//System.out.println("X: " + playerShip.getLocation().x + " Y: " + playerShip.getLocation().y);
-
 			if(playerShip.getLocation().y < currentLocation.y)
 				if (map.checkLocation(currentLocation.x, currentLocation.y - 1) == 0) //open space
 					goNorth();
@@ -46,15 +43,15 @@ public class PirateShip implements Observer, NSMoving, EWMoving
 
 	public void goWest()
 	{
-		map.setPoint(currentLocation.x, currentLocation.y, 0);
-		map.setPoint(currentLocation.x - 1, currentLocation.y, 2);
-		currentLocation.setLocation(currentLocation.x - 1, currentLocation.y);
+		map.setPoint(currentLocation.x, currentLocation.y, 0); //set the point its currently at to untouched
+		map.setPoint(currentLocation.x - 1, currentLocation.y, 2); //set the going to point to an enemy location
+		currentLocation.setLocation(currentLocation.x - 1, currentLocation.y); //update the GUI location of the ship
 	}
 
 	@Override
 	public void goEast()
 	{
-		map.setPoint(currentLocation.x, currentLocation.y, 0);
+		map.setPoint(currentLocation.x, currentLocation.y, 0); //^^
 		map.setPoint(currentLocation.x + 1, currentLocation.y, 2);
 		currentLocation.setLocation(currentLocation.x + 1, currentLocation.y);
 	}
@@ -62,7 +59,7 @@ public class PirateShip implements Observer, NSMoving, EWMoving
 	@Override
 	public void goNorth()
 	{
-		map.setPoint(currentLocation.x, currentLocation.y, 0);
+		map.setPoint(currentLocation.x, currentLocation.y, 0); //^^
 		map.setPoint(currentLocation.x, currentLocation.y - 1, 2);
 		currentLocation.setLocation(currentLocation.x, currentLocation.y - 1);
 	}
@@ -70,7 +67,7 @@ public class PirateShip implements Observer, NSMoving, EWMoving
 	@Override
 	public void goSouth()
 	{
-		map.setPoint(currentLocation.x, currentLocation.y, 0);
+		map.setPoint(currentLocation.x, currentLocation.y, 0); //^^
 		map.setPoint(currentLocation.x, currentLocation.y + 1, 2);
 		currentLocation.setLocation(currentLocation.x, currentLocation.y + 1);
 	}

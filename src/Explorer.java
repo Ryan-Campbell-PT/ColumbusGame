@@ -78,31 +78,34 @@ public class Explorer extends Application {
 	public void start(Stage oceanStage) throws Exception
     {
         //TODO: we could probably turn this all into a single method. Can be something we do towards the end
-        //map creation
+        //create all the necessary objects
         ap = new AnchorPane();
-		Map.initiate(getDimensions(), getIslandCount(), getAp());
+		ship = new Ship();
+		PirateShip pirate1 = new PirateShip(ship);
+		PirateShip pirate2 = new PirateShip(ship);
+		scene = new Scene(ap, dimensions * 50, dimensions * 50);
+		WhirlpoolFactory factory = new WhirlpoolFactory(ship);
+
+		//draw the map
 		drawGrid();
 		Map.getInstance().placeIslands();
 		Map.getInstance().placeTreasure();
 
-		ship = new Ship();
-		PirateShip pirate1 = new PirateShip(ship);
-		PirateShip pirate2 = new PirateShip(ship);
-
+		//load in the images
 		loadShipImage(); //ship
 		loadPirateImage(new File("images\\pirateShip.png").toURI().toString(), pirate1); //pirate image 1
 		loadPirateImage(new File("images\\pirateShip.png").toURI().toString(), pirate2); //pirate image 2
 
-		WhirlpoolFactory factory = new WhirlpoolFactory(ship);
+		//add the observers
 		ship.addObserver(factory);
 		ship.addObserver(pirate1);
 		ship.addObserver(pirate2);
 
-		scene = new Scene(ap, 750, 750);
+		//finish the misc stuff
 		oceanStage.setTitle("Chrissy Columbus");
 		oceanStage.setScene(scene);
 		oceanStage.show();
-		weighAnchor();//if you comment this out you can see the map all the other work. The event handler is the only problem.
+		weighAnchor();
 	}
 
 

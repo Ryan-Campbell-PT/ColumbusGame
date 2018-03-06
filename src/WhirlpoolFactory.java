@@ -8,6 +8,12 @@ import java.util.*;
 /**
  * The idea behind WhirlpoolFactory is to keep track of all whirlpools being created
  * and to never create a whirlpool that isnt necessary
+ *
+ * randomNum is a variable that decides when a new whirlpool should be created
+ * when iter becomes == to randomNum (iterates each ship movement), it will either create a new whirlpool if the list is empty
+ * or pull from the list the "oldest" whirlpool in the list to save memory
+ *
+ * FACTORY PATTERN
  */
 public class WhirlpoolFactory implements Observer
 {
