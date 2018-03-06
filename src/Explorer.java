@@ -8,6 +8,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import java.io.File;
+import java.util.ArrayList;
 
 public class Explorer extends Application {
 
@@ -22,6 +23,9 @@ public class Explorer extends Application {
 	private Scene scene;
 	private ImageView shipImageView;
 	private ImageView pirateImageView;
+	private ArrayList<PirateShip> pirates;
+	//only one pirate moves. if we iterate this way it may work.
+	//it could also consolidate a big chunck of code here.
 
 	private void drawGrid()
 	{
@@ -53,7 +57,7 @@ public class Explorer extends Application {
 			ship.goDirection(event.getCode());
 			shipImageView.setX(ship.getLocation().x * scaleFactor);
 			shipImageView.setY(ship.getLocation().y * scaleFactor);
-			
+			// here we can implement the arraylist. Simple for loop and what not
 			pirateImageView.setX(pirate1.getLocation().x * scaleFactor);
 			pirateImageView.setY(pirate1.getLocation().y * scaleFactor);
 			

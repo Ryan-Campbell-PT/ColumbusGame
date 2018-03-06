@@ -17,41 +17,50 @@ public class PirateShip implements Observer, NSMoving, EWMoving
 	@Override
 	public void update(Observable o, Object args)
 	{
+		Ship ship = (Ship)o;
 		if(o instanceof Ship)
 		{
 			System.out.println("Updating Pirate");
-			
-			if(((Ship)o).getLocation().y < currentLocation.y)
-				if (map.checkLocation(currentLocation.x, currentLocation.y - 1) == 0) //open space
-				{
-					System.out.println("Going North");
-					this.goNorth();
-					System.out.println("Went North");
-				}
-					
-			else if(((Ship)o).getLocation().y > currentLocation.y)
-				if(map.checkLocation(currentLocation.x, currentLocation.y + 1) == 0)
-				{
-					System.out.println("Going South");
-					this.goSouth();
-				}
-
-			else if(((Ship)o).getLocation().x > currentLocation.x)
+			//program locks itself to only cpompleting the first action it was told to do
+			if(ship.getLocation().x > currentLocation.x)//if for horizontal movement. permits diagonal
+			{
+				//for some reason, segmenting this single method in more brackets makes the whole thing work.
 				if(map.checkLocation(currentLocation.x + 1, currentLocation.y) == 0)
 				{
-					
+					System.out.println("Going East");
 					this.goEast();
 				}
-
-			else if(((Ship)o).getLocation().x < currentLocation.x)
+				return;//forces ship to stop trying to move and the program waits for further commands.
+			}
+			
+			
+			else if(ship.getLocation().x < currentLocation.x)
 				if(map.checkLocation(currentLocation.x - 1, currentLocation.y) == 0)
 				{
 					System.out.println("Going West");
 					this.goWest();
 				}
+			
+			if(ship.getLocation().y < currentLocation.y)//an if for all vertical movement. permits diagonal
+			{
+				if (map.checkLocation(currentLocation.x, currentLocation.y - 1) == 0) //open space
+				{
+					System.out.println("Going North");
+					this.goNorth();
+				}
+				return;
+			}
+					
+			else if(ship.getLocation().y > currentLocation.y)
+				if(map.checkLocation(currentLocation.x, currentLocation.y + 1) == 0)
+				{
+					System.out.println("Going South");
+					this.goSouth();
+				}
 		}
 	}
 
+	@Override
 	public void goWest()
 	{
 		map.setPoint(currentLocation.x, currentLocation.y, 0); //set the point its currently at to untouched
