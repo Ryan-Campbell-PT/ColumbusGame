@@ -7,9 +7,9 @@ public class PirateShip implements Observer, NSMoving, EWMoving
 	private Map map;
 	private Point currentLocation;
 
-	PirateShip(Observable o)
+	PirateShip(Ship ship)
 	{
-		o.addObserver(this);
+		ship.addObserver(this);
 		map = Map.getInstance();
 		currentLocation = map.initPirate();
 	}
@@ -17,29 +17,40 @@ public class PirateShip implements Observer, NSMoving, EWMoving
 	@Override
 	public void update(Observable o, Object args)
 	{
-		if (o instanceof Ship)
+		if(o instanceof Ship)
 		{
-			Ship playerShip = (Ship)o;
-
-			if(playerShip.getLocation().y < currentLocation.y)
+			System.out.println("Updating Pirate");
+			
+			if(((Ship)o).getLocation().y < currentLocation.y)
 				if (map.checkLocation(currentLocation.x, currentLocation.y - 1) == 0) //open space
-					goNorth();
-
-			else if(playerShip.getLocation().y > currentLocation.y)
+				{
+					System.out.println("Going North");
+					this.goNorth();
+					System.out.println("Went North");
+				}
+					
+			else if(((Ship)o).getLocation().y > currentLocation.y)
 				if(map.checkLocation(currentLocation.x, currentLocation.y + 1) == 0)
-					goSouth();
+				{
+					System.out.println("Going South");
+					this.goSouth();
+				}
 
-			else if(playerShip.getLocation().x > currentLocation.x)
+			else if(((Ship)o).getLocation().x > currentLocation.x)
 				if(map.checkLocation(currentLocation.x + 1, currentLocation.y) == 0)
-					goEast();
+				{
+					
+					this.goEast();
+				}
 
-			else if(playerShip.getLocation().x < currentLocation.x)
+			else if(((Ship)o).getLocation().x < currentLocation.x)
 				if(map.checkLocation(currentLocation.x - 1, currentLocation.y) == 0)
-					goWest();
+				{
+					System.out.println("Going West");
+					this.goWest();
+				}
 		}
 	}
-
-	public Point getLocation() { return currentLocation; }
 
 	public void goWest()
 	{
@@ -62,6 +73,7 @@ public class PirateShip implements Observer, NSMoving, EWMoving
 		map.setPoint(currentLocation.x, currentLocation.y, 0); //^^
 		map.setPoint(currentLocation.x, currentLocation.y - 1, 2);
 		currentLocation.setLocation(currentLocation.x, currentLocation.y - 1);
+		System.out.println("Location set north");
 	}
 
 	@Override
@@ -70,5 +82,8 @@ public class PirateShip implements Observer, NSMoving, EWMoving
 		map.setPoint(currentLocation.x, currentLocation.y, 0); //^^
 		map.setPoint(currentLocation.x, currentLocation.y + 1, 2);
 		currentLocation.setLocation(currentLocation.x, currentLocation.y + 1);
+		
 	}
+	
+	public Point getLocation() {return currentLocation;}
 }

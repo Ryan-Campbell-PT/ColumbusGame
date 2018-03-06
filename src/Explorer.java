@@ -7,7 +7,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-
 import java.io.File;
 
 public class Explorer extends Application {
@@ -18,8 +17,11 @@ public class Explorer extends Application {
 	private final static int dimensions = 15;
 	private final static int scaleFactor = 50;
 	private Ship ship;
+	private PirateShip pirate1;
+	private PirateShip pirate2;
 	private Scene scene;
 	private ImageView shipImageView;
+	private ImageView pirateImageView;
 
 	private void drawGrid()
 	{
@@ -51,6 +53,12 @@ public class Explorer extends Application {
 			ship.goDirection(event.getCode());
 			shipImageView.setX(ship.getLocation().x * scaleFactor);
 			shipImageView.setY(ship.getLocation().y * scaleFactor);
+			
+			pirateImageView.setX(pirate1.getLocation().x * scaleFactor);
+			pirateImageView.setY(pirate1.getLocation().y * scaleFactor);
+			
+			pirateImageView.setX(pirate2.getLocation().x * scaleFactor);
+			pirateImageView.setY(pirate2.getLocation().y * scaleFactor);
 		});
 	}
 
@@ -67,10 +75,10 @@ public class Explorer extends Application {
 	private void loadPirateImage(String url, PirateShip pirate)
 	{
 		Image shipImage = new Image(url, 50, 50, true, true);
-		ImageView ImageView = new ImageView(shipImage);
-		ImageView.setX(pirate.getLocation().x * scaleFactor);
-		ImageView.setY(pirate.getLocation().y * scaleFactor);
-		ap.getChildren().add(ImageView);
+		pirateImageView = new ImageView(shipImage);
+		pirateImageView.setX(pirate.getLocation().x * scaleFactor);
+		pirateImageView.setY(pirate.getLocation().y * scaleFactor);
+		ap.getChildren().add(pirateImageView);
 	}
 
 
