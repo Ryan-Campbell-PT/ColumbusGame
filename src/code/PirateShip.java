@@ -1,5 +1,12 @@
 package code;
+import javafx.application.Application;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
+
 import java.awt.Point;
+import java.awt.event.KeyEvent;
+import java.io.File;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
@@ -8,12 +15,17 @@ public class PirateShip implements Observer, NSMoving, EWMoving
 {
 	private Map map;
 	private Point currentLocation;
+	private ImageView imageView;
+
+	//TODO: Implement pirate ship factory
 
 	public PirateShip() //needs to be public for Junit tests
 	{
 		map = Map.getInstance();
 		currentLocation = createLocation();
 	}
+
+	public void addImageView(ImageView imageView) { this.imageView = imageView; }
 
 	@Override
 	public void update(Observable o, Object args)
@@ -91,5 +103,6 @@ public class PirateShip implements Observer, NSMoving, EWMoving
 	}
 
 
-	public Point getLocation() {return currentLocation;}
+	public Point getLocation() { return currentLocation;}
+	public ImageView getImageView() { return imageView; }
 }

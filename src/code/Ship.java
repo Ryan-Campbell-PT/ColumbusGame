@@ -60,6 +60,7 @@ public class Ship extends Observable implements NSMoving, EWMoving
 		if(currentLocation.y > 0)
 			if(map.checkLocation(currentLocation.x, currentLocation.y - 1) == 0)
 				currentLocation.setLocation(currentLocation.x, currentLocation.y - 1);
+
 		this.notifyObservers();
 	}
 
