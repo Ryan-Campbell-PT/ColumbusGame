@@ -35,7 +35,6 @@ public class WhirlpoolFactory implements Observer
     @Override
     public void update(Observable o, Object arg)
     {
-        System.out.println("Observer size: " + ship.countObservers() + "\nList size: " + list.size());
         if(o instanceof Ship)
         {
             if(iter < randomNum)

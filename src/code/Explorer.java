@@ -16,7 +16,7 @@ public class Explorer extends Application {
 	//I made these static variables so we can have one instance of all necessary statistics
 	//and not need to pass them into functions and classes throughout the project
 	private static AnchorPane ap;
-	private final static int dimensions = 15;
+	private final static int dimensions = 10;
 	private final static int scaleFactor = 50;
 	private Ship ship;
 	private PirateShip pirate1;
