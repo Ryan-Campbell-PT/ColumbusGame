@@ -12,7 +12,7 @@ class ShipMoveTest {
 	@Test
 	public void testMoveNorth()//make sure it moved up
 	{
-		ship = new Ship();
+		ship = Ship.getInstance();
 		Point startloc = ship.getLocation();
 		ship.goNorth();
 		assertTrue(ship.getLocation().y == startloc.y-1);
@@ -20,7 +20,7 @@ class ShipMoveTest {
 	
 	public void testMoveSouth()//make sure it moved down
 	{
-		ship = new Ship();
+		ship = Ship.getInstance();
 		Point startloc = ship.getLocation();
 		ship.goSouth();
 		assertTrue(ship.getLocation().y == startloc.y+1);
@@ -28,7 +28,7 @@ class ShipMoveTest {
 	
 	public void testMoveEast()//make sure it moved right
 	{
-		ship = new Ship();
+		ship = Ship.getInstance();
 		Point startloc = ship.getLocation();
 		ship.goEast();
 		assertTrue(ship.getLocation().x == startloc.x+1);
@@ -36,7 +36,7 @@ class ShipMoveTest {
 	
 	public void testMoveWest()//make sure it moved left
 	{
-		ship = new Ship();
+		ship = Ship.getInstance();
 		Point startloc = ship.getLocation();
 		ship.goWest();
 		assertTrue(ship.getLocation().x == startloc.x-1);

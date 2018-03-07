@@ -27,8 +27,7 @@ public class Map
 
 	private Map()
 	{
-		//any untouched blocks are set to 0
-		seaMap = new int[Explorer.getDimensions()][Explorer.getDimensions()];
+		seaMap = new int[Explorer.getDimensions()][Explorer.getDimensions()]; //any untouched blocks are set to 0
 	}
 	
 	public void placeIslands()
@@ -70,30 +69,6 @@ public class Map
 		imageView.setX(x * Explorer.getScaleFactor()); //scale factor
 		imageView.setY(y * Explorer.getScaleFactor());
 		Explorer.getAp().getChildren().add(imageView);
-	}
-
-	//I definitly feel these two methods could be reduced or changed to look better
-	public Point initShip()
-	{
-		Random randy1 = new Random();
-		Point newy = new Point(randy1.nextInt(Explorer.getDimensions()), randy1.nextInt(Explorer.getDimensions()));
-
-		while(checkLocation(newy.x, newy.y) != 0) //if the location is already taken
-			newy = new Point(randy1.nextInt(Explorer.getDimensions()), randy1.nextInt(Explorer.getDimensions())); //continue creating new locations until a good space is found
-
-		return newy;
-	}
-	
-	public Point initPirate()
-	{
-		Random randy1 = new Random();
-		Point newy = new Point(randy1.nextInt(Explorer.getDimensions()), randy1.nextInt(Explorer.getDimensions()));
-
-		while(checkLocation(newy.x, newy.y) != 0) //^^
-			newy = new Point(randy1.nextInt(Explorer.getDimensions()), randy1.nextInt(Explorer.getDimensions()));
-
-		setPoint(newy.x, newy.y, 2); //set them to a damaging enemy
-		return newy;
 	}
 
 	public void setPoint(int x, int y, int status) { seaMap[x][y] = status; }

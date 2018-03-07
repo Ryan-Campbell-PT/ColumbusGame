@@ -2,17 +2,17 @@ package code;
 import java.awt.Point;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Random;
 
 public class PirateShip implements Observer, NSMoving, EWMoving
 {
 	private Map map;
 	private Point currentLocation;
 
-	public PirateShip(Ship ship)//needs to be public for Junit tests
+	public PirateShip() //needs to be public for Junit tests
 	{
-		ship.addObserver(this);
 		map = Map.getInstance();
-		currentLocation = map.initPirate();
+		currentLocation = createLocation();
 	}
 
 	@Override
@@ -22,8 +22,8 @@ public class PirateShip implements Observer, NSMoving, EWMoving
 		{
 			Ship ship = (Ship)o;
 
-			//program locks itself to only cpompleting the first action it was told to do
-			if(ship.getLocation().x > currentLocation.x)//if for horizontal movement. permits diagona
+			//program locks itself to only completely the first action it was told to do
+			if(ship.getLocation().x > currentLocation.x)//if for horizontal movement. permits diagonal
 				//for some reason, segmenting this single method in more brackets makes the whole thing work.
 				if(map.checkLocation(currentLocation.x + 1, currentLocation.y) == 0)
 					this.goEast();
@@ -74,6 +74,22 @@ public class PirateShip implements Observer, NSMoving, EWMoving
 		currentLocation.setLocation(currentLocation.x, currentLocation.y + 1);
 		
 	}
-	
+
+	private Point createLocation()
+	{
+		Random rand = new Random();
+		int x = rand.nextInt(Explorer.getDimensions());
+		int y = rand.nextInt(Explorer.getDimensions());
+
+		while(Map.getInstance().checkLocation(x, y) != 0)
+		{
+			x = rand.nextInt(Explorer.getDimensions());
+			y = rand.nextInt(Explorer.getDimensions());
+		}
+
+		return new Point(x, y);
+	}
+
+
 	public Point getLocation() {return currentLocation;}
 }
