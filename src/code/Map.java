@@ -95,7 +95,31 @@ public class Map
 		setPoint(newy.x, newy.y, 2); //set them to a damaging enemy
 		return newy;
 	}
+	
+	public Point initSnake()
+	{
+		Random randy1 = new Random();
+		Point newy = new Point(randy1.nextInt(Explorer.getDimensions()), randy1.nextInt(Explorer.getDimensions()));
 
+		while(checkLocation(newy.x, newy.y) != 0)
+			newy = new Point(randy1.nextInt(Explorer.getDimensions()), randy1.nextInt(Explorer.getDimensions()));
+
+		setPoint(newy.x, newy.y, 2); //set them to a damaging enemy
+		return newy;
+	}
+	
+	public Point initEel()
+	{
+		Random randy1 = new Random();
+		Point newy = new Point(randy1.nextInt(Explorer.getDimensions()), randy1.nextInt(Explorer.getDimensions()));
+
+		while(checkLocation(newy.x, newy.y) != 0)
+			newy = new Point(randy1.nextInt(Explorer.getDimensions()), randy1.nextInt(Explorer.getDimensions()));
+
+		setPoint(newy.x, newy.y, 2); //set them to a damaging enemy
+		return newy;
+	}
+	
 	public void setPoint(int x, int y, int status) { seaMap[x][y] = status; }
 
 	public int checkLocation(int x, int y) { return seaMap[x][y]; }}
