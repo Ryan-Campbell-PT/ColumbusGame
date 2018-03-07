@@ -8,7 +8,7 @@ public class Ship extends Observable implements NSMoving, EWMoving
 	private Point currentLocation;
 	private Map map;
 
-	Ship()
+	public Ship()//needs to be public for the Junit tests
 	{
 		map = Map.getInstance();
 		currentLocation = map.initShip();

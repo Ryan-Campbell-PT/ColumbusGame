@@ -8,7 +8,7 @@ public class PirateShip implements Observer, NSMoving, EWMoving
 	private Map map;
 	private Point currentLocation;
 
-	PirateShip(Ship ship)
+	public PirateShip(Ship ship)//needs to be public for Junit tests
 	{
 		ship.addObserver(this);
 		map = Map.getInstance();
