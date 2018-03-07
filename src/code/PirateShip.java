@@ -28,7 +28,7 @@ public class PirateShip implements Observer, NSMoving, EWMoving
 				if(map.checkLocation(currentLocation.x + 1, currentLocation.y) == 0)
 					this.goEast();
 			
-			else if(ship.getLocation().x < currentLocation.x)
+			if(ship.getLocation().x < currentLocation.x)
 				if(map.checkLocation(currentLocation.x - 1, currentLocation.y) == 0)
 					this.goWest();
 			
@@ -36,7 +36,7 @@ public class PirateShip implements Observer, NSMoving, EWMoving
 				if (map.checkLocation(currentLocation.x, currentLocation.y - 1) == 0) //open space
 					this.goNorth();
 					
-			else if(ship.getLocation().y > currentLocation.y)
+			if(ship.getLocation().y > currentLocation.y)
 				if(map.checkLocation(currentLocation.x, currentLocation.y + 1) == 0)
 					this.goSouth();
 		}

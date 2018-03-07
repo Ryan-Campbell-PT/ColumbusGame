@@ -1,27 +1,27 @@
 package tests;
 
 import static org.junit.Assert.*;
-//import static org.junit.jupiter.api.Assertions.*;
-import java.awt.Point;
 import org.junit.Test;
-
-import code.Explorer;
-import code.Map;
+//import static org.junit.jupiter.api.Assertions.*;
 //import org.junit.jupiter.api.Test;
+import code.Explorer;
 import code.Ship;
+import javafx.stage.Stage;
+import java.awt.Point;
 
 public class ShipMoveTest {
 	
 	//Ship ship;
 	Explorer e;
-	Map m;
+	//Map m;
+	Stage oceanStage;
 	@Test
 	public void testMoveNorth()//make sure it moved up
 	{
 		e = new Explorer();
-		m = new Map();
-		e.start();
-		Ship ship = new Ship();
+		//m = new Map();
+		Ship ship = e.ship;
+		e.start(oceanStage);
 		Point startloc = ship.getLocation();
 		ship.goNorth();
 		assertTrue(ship.getLocation().y == startloc.y-1);

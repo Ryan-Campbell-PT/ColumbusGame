@@ -18,7 +18,7 @@ public class Explorer extends Application {
 	private static AnchorPane ap;
 	private final static int dimensions = 15;
 	private final static int scaleFactor = 50;
-	private Ship ship;
+	public Ship ship; //Junit needs this too
 	private PirateShip pirate1;
 	private PirateShip pirate2;
 	private Scene scene;
@@ -138,7 +138,6 @@ public class Explorer extends Application {
 		oceanStage.show();
 		weighAnchor();
 	}
-
 
 	public static AnchorPane getAp() { return ap; }
 	public static int getDimensions() { return dimensions; }
