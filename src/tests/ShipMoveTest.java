@@ -1,24 +1,33 @@
 package tests;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
+//import static org.junit.jupiter.api.Assertions.*;
 import java.awt.Point;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+
+import code.Explorer;
+import code.Map;
+//import org.junit.jupiter.api.Test;
 import code.Ship;
 
-class ShipMoveTest {
+public class ShipMoveTest {
 	
-	Ship ship;
-	
+	//Ship ship;
+	Explorer e;
+	Map m;
 	@Test
 	public void testMoveNorth()//make sure it moved up
 	{
-		ship = new Ship();
+		e = new Explorer();
+		m = new Map();
+		e.start();
+		Ship ship = new Ship();
 		Point startloc = ship.getLocation();
 		ship.goNorth();
 		assertTrue(ship.getLocation().y == startloc.y-1);
 	}
 	
-	public void testMoveSouth()//make sure it moved down
+	/*public void testMoveSouth()//make sure it moved down
 	{
 		ship = new Ship();
 		Point startloc = ship.getLocation();
@@ -40,5 +49,5 @@ class ShipMoveTest {
 		Point startloc = ship.getLocation();
 		ship.goWest();
 		assertTrue(ship.getLocation().x == startloc.x-1);
-	}
+	}*/
 }

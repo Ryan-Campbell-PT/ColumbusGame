@@ -25,7 +25,7 @@ public class Map
 		return instance;
 	}
 
-	private Map()
+	public Map()
 	{
 		//any untouched blocks are set to 0
 		seaMap = new int[Explorer.getDimensions()][Explorer.getDimensions()];
