@@ -27,8 +27,7 @@ public class Map
 
 	public Map()
 	{
-		//any untouched blocks are set to 0
-		seaMap = new int[Explorer.getDimensions()][Explorer.getDimensions()];
+		seaMap = new int[Explorer.getDimensions()][Explorer.getDimensions()]; //any untouched blocks are set to 0
 	}
 	
 	public void placeIslands()

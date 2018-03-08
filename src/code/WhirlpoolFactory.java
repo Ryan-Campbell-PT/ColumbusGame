@@ -19,7 +19,7 @@ import java.util.*;
 public class WhirlpoolFactory implements Observer
 {
     private LinkedList<Whirlpool> list; //this will record all created whirlpools that arent on the screen
-    private int randomNum, iter;
+    private int randomNum, counter;
 
     //I want to change these in the future. Will do later
     private Ship ship;
@@ -35,15 +35,14 @@ public class WhirlpoolFactory implements Observer
     @Override
     public void update(Observable o, Object arg)
     {
-        System.out.println("Observer size: " + ship.countObservers() + "\nList size: " + list.size());
         if(o instanceof Ship)
         {
-            if(iter < randomNum)
-                iter++;
+            if(counter < randomNum)
+                counter++;
 
             else
             {
-                if(iter >= randomNum)
+                if(counter >= randomNum)
                 {
                     if(list.size() == 0)
                     {
@@ -58,7 +57,7 @@ public class WhirlpoolFactory implements Observer
                     }
 
                     randomNum = new Random().nextInt(15);
-                    iter = 0;
+                    counter = 0;
                 }
             }
         }
@@ -73,7 +72,7 @@ public class WhirlpoolFactory implements Observer
      */
     private class Whirlpool implements Observer
     {
-        private int randomNum, iter;
+        private int randomNum, counter;
         private Point location1, location2;
         private ImageView imageView1, imageView2; //used for removal later
 
@@ -87,8 +86,8 @@ public class WhirlpoolFactory implements Observer
         {
             if(o instanceof Ship)
             {
-                if(iter < randomNum)
-                    iter++; //as long as the whirlpool should still be around
+                if(counter < randomNum)
+                    counter++; //as long as the whirlpool should still be around
 
                 else
                     remove(); //if its time is up, remove it from the map
@@ -119,12 +118,35 @@ public class WhirlpoolFactory implements Observer
             }
             location2 = new Point(x, y);
 
-            iter = 0; //reset the conter
+            counter = 0; //reset the counter
             randomNum = rand.nextInt(30); //decide the lifespan of the whirlpool
             ship.addObserver(this); //add the following to it
 
-            loadImage1();
-            loadImage2();
+            loadImages();
+        }
+
+        private void loadImages()
+        {
+            if(imageView1 == null) //if its already created, no need to keep creating more
+            {
+                Image image = new Image(new File("images\\whirlpool.jpg").toURI().toString(), 50, 50, true, true);
+                imageView1 = new ImageView(image);
+            }
+
+            if (imageView2 == null)
+            {
+                Image image = new Image(new File("images\\whirlpool.jpg").toURI().toString(), 50, 50, true, true);
+                imageView2 = new ImageView(image);
+            }
+
+            imageView1.setX(location1.x * Explorer.getScaleFactor());
+            imageView1.setY(location1.y * Explorer.getScaleFactor());
+
+            imageView2.setX(location2.x * Explorer.getScaleFactor());
+            imageView2.setY(location2.y * Explorer.getScaleFactor());
+
+            Explorer.getAp().getChildren().add(imageView1);
+            Explorer.getAp().getChildren().add(imageView2);
         }
 
         //whenever the whirlpool is removed from the scene, its imageview and observering status is removed,
@@ -137,31 +159,6 @@ public class WhirlpoolFactory implements Observer
 
             list.add(this); //add it back to the factory for use later
             ship.deleteObserver(this); //stop following the ship observing
-        }
-
-        //definitely can turn these into one
-        private void loadImage1()
-        {
-            if(imageView1 == null) //if its already created, no need to keep creating more
-            {
-                Image image = new Image(new File("images\\whirlpool.jpg").toURI().toString(), 50, 50, true, true);
-                imageView1 = new ImageView(image);
-            }
-            imageView1.setX(location1.x * Explorer.getScaleFactor());
-            imageView1.setY(location1.y * Explorer.getScaleFactor());
-            Explorer.getAp().getChildren().add(imageView1);
-        }
-
-        private void loadImage2()
-        {
-            if (imageView2 == null)
-            {
-                Image image = new Image(new File("images\\whirlpool.jpg").toURI().toString(), 50, 50, true, true);
-                imageView2 = new ImageView(image);
-            }
-            imageView2.setX(location2.x * Explorer.getScaleFactor());
-            imageView2.setY(location2.y * Explorer.getScaleFactor());
-            Explorer.getAp().getChildren().add(imageView2);
         }
     }
 

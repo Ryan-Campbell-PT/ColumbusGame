@@ -1,17 +1,28 @@
 package code;
 import java.awt.Point;
 import java.util.Observable;
+import java.util.Random;
+
 import javafx.scene.input.KeyCode;
 
 public class Ship extends Observable implements NSMoving, EWMoving
 {
 	private Point currentLocation;
 	private Map map;
+	private static Ship instance;
 
-	public Ship()//needs to be public for the Junit tests
+	public static Ship getInstance() //the players ship makes most sense to have as singleton
+	{
+		if(instance == null)
+			instance = new Ship();
+
+		return instance;
+	}
+
+	private Ship() //needs to be public for the Junit tests
 	{
 		map = Map.getInstance();
-		currentLocation = map.initShip();
+		currentLocation = createLocation();
 	}
 
 	public void goDirection(KeyCode event)
@@ -49,6 +60,7 @@ public class Ship extends Observable implements NSMoving, EWMoving
 		if(currentLocation.y > 0)
 			if(map.checkLocation(currentLocation.x, currentLocation.y - 1) == 0)
 				currentLocation.setLocation(currentLocation.x, currentLocation.y - 1);
+
 		this.notifyObservers();
 	}
 
@@ -79,5 +91,21 @@ public class Ship extends Observable implements NSMoving, EWMoving
 		this.notifyObservers();
 	}
 
-	public Point getLocation() { return currentLocation; }
+	private Point createLocation()
+	{
+		Random rand = new Random();
+		int x = rand.nextInt(Explorer.getDimensions());
+		int y = rand.nextInt(Explorer.getDimensions());
+
+		while(Map.getInstance().checkLocation(x, y) != 0)
+		{
+			x = rand.nextInt(Explorer.getDimensions());
+			y = rand.nextInt(Explorer.getDimensions());
+		}
+
+		return new Point(x, y);
+	}
+
+	@Override
+	public Point getCurrentLocation() { return currentLocation; }
 }

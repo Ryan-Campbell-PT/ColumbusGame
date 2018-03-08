@@ -19,7 +19,7 @@ public class Snake implements NSMoving
 	}
 	
 	@Override
-	public Point getLocation() {return currentLocation;}
+	public Point getCurrentLocation() {return currentLocation;}
 
 	@Override
 	public void goNorth()

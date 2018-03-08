@@ -23,21 +23,20 @@ public class Explorer extends Application {
 	private PirateShip pirate2;
 	private Scene scene;
 	private ImageView shipImageView;
-	private ImageView pirateImageView1, pirateImageView2;
 	private ArrayList<PirateShip> pirates;
 	//only one pirate moves. if we iterate this way it may work.
 	//it could also consolidate a big chunck of code here.
 
 	private void drawGrid()
 	{
-		for(int i = 0; i < dimensions; i++)
-			for(int j = 0; j < dimensions; j++)
+		for(int i = 0; i < getDimensions(); i++)
+			for(int j = 0; j < getDimensions(); j++)
 				drawRectangle(i, j, Color.PALETURQUOISE);
 	}
 
 	private void drawRectangle(int x, int y, Color color)
 	{
-		Rectangle rect = new Rectangle(x * scaleFactor, y * scaleFactor, scaleFactor, scaleFactor);
+		Rectangle rect = new Rectangle(x * getScaleFactor(), y * getScaleFactor(), getScaleFactor(), getScaleFactor());
 		rect.setStroke(Color.BLACK);
 		rect.setFill(color);
 		ap.getChildren().add(rect);
@@ -56,49 +55,38 @@ public class Explorer extends Application {
 		{
 			//ship will handle which location to go
 			ship.goDirection(event.getCode());
-			shipImageView.setX(ship.getLocation().x * scaleFactor);
-			shipImageView.setY(ship.getLocation().y * scaleFactor);
+			shipImageView.setX(ship.getCurrentLocation().x * getScaleFactor());
+			shipImageView.setY(ship.getCurrentLocation().y * getScaleFactor());
 			// here we can implement the arraylist. Simple for loop and what not
-			/*for(int i = 0; i < pirates.size() - 1; i++)//basically this
+
+			//fancy little for each loop right here
+			for(PirateShip ship : pirates)
 			{
-				pirateImageView.setX(pirates.get(i).getLocation().x * scaleFactor);
-				pirateImageView.setY(pirates.get(i).getLocation().y * scaleFactor);
-			}*/
-
-			pirateImageView1.setX(pirate1.getLocation().x * scaleFactor);
-			pirateImageView1.setY(pirate1.getLocation().y * scaleFactor);
-
-			pirateImageView2.setX(pirate2.getLocation().x * scaleFactor);
-			pirateImageView2.setY(pirate2.getLocation().y * scaleFactor);
+				ship.getImageView().setX(ship.getCurrentLocation().x * getScaleFactor());
+				ship.getImageView().setY(ship.getCurrentLocation().y * getScaleFactor());
+			}
 		});
 	}
 
 	// we can definitely reduce these methods to a single method. Lets keep that in mind while we code
 	private void loadShipImage()
 	{
-		Image shipImage = new Image(new File("images\\ship.png").toURI().toString(), 50, 50, true, true);
+		Image shipImage = new Image(new File("images\\ship.png").toURI().toString(), getScaleFactor(), getScaleFactor(), true, true);
 		shipImageView = new ImageView(shipImage);
-		shipImageView.setX(ship.getLocation().x * scaleFactor);
-		shipImageView.setY(ship.getLocation().y * scaleFactor);
-		ap.getChildren().add(shipImageView);
+		shipImageView.setX(ship.getCurrentLocation().x * getScaleFactor());
+		shipImageView.setY(ship.getCurrentLocation().y * getScaleFactor());
+		getAp().getChildren().add(shipImageView);
 	}
 
-	private void loadPirateImage1(String url, PirateShip pirate)
+	private ImageView createPirateImage(String url, PirateShip pirate)
 	{
-		Image shipImage = new Image(url, 50, 50, true, true);
-		pirateImageView1 = new ImageView(shipImage);
-		pirateImageView1.setX(pirate.getLocation().x * scaleFactor);
-		pirateImageView1.setY(pirate.getLocation().y * scaleFactor);
-		ap.getChildren().add(pirateImageView1);
-	}
+		Image shipImage = new Image(url, getScaleFactor(), getScaleFactor(), true, true);
+		ImageView imageView = new ImageView(shipImage);
+		imageView.setX(pirate.getCurrentLocation().x * getScaleFactor());
+		imageView.setY(pirate.getCurrentLocation().y * getScaleFactor());
+		getAp().getChildren().add(imageView);
 
-	private void loadPirateImage2(String url, PirateShip pirate)
-	{
-		Image shipImage = new Image(url, 50, 50, true, true);
-		pirateImageView2 = new ImageView(shipImage);
-		pirateImageView2.setX(pirate.getLocation().x * scaleFactor);
-		pirateImageView2.setY(pirate.getLocation().y * scaleFactor);
-		ap.getChildren().add(pirateImageView2);
+		return imageView;
 	}
 
 	@Override
@@ -107,11 +95,11 @@ public class Explorer extends Application {
         //TODO: we could probably turn this all into a single method. Can be something we do towards the end
         //create all the necessary objects
         ap = new AnchorPane();
-		ship = new Ship();
-		pirate1 = new PirateShip(ship);
-		pirate2 = new PirateShip(ship);
+		ship = Ship.getInstance();
+		pirate1 = new PirateShip();
+		pirate2 = new PirateShip();
 		pirates = new ArrayList<>();
-		scene = new Scene(ap, dimensions * 50, dimensions * 50);
+		scene = new Scene(getAp(), getDimensions() * getScaleFactor(), getDimensions() * getScaleFactor());
 		WhirlpoolFactory factory = new WhirlpoolFactory(ship);
 
 		//draw the map
@@ -121,8 +109,8 @@ public class Explorer extends Application {
 
 		//load in the images
 		loadShipImage(); //ship
-		loadPirateImage1(new File("images\\pirateShip.png").toURI().toString(), pirate1); //pirate image 1
-		loadPirateImage2(new File("images\\pirateShip.png").toURI().toString(), pirate2); //pirate image 2
+		pirate1.addImageView(createPirateImage(new File("images\\pirateShip.png").toURI().toString(), pirate1)); //pirate image 1
+		pirate2.addImageView(createPirateImage(new File("images\\pirateShip.png").toURI().toString(), pirate2)); //pirate image 2
 
 		//add the observers
 		ship.addObserver(factory);
@@ -140,7 +128,7 @@ public class Explorer extends Application {
 	}
 
 	public static AnchorPane getAp() { return ap; }
-	public static int getDimensions() { return dimensions; }
-	public static int getIslandCount() { return dimensions / 2; }
-	public static int getScaleFactor() { return scaleFactor; }
+	public static int getDimensions() { return 15; } //dimensions without a variable
+	public static int getIslandCount() { return getDimensions() / 2; } //island count without a variable
+	public static int getScaleFactor() { return 50; }
 }

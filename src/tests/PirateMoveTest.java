@@ -13,8 +13,8 @@ class PirateMoveTest {
 	@Test
 	public void testFollow()//test that their distance from eachother changed after 2 moves
 	{
-		ship = new Ship();
-		pirate  = new PirateShip(ship);
+		ship = Ship.getInstance();
+		pirate = new PirateShip();
 		Point shipstart = ship.getLocation();
 		Point startloc = pirate.getLocation();
 		ship.goNorth();

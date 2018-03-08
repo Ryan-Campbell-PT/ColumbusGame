@@ -19,7 +19,7 @@ public class Eel implements EWMoving
 	}
 	
 	@Override
-	public Point getLocation() {return currentLocation;}
+	public Point getCurrentLocation() {return currentLocation;}
 
 	@Override
 	public void goWest()
