@@ -3,7 +3,6 @@ import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.io.File;

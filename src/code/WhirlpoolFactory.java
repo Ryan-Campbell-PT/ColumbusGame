@@ -161,5 +161,4 @@ public class WhirlpoolFactory implements Observer
             ship.deleteObserver(this); //stop following the ship observing
         }
     }
-
 }

@@ -3,7 +3,9 @@ package code;
 import java.awt.Point;
 import java.util.*;
 
-public class Eel implements EWMoving
+import code.Map;
+
+public class Eel implements Observer, EWMoving
 {
 	private Map map;
 	private Point currentLocation;
@@ -12,6 +14,8 @@ public class Eel implements EWMoving
 	
 	public Eel()
 	{
+		map = Map.getInstance();
+		currentLocation = createLocation();
 		randy = new Random().nextInt(3);
 		moveTime= 0;//I'll most likely end up using a timer
 		e = true;
@@ -30,7 +34,9 @@ public class Eel implements EWMoving
 			{
 				if(map.checkLocation(currentLocation.x - 1, currentLocation.y) == 0)
 				{
-					currentLocation.setLocation(currentLocation.x - 1, currentLocation.y);
+					map.setPoint(getCurrentLocation().x, getCurrentLocation().y, 0); //^^
+					map.setPoint(getCurrentLocation().x - 1, getCurrentLocation().y, 2);
+					getCurrentLocation().setLocation(currentLocation.x - 1, currentLocation.y);
 					moveTime=0;
 				}
 			}
@@ -41,7 +47,6 @@ public class Eel implements EWMoving
 				goEast();
 			}
 		}
-		moveTime++;
 	}
 
 	@Override
@@ -53,7 +58,9 @@ public class Eel implements EWMoving
 			{
 				if(map.checkLocation(currentLocation.x + 1, currentLocation.y) == 0)
 				{
-					currentLocation.setLocation(currentLocation.x + 1, currentLocation.y);
+					map.setPoint(getCurrentLocation().x, getCurrentLocation().y, 0); //^^
+					map.setPoint(getCurrentLocation().x + 1, getCurrentLocation().y, 2);
+					getCurrentLocation().setLocation(getCurrentLocation().x + 1, getCurrentLocation().y);
 					moveTime=0;
 				}
 			}
@@ -65,6 +72,37 @@ public class Eel implements EWMoving
 			}
 			
 		}
-		moveTime++;
+	}
+	
+	private Point createLocation()
+	{
+		Random rand = new Random();
+		int x = rand.nextInt(Explorer.getDimensions());
+		int y = rand.nextInt(Explorer.getDimensions());
+
+		while(Map.getInstance().checkLocation(x, y) != 0)
+		{
+			x = rand.nextInt(Explorer.getDimensions());
+			y = rand.nextInt(Explorer.getDimensions());
+		}
+		return new Point(x, y);
+	}
+
+	@Override
+	public void update(Observable o, Object arg)
+	{
+		if(o instanceof Ship)
+		{
+			if(moveTime<randy)
+				moveTime++;
+			else
+			{
+				if(e==true)
+					this.goEast();
+			
+				else if(w==true)
+					this.goWest();
+			}
+		}
 	}
 }

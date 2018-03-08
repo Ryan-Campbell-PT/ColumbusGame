@@ -1,7 +1,7 @@
 package code;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import java.awt.*;
+//import java.awt.*;
 import java.io.File;
 import java.util.Random;
 
@@ -72,7 +72,7 @@ public class Map
 	}
 
 	//I definitly feel these two methods could be reduced or changed to look better
-	public Point initShip()
+	/*public Point initShip()
 	{
 		Random randy1 = new Random();
 		Point newy = new Point(randy1.nextInt(Explorer.getDimensions()), randy1.nextInt(Explorer.getDimensions()));
@@ -103,7 +103,7 @@ public class Map
 		while(checkLocation(newy.x, newy.y) != 0)
 			newy = new Point(randy1.nextInt(Explorer.getDimensions()), randy1.nextInt(Explorer.getDimensions()));
 
-		setPoint(newy.x, newy.y, 2); //set them to a damaging enemy
+		setPoint(newy.x, newy.y, 2);
 		return newy;
 	}
 	
@@ -115,9 +115,9 @@ public class Map
 		while(checkLocation(newy.x, newy.y) != 0)
 			newy = new Point(randy1.nextInt(Explorer.getDimensions()), randy1.nextInt(Explorer.getDimensions()));
 
-		setPoint(newy.x, newy.y, 2); //set them to a damaging enemy
+		setPoint(newy.x, newy.y, 2);
 		return newy;
-	}
+	}*/
 	
 	public void setPoint(int x, int y, int status) { seaMap[x][y] = status; }
 

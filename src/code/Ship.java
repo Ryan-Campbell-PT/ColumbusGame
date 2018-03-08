@@ -15,7 +15,6 @@ public class Ship extends Observable implements NSMoving, EWMoving
 	{
 		if(instance == null)
 			instance = new Ship();
-
 		return instance;
 	}
 

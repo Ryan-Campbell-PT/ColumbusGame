@@ -16,8 +16,8 @@ public class Explorer extends Application {
 	//I made these static variables so we can have one instance of all necessary statistics
 	//and not need to pass them into functions and classes throughout the project
 	private static AnchorPane ap;
-	private final static int dimensions = 15;
-	private final static int scaleFactor = 50;
+	//private final static int dimensions = 15;
+	//private final static int scaleFactor = 50;
 	public Ship ship; //Junit needs this too
 	private PirateShip pirate1;
 	private PirateShip pirate2;
@@ -26,6 +26,8 @@ public class Explorer extends Application {
 	private Scene scene;
 	private ImageView shipImageView;
 	private ArrayList<PirateShip> pirates;
+	private ImageView snakeImageView;
+	private ImageView eelImageView;
 	//only one pirate moves. if we iterate this way it may work.
 	//it could also consolidate a big chunck of code here.
 
@@ -60,7 +62,12 @@ public class Explorer extends Application {
 			shipImageView.setX(ship.getCurrentLocation().x * getScaleFactor());
 			shipImageView.setY(ship.getCurrentLocation().y * getScaleFactor());
 			// here we can implement the arraylist. Simple for loop and what not
-
+			
+			snakeImageView.setX(snake.getCurrentLocation().x*getScaleFactor());
+			snakeImageView.setY(snake.getCurrentLocation().y*getScaleFactor());
+			
+			eelImageView.setX(eel.getCurrentLocation().x*getScaleFactor());
+			eelImageView.setY(eel.getCurrentLocation().y*getScaleFactor());
 			//fancy little for each loop right here
 			for(PirateShip ship : pirates)
 			{
@@ -92,22 +99,22 @@ public class Explorer extends Application {
 	
 	private ImageView createSnakeImage(Snake snake)
 	{
-		Image snakeImage = new Image(new File("images\\snakeboi.png").toURI().toString(), getScaleFactor(), getScaleFactor(), true, true);
-		ImageView imageView = new ImageView(snakeImage);
-		imageView.setX(snake.getCurrentLocation().x * getScaleFactor());
-		imageView.setY(snake.getCurrentLocation().y * getScaleFactor());
-		getAp().getChildren().add(imageView);
-		return imageView;
+		Image snakeImage = new Image(new File("images\\snakeboi.jpg").toURI().toString(), getScaleFactor(), getScaleFactor(), true, true);
+		snakeImageView = new ImageView(snakeImage);
+		snakeImageView.setX(snake.getCurrentLocation().x * getScaleFactor());
+		snakeImageView.setY(snake.getCurrentLocation().y * getScaleFactor());
+		getAp().getChildren().add(snakeImageView);
+		return snakeImageView;
 	}
 	
 	private ImageView createEelImage(Eel eel)
 	{
-		Image eelImage = new Image(new File("images\\eelboi.png").toURI().toString(), getScaleFactor(), getScaleFactor(), true, true);
-		ImageView imageView = new ImageView(eelImage);
-		imageView.setX(eel.getCurrentLocation().x * getScaleFactor());
-		imageView.setY(eel.getCurrentLocation().y * getScaleFactor());
-		getAp().getChildren().add(imageView);
-		return imageView;
+		Image eelImage = new Image(new File("images\\eelboi.jpg").toURI().toString(), getScaleFactor(), getScaleFactor(), true, true);
+		eelImageView = new ImageView(eelImage);
+		eelImageView.setX(eel.getCurrentLocation().x * getScaleFactor());
+		eelImageView.setY(eel.getCurrentLocation().y * getScaleFactor());
+		getAp().getChildren().add(eelImageView);
+		return eelImageView;
 	}
 
 	@Override
@@ -132,15 +139,17 @@ public class Explorer extends Application {
 
 		//load in the images
 		loadShipImage(); //ship
-		pirate1.addImageView(createPirateImage(new File("images\\pirateShip.png").toURI().toString(), pirate1)); //pirate image 1
-		pirate2.addImageView(createPirateImage(new File("images\\pirateShip.png").toURI().toString(), pirate2)); //pirate image 2
 		createSnakeImage(snake);
 		createEelImage(eel);
+		pirate1.addImageView(createPirateImage(new File("images\\pirateShip.png").toURI().toString(), pirate1)); //pirate image 1
+		pirate2.addImageView(createPirateImage(new File("images\\pirateShip.png").toURI().toString(), pirate2)); //pirate image 2
 		
 		//add the observers
 		ship.addObserver(factory);
 		ship.addObserver(pirate1);
 		ship.addObserver(pirate2);
+		ship.addObserver(snake);
+		ship.addObserver(eel);
 
 		pirates.add(pirate1);
 		pirates.add(pirate2);
