@@ -15,14 +15,14 @@ class PirateMoveTest {
 	{
 		ship = Ship.getInstance();
 		pirate = new PirateShip();
-		Point shipstart = ship.getLocation();
-		Point startloc = pirate.getLocation();
+		Point shipstart = ship.getCurrentLocation();
+		Point startloc = pirate.getCurrentLocation();
 		ship.goNorth();
 		ship.goSouth();
 		int xdif = shipstart.x-startloc.x;
 		int ydif = shipstart.y - startloc.y;
-		assertTrue((ship.getLocation().y-pirate.getLocation().y)!=ydif 
-				||(ship.getLocation().x-pirate.getLocation().x)!=xdif);
+		assertTrue((ship.getCurrentLocation().y-pirate.getCurrentLocation().y)!=ydif 
+				||(ship.getCurrentLocation().x-pirate.getCurrentLocation().x)!=xdif);
 	}
 
 }

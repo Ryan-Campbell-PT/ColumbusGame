@@ -18,17 +18,14 @@ public class ShipMoveTest {
 	@Test
 	public void testMoveNorth()//make sure it moved up
 	{
-<<<<<<< HEAD
 		e = new Explorer();
 		//m = new Map();
 		Ship ship = e.ship;
 		e.start(oceanStage);
-=======
 		ship = Ship.getInstance();
->>>>>>> branch 'master' of https://github.com/Ryan-Campbell-PT/ColumbusGame.git
-		Point startloc = ship.getLocation();
+		Point startloc = ship.getCurrentLocation();
 		ship.goNorth();
-		assertTrue(ship.getLocation().y == startloc.y-1);
+		assertTrue(ship.getCurrentLocation().y == startloc.y-1);
 	}
 	
 	/*public void testMoveSouth()//make sure it moved down

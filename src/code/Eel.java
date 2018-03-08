@@ -10,9 +10,9 @@ public class Eel implements EWMoving
 	private int randy, moveTime;
 	private boolean e, w;
 	
-	private Eel()
+	public Eel()
 	{
-		randy = new Random().nextInt(10);
+		randy = new Random().nextInt(3);
 		moveTime= 0;//I'll most likely end up using a timer
 		e = true;
 		w = false;
@@ -41,6 +41,7 @@ public class Eel implements EWMoving
 				goEast();
 			}
 		}
+		moveTime++;
 	}
 
 	@Override
@@ -62,6 +63,8 @@ public class Eel implements EWMoving
 				w = true;
 				goWest();
 			}
+			
 		}
+		moveTime++;
 	}
 }

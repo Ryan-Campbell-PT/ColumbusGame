@@ -12,7 +12,7 @@ public class Snake implements NSMoving
 	
 	Snake()
 	{
-		randy = new Random().nextInt(10);
+		randy = new Random().nextInt(3);
 		moveTime= 0;
 		n = true;
 		s = false;
@@ -41,6 +41,7 @@ public class Snake implements NSMoving
 				goSouth();
 			}
 		}
+		moveTime++;
 	}
 
 	@Override
@@ -63,5 +64,6 @@ public class Snake implements NSMoving
 				goNorth();	
 			}
 		}
+		moveTime++;
 	}
 }

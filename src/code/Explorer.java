@@ -21,6 +21,8 @@ public class Explorer extends Application {
 	public Ship ship; //Junit needs this too
 	private PirateShip pirate1;
 	private PirateShip pirate2;
+	private Snake snake;
+	private Eel eel;
 	private Scene scene;
 	private ImageView shipImageView;
 	private ArrayList<PirateShip> pirates;
@@ -85,7 +87,26 @@ public class Explorer extends Application {
 		imageView.setX(pirate.getCurrentLocation().x * getScaleFactor());
 		imageView.setY(pirate.getCurrentLocation().y * getScaleFactor());
 		getAp().getChildren().add(imageView);
-
+		return imageView;
+	}
+	
+	private ImageView createSnakeImage(Snake snake)
+	{
+		Image snakeImage = new Image(new File("images\\snakeboi.png").toURI().toString(), getScaleFactor(), getScaleFactor(), true, true);
+		ImageView imageView = new ImageView(snakeImage);
+		imageView.setX(snake.getCurrentLocation().x * getScaleFactor());
+		imageView.setY(snake.getCurrentLocation().y * getScaleFactor());
+		getAp().getChildren().add(imageView);
+		return imageView;
+	}
+	
+	private ImageView createEelImage(Eel eel)
+	{
+		Image eelImage = new Image(new File("images\\eelboi.png").toURI().toString(), getScaleFactor(), getScaleFactor(), true, true);
+		ImageView imageView = new ImageView(eelImage);
+		imageView.setX(eel.getCurrentLocation().x * getScaleFactor());
+		imageView.setY(eel.getCurrentLocation().y * getScaleFactor());
+		getAp().getChildren().add(imageView);
 		return imageView;
 	}
 
@@ -99,6 +120,8 @@ public class Explorer extends Application {
 		pirate1 = new PirateShip();
 		pirate2 = new PirateShip();
 		pirates = new ArrayList<>();
+		eel = new Eel();
+		snake = new Snake();
 		scene = new Scene(getAp(), getDimensions() * getScaleFactor(), getDimensions() * getScaleFactor());
 		WhirlpoolFactory factory = new WhirlpoolFactory(ship);
 
@@ -111,7 +134,9 @@ public class Explorer extends Application {
 		loadShipImage(); //ship
 		pirate1.addImageView(createPirateImage(new File("images\\pirateShip.png").toURI().toString(), pirate1)); //pirate image 1
 		pirate2.addImageView(createPirateImage(new File("images\\pirateShip.png").toURI().toString(), pirate2)); //pirate image 2
-
+		createSnakeImage(snake);
+		createEelImage(eel);
+		
 		//add the observers
 		ship.addObserver(factory);
 		ship.addObserver(pirate1);
