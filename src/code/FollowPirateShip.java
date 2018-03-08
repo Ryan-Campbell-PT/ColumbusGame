@@ -11,7 +11,7 @@ import java.util.Random;
  * I've made it so it randomly goes in a wrong direction so as to make it more fair
  * (Originally PirateShip class
  */
-public class FollowPirateShip implements IPirateShip
+public class FollowPirateShip extends IPirateShip
 {
     private Map map;
     private Point currentLocation;
@@ -52,20 +52,20 @@ public class FollowPirateShip implements IPirateShip
             Ship ship = (Ship)o;
 
             //program locks itself to only completely the first action it was told to do
-            if(ship.getLocation().x > currentLocation.x)//if for horizontal movement. permits diagonal
+            if(ship.getCurrentLocation().x > currentLocation.x)//if for horizontal movement. permits diagonal
                 //for some reason, segmenting this single method in more brackets makes the whole thing work.
                 if(map.checkLocation(currentLocation.x + 1, currentLocation.y) == 0)
                     this.goEast();
 
-            if(ship.getLocation().x < currentLocation.x)
+            if(ship.getCurrentLocation().x < currentLocation.x)
                 if(map.checkLocation(currentLocation.x - 1, currentLocation.y) == 0)
                     this.goWest();
 
-            if(ship.getLocation().y < currentLocation.y)//an if for all vertical movement. permits diagonal
+            if(ship.getCurrentLocation().y < currentLocation.y)//an if for all vertical movement. permits diagonal
                 if (map.checkLocation(currentLocation.x, currentLocation.y - 1) == 0) //open space
                     this.goNorth();
 
-            if(ship.getLocation().y > currentLocation.y)
+            if(ship.getCurrentLocation().y > currentLocation.y)
                 if(map.checkLocation(currentLocation.x, currentLocation.y + 1) == 0)
                     this.goSouth();
         }
@@ -106,6 +106,6 @@ public class FollowPirateShip implements IPirateShip
 
 
 
-    @Override public Point getLocation() { return currentLocation;}
+    @Override public Point getCurrentLocation() { return currentLocation;}
     @Override public ImageView getImageView() { return imageView; }
 }

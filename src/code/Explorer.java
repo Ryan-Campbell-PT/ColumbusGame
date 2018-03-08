@@ -53,15 +53,15 @@ public class Explorer extends Application {
 		{
 			//ship will handle which location to go
 			ship.goDirection(event.getCode());
-			shipImageView.setX(ship.getLocation().x * getScaleFactor());
-			shipImageView.setY(ship.getLocation().y * getScaleFactor());
+			shipImageView.setX(ship.getCurrentLocation().x * getScaleFactor());
+			shipImageView.setY(ship.getCurrentLocation().y * getScaleFactor());
 			// here we can implement the arraylist. Simple for loop and what not
 
 			//fancy little for each loop right here
 			for(PirateShip ship : pirates)
 			{
-				ship.getImageView().setX(ship.getLocation().x * getScaleFactor());
-				ship.getImageView().setY(ship.getLocation().y * getScaleFactor());
+				ship.getImageView().setX(ship.getCurrentLocation().x * getScaleFactor());
+				ship.getImageView().setY(ship.getCurrentLocation().y * getScaleFactor());
 			}
 		});
 	}
@@ -71,8 +71,8 @@ public class Explorer extends Application {
 	{
 		Image shipImage = new Image(new File("images\\ship.png").toURI().toString(), getScaleFactor(), getScaleFactor(), true, true);
 		shipImageView = new ImageView(shipImage);
-		shipImageView.setX(ship.getLocation().x * getScaleFactor());
-		shipImageView.setY(ship.getLocation().y * getScaleFactor());
+		shipImageView.setX(ship.getCurrentLocation().x * getScaleFactor());
+		shipImageView.setY(ship.getCurrentLocation().y * getScaleFactor());
 		getAp().getChildren().add(shipImageView);
 	}
 
@@ -80,8 +80,8 @@ public class Explorer extends Application {
 	{
 		Image shipImage = new Image(url, getScaleFactor(), getScaleFactor(), true, true);
 		ImageView imageView = new ImageView(shipImage);
-		imageView.setX(pirate.getLocation().x * getScaleFactor());
-		imageView.setY(pirate.getLocation().y * getScaleFactor());
+		imageView.setX(pirate.getCurrentLocation().x * getScaleFactor());
+		imageView.setY(pirate.getCurrentLocation().y * getScaleFactor());
 		getAp().getChildren().add(imageView);
 
 		return imageView;

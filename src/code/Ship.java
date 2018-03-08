@@ -106,5 +106,6 @@ public class Ship extends Observable implements NSMoving, EWMoving
 		return new Point(x, y);
 	}
 
-	public Point getLocation() { return currentLocation; }
+	@Override
+	public Point getCurrentLocation() { return currentLocation; }
 }

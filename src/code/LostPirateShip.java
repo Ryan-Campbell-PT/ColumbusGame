@@ -9,32 +9,8 @@ import java.util.Observable;
  * This pirate ship simply moves around and has no specific algorithm for moving
  * It will just float around and, as it says, get lost
  */
-public class LostPirateShip implements IPirateShip
+public class LostPirateShip extends IPirateShip
 {
-    @Override
-    public void addImageView(ImageView imageView)
-    {
-
-    }
-
-    @Override
-    public Point createLocation()
-    {
-        return null;
-    }
-
-    @Override
-    public Point getLocation()
-    {
-        return null;
-    }
-
-    @Override
-    public ImageView getImageView()
-    {
-        return null;
-    }
-
     @Override
     public void goWest()
     {
