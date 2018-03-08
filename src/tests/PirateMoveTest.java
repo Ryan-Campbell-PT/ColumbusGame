@@ -3,18 +3,18 @@ package tests;
 import static org.junit.jupiter.api.Assertions.*;
 import java.awt.Point;
 import org.junit.jupiter.api.Test;
-import code.PirateShip;
+import code.FollowPirateShip;
 import code.Ship;
 
 class PirateMoveTest {
 
-	PirateShip pirate;
+	FollowPirateShip pirate;
 	Ship ship;
 	@Test
 	public void testFollow()//test that their distance from eachother changed after 2 moves
 	{
 		ship = Ship.getInstance();
-		pirate = new PirateShip();
+		pirate = new FollowPirateShip();
 		Point shipstart = ship.getCurrentLocation();
 		Point startloc = pirate.getCurrentLocation();
 		ship.goNorth();

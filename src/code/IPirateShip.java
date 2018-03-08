@@ -12,9 +12,6 @@ abstract class IPirateShip implements Observer, NSMoving, EWMoving
     private ImageView imageView;
     private Map map = Map.getInstance();
 
-    //adds the imageview associated with the ship
-    public void addImageView(ImageView imageView) { this.imageView = imageView; }
-
     //creates a location for the ship to be placed on
     Point createLocation()
     {
@@ -31,10 +28,10 @@ abstract class IPirateShip implements Observer, NSMoving, EWMoving
         return new Point(x, y);
     }
 
-    @Override
-    public Point getCurrentLocation() { return currentLocation; }
+
+    @Override public Point getCurrentLocation() { return currentLocation; }
     public void setCurrentLocation(Point currentLocation) { this.currentLocation = currentLocation; }
     public Map getMap() { return map; }
     public ImageView getImageView() { return imageView; }
-
+    public void setImageView(ImageView imageView) { this.imageView = imageView; }
 }

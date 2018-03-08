@@ -25,7 +25,7 @@ public class Map
 		return instance;
 	}
 
-	public Map()
+	private Map()
 	{
 		seaMap = new int[Explorer.getDimensions()][Explorer.getDimensions()]; //any untouched blocks are set to 0
 	}
@@ -70,55 +70,11 @@ public class Map
 		imageView.setY(y * Explorer.getScaleFactor());
 		Explorer.getAp().getChildren().add(imageView);
 	}
-
-	//I definitly feel these two methods could be reduced or changed to look better
-	/*public Point initShip()
+	
+	public void setPoint(int x, int y, int status)
 	{
-		Random randy1 = new Random();
-		Point newy = new Point(randy1.nextInt(Explorer.getDimensions()), randy1.nextInt(Explorer.getDimensions()));
-
-		while(checkLocation(newy.x, newy.y) != 0) //if the location is already taken
-			newy = new Point(randy1.nextInt(Explorer.getDimensions()), randy1.nextInt(Explorer.getDimensions())); //continue creating new locations until a good space is found
-
-		return newy;
+		if(x >= 0 && y >= 0 && x <= Explorer.getDimensions() - 1 && y <= Explorer.getDimensions() - 1)
+			seaMap[x][y] = status;
 	}
-	
-	public Point initPirate()
-	{
-		Random randy1 = new Random();
-		Point newy = new Point(randy1.nextInt(Explorer.getDimensions()), randy1.nextInt(Explorer.getDimensions()));
-
-		while(checkLocation(newy.x, newy.y) != 0) //^^
-			newy = new Point(randy1.nextInt(Explorer.getDimensions()), randy1.nextInt(Explorer.getDimensions()));
-
-		setPoint(newy.x, newy.y, 2); //set them to a damaging enemy
-		return newy;
-	}
-	
-	public Point initSnake()
-	{
-		Random randy1 = new Random();
-		Point newy = new Point(randy1.nextInt(Explorer.getDimensions()), randy1.nextInt(Explorer.getDimensions()));
-
-		while(checkLocation(newy.x, newy.y) != 0)
-			newy = new Point(randy1.nextInt(Explorer.getDimensions()), randy1.nextInt(Explorer.getDimensions()));
-
-		setPoint(newy.x, newy.y, 2);
-		return newy;
-	}
-	
-	public Point initEel()
-	{
-		Random randy1 = new Random();
-		Point newy = new Point(randy1.nextInt(Explorer.getDimensions()), randy1.nextInt(Explorer.getDimensions()));
-
-		while(checkLocation(newy.x, newy.y) != 0)
-			newy = new Point(randy1.nextInt(Explorer.getDimensions()), randy1.nextInt(Explorer.getDimensions()));
-
-		setPoint(newy.x, newy.y, 2);
-		return newy;
-	}*/
-	
-	public void setPoint(int x, int y, int status) { seaMap[x][y] = status; }
 
 	public int checkLocation(int x, int y) { return seaMap[x][y]; }}

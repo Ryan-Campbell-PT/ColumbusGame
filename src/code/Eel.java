@@ -11,7 +11,8 @@ public class Eel implements Observer, EWMoving
 	private Point currentLocation;
 	private int randy, moveTime;
 	private boolean e, w;
-	
+
+	//TODO: Eel will implement the composite pattern, having a random number determine how many eels go in a direction and hog real estate
 	public Eel()
 	{
 		map = Map.getInstance();

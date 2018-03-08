@@ -16,18 +16,17 @@ public class Explorer extends Application {
 	//I made these static variables so we can have one instance of all necessary statistics
 	//and not need to pass them into functions and classes throughout the project
 	private static AnchorPane ap;
-	//private final static int dimensions = 15;
-	//private final static int scaleFactor = 50;
 	public Ship ship; //Junit needs this too
-	private PirateShip pirate1;
-	private PirateShip pirate2;
 	private Snake snake;
 	private Eel eel;
 	private Scene scene;
 	private ImageView shipImageView;
-	private ArrayList<PirateShip> pirates;
 	private ImageView snakeImageView;
 	private ImageView eelImageView;
+	private FollowPirateShip followPirateShip;
+	private LostPirateShip lostPirateShip;
+	private ArrayList<IPirateShip> pirateList;
+
 	//only one pirate moves. if we iterate this way it may work.
 	//it could also consolidate a big chunck of code here.
 
@@ -62,14 +61,16 @@ public class Explorer extends Application {
 			shipImageView.setX(ship.getCurrentLocation().x * getScaleFactor());
 			shipImageView.setY(ship.getCurrentLocation().y * getScaleFactor());
 			// here we can implement the arraylist. Simple for loop and what not
-			
+			followPirateShip.getImageView().setX(followPirateShip.getCurrentLocation().x * getScaleFactor());
+			followPirateShip.getImageView().setY(followPirateShip.getCurrentLocation().y * getScaleFactor());
+
 			snakeImageView.setX(snake.getCurrentLocation().x*getScaleFactor());
 			snakeImageView.setY(snake.getCurrentLocation().y*getScaleFactor());
 			
 			eelImageView.setX(eel.getCurrentLocation().x*getScaleFactor());
 			eelImageView.setY(eel.getCurrentLocation().y*getScaleFactor());
 			//fancy little for each loop right here
-			for(PirateShip ship : pirates)
+			for(IPirateShip ship : pirateList)
 			{
 				ship.getImageView().setX(ship.getCurrentLocation().x * getScaleFactor());
 				ship.getImageView().setY(ship.getCurrentLocation().y * getScaleFactor());
@@ -87,7 +88,7 @@ public class Explorer extends Application {
 		getAp().getChildren().add(shipImageView);
 	}
 
-	private ImageView createPirateImage(String url, PirateShip pirate)
+	private ImageView createPirateImage(String url, IPirateShip pirate)
 	{
 		Image shipImage = new Image(url, getScaleFactor(), getScaleFactor(), true, true);
 		ImageView imageView = new ImageView(shipImage);
@@ -96,7 +97,7 @@ public class Explorer extends Application {
 		getAp().getChildren().add(imageView);
 		return imageView;
 	}
-	
+
 	private ImageView createSnakeImage(Snake snake)
 	{
 		Image snakeImage = new Image(new File("images\\snakeboi.jpg").toURI().toString(), getScaleFactor(), getScaleFactor(), true, true);
@@ -124,13 +125,13 @@ public class Explorer extends Application {
         //create all the necessary objects
         ap = new AnchorPane();
 		ship = Ship.getInstance();
-		pirate1 = new PirateShip();
-		pirate2 = new PirateShip();
-		pirates = new ArrayList<>();
 		eel = new Eel();
 		snake = new Snake();
 		scene = new Scene(getAp(), getDimensions() * getScaleFactor(), getDimensions() * getScaleFactor());
-		WhirlpoolFactory factory = new WhirlpoolFactory(ship);
+		WhirlpoolFactory whirlpoolFactory = new WhirlpoolFactory(ship);
+		followPirateShip = new FollowPirateShip();
+		lostPirateShip = new LostPirateShip();
+		pirateList = new ArrayList<>();
 
 		//draw the map
 		drawGrid();
@@ -138,21 +139,20 @@ public class Explorer extends Application {
 		Map.getInstance().placeTreasure();
 
 		//load in the images
-		loadShipImage(); //ship
+		loadShipImage();
 		createSnakeImage(snake);
 		createEelImage(eel);
-		pirate1.addImageView(createPirateImage(new File("images\\pirateShip.png").toURI().toString(), pirate1)); //pirate image 1
-		pirate2.addImageView(createPirateImage(new File("images\\pirateShip.png").toURI().toString(), pirate2)); //pirate image 2
-		
+		followPirateShip.setImageView(createPirateImage(new File("images\\pirateShip.png").toURI().toString(), followPirateShip)); //pirate image 1
+		lostPirateShip.setImageView(createPirateImage(new File("images\\pirateShip.png").toURI().toString(), lostPirateShip)); //pirate image 2
+		pirateList.add(followPirateShip);
+		pirateList.add(lostPirateShip);
+
 		//add the observers
-		ship.addObserver(factory);
-		ship.addObserver(pirate1);
-		ship.addObserver(pirate2);
+		ship.addObserver(whirlpoolFactory);
+		ship.addObserver(lostPirateShip);
+		ship.addObserver(followPirateShip);
 		ship.addObserver(snake);
 		ship.addObserver(eel);
-
-		pirates.add(pirate1);
-		pirates.add(pirate2);
 
 		//finish the misc stuff
 		oceanStage.setTitle("Chrissy Columbus");
