@@ -14,18 +14,33 @@ import java.util.*;
  * when iter becomes == to randomNum (iterates each ship movement), it will either create a new whirlpool if the list is empty
  * or pull from the list the "oldest" whirlpool in the list to save memory
  *
+ * activeList is a list created to keep track of all whirlpools on the screen to decide which whirlpool to teleport to
+ *  I chose arraylist just for simplicity since all i need is a iterative search
+ * inactiveList is the actual factory list to keep track of how many whirlpools are waiting to be created/added to screen
+ *  I chose LinkedList for this because I wanted FIFO, but for whatever reason Queue doesnt work the way I wanted
+ *
  * FACTORY PATTERN
  */
 public class WhirlpoolFactory implements Observer
 {
-    private LinkedList<Whirlpool> list; //this will record all created whirlpools that arent on the screen
+    //I needed two lists due to searching which whirlpool to teleport to
+    private LinkedList<Whirlpool> inactiveList; //this will record all created whirlpools that arent on the screen. Factory pattern
+    private ArrayList<Whirlpool> activeList; //this will record all whirlpools on the screen. Used for searching
     private int randomNum, counter;
+    private static WhirlpoolFactory instance;
 
-    //I want to change these in the future. Will do later
-
-    WhirlpoolFactory()
+    static WhirlpoolFactory getInstance()
     {
-        list = new LinkedList<>();
+        if (instance == null)
+            instance = new WhirlpoolFactory();
+
+        return instance;
+    }
+
+    private WhirlpoolFactory()
+    {
+        inactiveList = new LinkedList<>();
+        activeList = new ArrayList<>();
         randomNum = new Random().nextInt(15);
         Ship.getInstance().addObserver(this);
     }
@@ -42,15 +57,12 @@ public class WhirlpoolFactory implements Observer
             {
                 if(counter >= randomNum)
                 {
-                    if(list.size() == 0)
-                    {
-                        Whirlpool pool = new Whirlpool();
-                    }
-
+                    if(inactiveList.size() == 0)
+                        new Whirlpool(); //no need to make a variable because everything is handled in the class
 
                     else
                     {
-                        Whirlpool pool = list.removeFirst();
+                        Whirlpool pool = inactiveList.removeFirst();
                         pool.create();
                     }
 
@@ -59,6 +71,23 @@ public class WhirlpoolFactory implements Observer
                 }
             }
         }
+    }
+
+    public Point checkWhirlpool(int x, int y)
+    {
+        Point temp = new Point(x, y);
+
+        //find which whirlpool the ship is standing on
+        for(Whirlpool pool : activeList)
+        {
+            if(pool.location1.equals(temp))
+                return pool.location2;
+
+            else if(pool.location2.equals(temp))
+                return pool.location1;
+        }
+
+        return null;
     }
 
     /**
@@ -105,6 +134,7 @@ public class WhirlpoolFactory implements Observer
                 y = rand.nextInt(Explorer.getDimensions());
             }
             location1 = new Point(x, y);
+            Map.getInstance().setPoint(location1.x, location1.y, 4); //set the map to a whirlpool
 
             x = rand.nextInt(Explorer.getDimensions());
             y = rand.nextInt(Explorer.getDimensions());
@@ -115,12 +145,14 @@ public class WhirlpoolFactory implements Observer
                 y = rand.nextInt(Explorer.getDimensions());
             }
             location2 = new Point(x, y);
+            Map.getInstance().setPoint(location2.x, location2.y, 4); //^^
 
             counter = 0; //reset the counter
             randomNum = rand.nextInt(30); //decide the lifespan of the whirlpool
             Ship.getInstance().addObserver(this); //add the following to it
 
             loadImages();
+            activeList.add(this); //assign it to the list of active whirlpools
         }
 
         private void loadImages()
@@ -151,11 +183,15 @@ public class WhirlpoolFactory implements Observer
         //and the actual whirlpool is added to the list of inactive whirlpools
         private void remove()
         {
+            Map.getInstance().setPoint(((int)imageView1.getX()), (int)imageView1.getY(), 0);
+            Map.getInstance().setPoint((int)imageView2.getX(), (int)imageView2.getY(), 0);
+
             //remove the images from the screen
             Explorer.getAp().getChildren().remove(imageView1);
             Explorer.getAp().getChildren().remove(imageView2);
 
-            list.add(this); //add it back to the factory for use later
+            activeList.remove(this); //
+            inactiveList.add(this); //add it back to the factory for use later
             Ship.getInstance().deleteObserver(this); //stop following the ship observing
         }
     }

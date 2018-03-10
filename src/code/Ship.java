@@ -74,8 +74,7 @@ public class Ship extends Observable implements NSMoving, EWMoving
 	public void goNorth()
 	{
 		if(currentLocation.y > 0)
-			if(map.checkLocation(currentLocation.x, currentLocation.y - 1) == 0)
-				currentLocation.setLocation(currentLocation.x, currentLocation.y - 1);
+			checkLocation(currentLocation.x, currentLocation.y - 1);
 
 		this.notifyObservers();
 	}
@@ -83,8 +82,7 @@ public class Ship extends Observable implements NSMoving, EWMoving
 	public void goSouth()
 	{
 		if(currentLocation.y < Explorer.getDimensions() - 1)
-			if(map.checkLocation(currentLocation.x, currentLocation.y + 1) == 0)
-				currentLocation.setLocation(currentLocation.x, currentLocation.y + 1);
+			checkLocation(currentLocation.x, currentLocation.y + 1);
 
 		this.notifyObservers();
 	}
@@ -92,8 +90,7 @@ public class Ship extends Observable implements NSMoving, EWMoving
 	public void goEast()
 	{
 		if(currentLocation.x < Explorer.getDimensions() - 1)
-			if(map.checkLocation(currentLocation.x + 1, currentLocation.y) == 0)
-				currentLocation.setLocation(currentLocation.x + 1, currentLocation.y);
+			checkLocation(currentLocation.x + 1, currentLocation.y);
 
 		this.notifyObservers();
 	}
@@ -101,8 +98,7 @@ public class Ship extends Observable implements NSMoving, EWMoving
 	public void goWest()
 	{
 		if(currentLocation.x > 0)
-			if(map.checkLocation(currentLocation.x - 1, currentLocation.y) == 0)
-				currentLocation.setLocation(currentLocation.x - 1, currentLocation.y);
+			checkLocation(currentLocation.x - 1, currentLocation.y);
 
 		this.notifyObservers();
 	}
@@ -122,6 +118,31 @@ public class Ship extends Observable implements NSMoving, EWMoving
 		return new Point(x, y);
 	}
 
+	// a function just to check where the player ship is trying to move
+	private void checkLocation(int x, int y)
+	{
+		switch(map.checkLocation(x, y))
+		{
+			case 0: //moveable space
+				currentLocation.setLocation(x, y);
+				break;
+
+			case 1: //island
+				break;
+
+			case 2: //enemy
+				break;
+
+			case 3: //winning condition TODO: Need to make still
+				break;
+
+			case 4: //whirlpool
+				Point tmp = WhirlpoolFactory.getInstance().checkWhirlpool(x, y);
+				if(tmp != null)
+					this.currentLocation = tmp;
+				break;
+		}
+	}
 
 	@Override public Point getCurrentLocation() { return currentLocation; }
 	@Override public ImageView getImageView() { return imageView; }

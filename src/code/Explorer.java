@@ -40,12 +40,12 @@ public class Explorer extends Application {
 	
 	private void weighAnchor()
 	{
-		//TODO: for WHATEVER fucking reason, this makes it work. Play with this
+		//for WHATEVER fucking reason, this makes updating imageViews work fine
 		Ship ship = Ship.getInstance(); //get the ship
 		PirateShipFactory pirateShipFactory = PirateShipFactory.getInstance(); //create any ships
 		pirateShipFactory.addPirateShip(new FollowPirateShip());
 		pirateShipFactory.addPirateShip(new LostPirateShip());
-		WhirlpoolFactory whirlpoolFactory = new WhirlpoolFactory(); //no need to do anything with the whirlpool, it handles itself
+		WhirlpoolFactory.getInstance(); //no need to do anything with the whirlpool, it handles itself
 		Eel eel = new Eel(); //misc creations
 		Snake snake = new Snake();
 
@@ -91,7 +91,7 @@ public class Explorer extends Application {
 	}
 
 	public static AnchorPane getAp() { return ap; }
-	public static int getDimensions() { return 15; } //dimensions without a variable
+	public static int getDimensions() { return 10; } //dimensions without a variable
 	public static int getIslandCount() { return getDimensions() / 2; } //island count without a variable
 	public static int getScaleFactor() { return 50; }
 }
