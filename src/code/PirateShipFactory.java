@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 public class PirateShipFactory
 {
-    private ArrayList<IPirateShip> pirateList;
+    private static ArrayList<IPirateShip> pirateList;
     private static PirateShipFactory instance;
 
     public static PirateShipFactory getInstance()
@@ -27,10 +27,15 @@ public class PirateShipFactory
 
     public void addPirateShip(IPirateShip pirateShip)
     {
-        this.pirateList.add(pirateShip);
+        pirateList.add(pirateShip);
+
+        //this makes it so only pirate ships added to the factory can be rendered
+        pirateShip.getImageView().setX(pirateShip.getCurrentLocation().x * Explorer.getScaleFactor());
+        pirateShip.getImageView().setY(pirateShip.getCurrentLocation().y * Explorer.getScaleFactor());
+
         Ship.getInstance().addObserver(pirateShip);
     }
 
 
-    public ArrayList<IPirateShip> getPirateList() { return pirateList; }
+    public static ArrayList<IPirateShip> getPirateList() { return pirateList; }
 }

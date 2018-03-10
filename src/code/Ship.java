@@ -1,8 +1,12 @@
 package code;
 import java.awt.Point;
+import java.io.File;
 import java.util.Observable;
 import java.util.Random;
 
+import com.sun.javafx.iio.ImageStorage;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 
 public class Ship extends Observable implements NSMoving, EWMoving
@@ -10,6 +14,7 @@ public class Ship extends Observable implements NSMoving, EWMoving
 	private Point currentLocation;
 	private Map map;
 	private static Ship instance;
+	private ImageView imageView;
 
 	public static Ship getInstance() //the players ship makes most sense to have as singleton
 	{
@@ -22,6 +27,18 @@ public class Ship extends Observable implements NSMoving, EWMoving
 	{
 		map = Map.getInstance();
 		currentLocation = createLocation();
+		imageView = createImageView();
+	}
+
+	@Override
+	public ImageView createImageView()
+	{
+		Image shipImage = new Image(new File("images\\ship.png").toURI().toString(), Explorer.getScaleFactor(), Explorer.getScaleFactor(), true, true);
+		ImageView shipImageView = new ImageView(shipImage);
+		shipImageView.setX(this.getCurrentLocation().x * Explorer.getScaleFactor());
+		shipImageView.setY(this.getCurrentLocation().y * Explorer.getScaleFactor());
+		Explorer.getAp().getChildren().add(shipImageView);
+		return shipImageView;
 	}
 
 	public void goDirection(KeyCode event)
@@ -105,6 +122,7 @@ public class Ship extends Observable implements NSMoving, EWMoving
 		return new Point(x, y);
 	}
 
-	@Override
-	public Point getCurrentLocation() { return currentLocation; }
+
+	@Override public Point getCurrentLocation() { return currentLocation; }
+	@Override public ImageView getImageView() { return imageView; }
 }

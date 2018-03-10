@@ -1,9 +1,13 @@
 package code;
 
 import java.awt.Point;
+import java.io.File;
 import java.util.*;
 
 import code.Map;
+import com.sun.javafx.iio.ImageStorage;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class Eel implements Observer, EWMoving
 {
@@ -11,6 +15,7 @@ public class Eel implements Observer, EWMoving
 	private Point currentLocation;
 	private int randy, moveTime;
 	private boolean e, w;
+	private ImageView imageView;
 
 	//TODO: Eel will implement the composite pattern, having a random number determine how many eels go in a direction and hog real estate
 	public Eel()
@@ -21,8 +26,21 @@ public class Eel implements Observer, EWMoving
 		moveTime= 0;//I'll most likely end up using a timer
 		e = true;
 		w = false;
+		imageView = createImageView();
+		Ship.getInstance().addObserver(this);
 	}
-	
+
+	@Override
+	public ImageView createImageView()
+	{
+		Image eelImage = new Image(new File("images\\eelboi.jpg").toURI().toString(), Explorer.getScaleFactor(), Explorer.getScaleFactor(), true, true);
+		ImageView eelImageView = new ImageView(eelImage);
+		eelImageView.setX(this.getCurrentLocation().x * Explorer.getScaleFactor());
+		eelImageView.setY(this.getCurrentLocation().y * Explorer.getScaleFactor());
+		Explorer.getAp().getChildren().add(eelImageView);
+		return eelImageView;
+	}
+
 	@Override
 	public Point getCurrentLocation() {return currentLocation;}
 
@@ -106,4 +124,6 @@ public class Eel implements Observer, EWMoving
 			}
 		}
 	}
+
+	public ImageView getImageView() { return imageView; }
 }
