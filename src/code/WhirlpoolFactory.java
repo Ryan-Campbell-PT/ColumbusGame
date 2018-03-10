@@ -22,14 +22,12 @@ public class WhirlpoolFactory implements Observer
     private int randomNum, counter;
 
     //I want to change these in the future. Will do later
-    private Ship ship;
 
-    WhirlpoolFactory(Ship ship)
+    WhirlpoolFactory()
     {
         list = new LinkedList<>();
         randomNum = new Random().nextInt(15);
-        ship.addObserver(this);
-        this.ship = ship;
+        Ship.getInstance().addObserver(this);
     }
 
     @Override
@@ -120,7 +118,7 @@ public class WhirlpoolFactory implements Observer
 
             counter = 0; //reset the counter
             randomNum = rand.nextInt(30); //decide the lifespan of the whirlpool
-            ship.addObserver(this); //add the following to it
+            Ship.getInstance().addObserver(this); //add the following to it
 
             loadImages();
         }
@@ -158,7 +156,7 @@ public class WhirlpoolFactory implements Observer
             Explorer.getAp().getChildren().remove(imageView2);
 
             list.add(this); //add it back to the factory for use later
-            ship.deleteObserver(this); //stop following the ship observing
+            Ship.getInstance().deleteObserver(this); //stop following the ship observing
         }
     }
 }

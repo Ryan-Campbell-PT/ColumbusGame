@@ -15,16 +15,14 @@ import java.util.Random;
  */
 public class FollowPirateShip extends IPirateShip
 {
-
-    //TODO: Implement pirate ship factory
-
     public FollowPirateShip() //needs to be public for Junit tests
     {
         setCurrentLocation(createLocation());
-        setImageView(createPirateImage());
+        setImageView(createImageView());
     }
 
-    private ImageView createPirateImage()
+    @Override
+    public ImageView createImageView()
     {
         javafx.scene.image.Image shipImage = new Image(new File("images\\pirateShip.png").toURI().toString(), Explorer.getScaleFactor(), Explorer.getScaleFactor(), true, true);
         ImageView imageView = new ImageView(shipImage);

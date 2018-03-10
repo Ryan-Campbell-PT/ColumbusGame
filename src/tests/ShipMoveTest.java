@@ -11,7 +11,7 @@ import java.awt.Point;
 
 public class ShipMoveTest {
 	
-	//Ship ship;
+	Ship ship;
 	Explorer e;
 	//Map m;
 	Stage oceanStage;
@@ -20,9 +20,8 @@ public class ShipMoveTest {
 	{
 		e = new Explorer();
 		//m = new Map();
-		Ship ship = e.ship;
-		e.start(oceanStage);
 		ship = Ship.getInstance();
+		e.start(oceanStage);
 		Point startloc = ship.getCurrentLocation();
 		ship.goNorth();
 		assertTrue(ship.getCurrentLocation().y == startloc.y-1);

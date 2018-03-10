@@ -14,15 +14,14 @@ import java.util.Random;
  */
 public class LostPirateShip extends IPirateShip
 {
-
-
     LostPirateShip()
     {
         setCurrentLocation(createLocation());
-        setImageView(createPirateImage());
+        setImageView(createImageView());
     }
 
-    private ImageView createPirateImage()
+    @Override
+    public ImageView createImageView()
     {
         javafx.scene.image.Image shipImage = new Image(new File("images\\pirateShip.png").toURI().toString(), Explorer.getScaleFactor(), Explorer.getScaleFactor(), true, true);
         ImageView imageView = new ImageView(shipImage);
