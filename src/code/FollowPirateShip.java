@@ -1,8 +1,10 @@
 package code;
 
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.awt.*;
+import java.io.File;
 import java.util.Observable;
 import java.util.Random;
 
@@ -19,6 +21,17 @@ public class FollowPirateShip extends IPirateShip
     public FollowPirateShip() //needs to be public for Junit tests
     {
         setCurrentLocation(createLocation());
+        setImageView(createPirateImage());
+    }
+
+    private ImageView createPirateImage()
+    {
+        javafx.scene.image.Image shipImage = new Image(new File("images\\pirateShip.png").toURI().toString(), Explorer.getScaleFactor(), Explorer.getScaleFactor(), true, true);
+        ImageView imageView = new ImageView(shipImage);
+        imageView.setX(this.getCurrentLocation().x * Explorer.getScaleFactor());
+        imageView.setY(this.getCurrentLocation().y * Explorer.getScaleFactor());
+        Explorer.getAp().getChildren().add(imageView);
+        return imageView;
     }
 
     @Override

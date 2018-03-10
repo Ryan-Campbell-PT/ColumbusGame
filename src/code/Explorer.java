@@ -23,9 +23,6 @@ public class Explorer extends Application {
 	private ImageView shipImageView;
 	private ImageView snakeImageView;
 	private ImageView eelImageView;
-	private FollowPirateShip followPirateShip;
-	private LostPirateShip lostPirateShip;
-	private ArrayList<IPirateShip> pirateList;
 
 	//only one pirate moves. if we iterate this way it may work.
 	//it could also consolidate a big chunck of code here.
@@ -52,6 +49,11 @@ public class Explorer extends Application {
 	
 	private void weighAnchor()
 	{
+		//TODO: for WHATEVER fucking reason, this makes it work. Play with this
+		PirateShipFactory pirateShipFactory = PirateShipFactory.getInstance();
+		pirateShipFactory.addPirateShip(new FollowPirateShip());
+		pirateShipFactory.addPirateShip(new LostPirateShip());
+
 		//this is essentially the same code as before, except it doesnt have
 		//the handle() function
 		scene.setOnKeyPressed((KeyEvent event)->
@@ -60,17 +62,14 @@ public class Explorer extends Application {
 			ship.goDirection(event.getCode());
 			shipImageView.setX(ship.getCurrentLocation().x * getScaleFactor());
 			shipImageView.setY(ship.getCurrentLocation().y * getScaleFactor());
-			// here we can implement the arraylist. Simple for loop and what not
-			followPirateShip.getImageView().setX(followPirateShip.getCurrentLocation().x * getScaleFactor());
-			followPirateShip.getImageView().setY(followPirateShip.getCurrentLocation().y * getScaleFactor());
 
 			snakeImageView.setX(snake.getCurrentLocation().x*getScaleFactor());
 			snakeImageView.setY(snake.getCurrentLocation().y*getScaleFactor());
-			
+
 			eelImageView.setX(eel.getCurrentLocation().x*getScaleFactor());
 			eelImageView.setY(eel.getCurrentLocation().y*getScaleFactor());
 			//fancy little for each loop right here
-			for(IPirateShip ship : pirateList)
+			for(IPirateShip ship : PirateShipFactory.getPirateList())
 			{
 				ship.getImageView().setX(ship.getCurrentLocation().x * getScaleFactor());
 				ship.getImageView().setY(ship.getCurrentLocation().y * getScaleFactor());
@@ -129,9 +128,8 @@ public class Explorer extends Application {
 		snake = new Snake();
 		scene = new Scene(getAp(), getDimensions() * getScaleFactor(), getDimensions() * getScaleFactor());
 		WhirlpoolFactory whirlpoolFactory = new WhirlpoolFactory(ship);
-		followPirateShip = new FollowPirateShip();
-		lostPirateShip = new LostPirateShip();
-		pirateList = new ArrayList<>();
+
+
 
 		//draw the map
 		drawGrid();
@@ -142,15 +140,9 @@ public class Explorer extends Application {
 		loadShipImage();
 		createSnakeImage(snake);
 		createEelImage(eel);
-		followPirateShip.setImageView(createPirateImage(new File("images\\pirateShip.png").toURI().toString(), followPirateShip)); //pirate image 1
-		lostPirateShip.setImageView(createPirateImage(new File("images\\pirateShip.png").toURI().toString(), lostPirateShip)); //pirate image 2
-		pirateList.add(followPirateShip);
-		pirateList.add(lostPirateShip);
 
 		//add the observers
 		ship.addObserver(whirlpoolFactory);
-		ship.addObserver(lostPirateShip);
-		ship.addObserver(followPirateShip);
 		ship.addObserver(snake);
 		ship.addObserver(eel);
 
