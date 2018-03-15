@@ -1,5 +1,6 @@
 package code;
 import javafx.application.*;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -7,9 +8,19 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
+import java.awt.SplashScreen;
 import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
+
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JWindow;
 
 public class Explorer extends Application {
 
@@ -32,6 +43,24 @@ public class Explorer extends Application {
 		rect.setFill(color);
 		ap.getChildren().add(rect);
 	}
+	
+	 private void showLose() throws NullPointerException, IllegalStateException, MalformedURLException, IOException
+	 {
+		 JWindow window = new JWindow();
+		 window.getContentPane().add(
+		     new JLabel("", new ImageIcon(new File("images\\game-over.png").toURI().toURL()), 0));
+		 window.setBounds(500, 150, getDimensions()*getScaleFactor(), getDimensions()*getScaleFactor());
+		 window.setVisible(true);
+	 }
+	 
+	 private void showWin() throws NullPointerException, IllegalStateException, MalformedURLException, IOException
+	 {
+		 JWindow window = new JWindow();
+		 window.getContentPane().add(
+		     new JLabel("", new ImageIcon(new File("images\\win.jpg").toURI().toURL()), 0));
+		 window.setBounds(500, 150, getDimensions()*getScaleFactor(), getDimensions()*getScaleFactor());
+		 window.setVisible(true);
+	 }
 
 	public static void main(String[] args)
 	{
@@ -40,7 +69,7 @@ public class Explorer extends Application {
 	
 	private void weighAnchor()
 	{
-		//for WHATEVER fucking reason, this makes updating imageViews work fine
+		//for WHATEVER reason, this makes updating imageViews work fine
 		Ship ship = Ship.getInstance(); //get the ship
 		PirateShipFactory pirateShipFactory = PirateShipFactory.getInstance(); //create any ships
 		pirateShipFactory.addPirateShip(new FollowPirateShip());
@@ -72,7 +101,7 @@ public class Explorer extends Application {
 	}
 
 	@Override
-	public void start(Stage oceanStage)
+	public void start(Stage oceanStage) throws NullPointerException, IllegalStateException, MalformedURLException, IOException
     {
         //create all the necessary objects
         ap = new AnchorPane();
@@ -87,6 +116,8 @@ public class Explorer extends Application {
 		oceanStage.setTitle("Chrissy Columbus");
 		oceanStage.setScene(scene);
 		oceanStage.show();
+		//showLose();
+		//showWin();
 		weighAnchor();
 	}
 
