@@ -75,7 +75,7 @@ public class Explorer extends Application {
 		pirateShipFactory.addPirateShip(new FollowPirateShip());
 		pirateShipFactory.addPirateShip(new LostPirateShip());
 		WhirlpoolFactory.getInstance(); //no need to do anything with the whirlpool, it handles itself
-		Eel eel = new Eel(); //misc creations
+		ESchool kids = new ESchool(); //misc creations
 		Snake snake = new Snake();
 
 		scene.setOnKeyPressed((KeyEvent event)->
@@ -88,14 +88,16 @@ public class Explorer extends Application {
 			snake.getImageView().setX(snake.getCurrentLocation().x*getScaleFactor());
 			snake.getImageView().setY(snake.getCurrentLocation().y*getScaleFactor());
 
-			eel.getImageView().setX(eel.getCurrentLocation().x*getScaleFactor());
-			eel.getImageView().setY(eel.getCurrentLocation().y*getScaleFactor());
-
 			//fancy little for each loop right here
 			for(IPirateShip ships : PirateShipFactory.getPirateList())
 			{
 				ships.getImageView().setX(ships.getCurrentLocation().x * getScaleFactor());
 				ships.getImageView().setY(ships.getCurrentLocation().y * getScaleFactor());
+			}
+			for(Eel eels: ESchool.getEels())
+			{
+				eels.getImageView().setX(eels.getCurrentLocation().x*getScaleFactor());
+				eels.getImageView().setY(eels.getCurrentLocation().y*getScaleFactor());
 			}
 		});
 	}

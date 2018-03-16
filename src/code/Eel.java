@@ -9,25 +9,25 @@ import com.sun.javafx.iio.ImageStorage;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class Eel implements Observer, EWMoving
+public class Eel implements EWMoving
 {
 	private Map map;
 	private Point currentLocation;
 	private int randy, moveTime;
-	private boolean e, w;
+	public boolean e, w;
 	private ImageView imageView;
 
 	//TODO: Eel will implement the composite pattern, having a random number determine how many eels go in a direction and hog real estate
 	public Eel()
 	{
 		map = Map.getInstance();
-		currentLocation = createLocation();
+		//currentLocation = createLocation();
 		randy = new Random().nextInt(3);
 		moveTime= 0;//I'll most likely end up using a timer
 		e = true;
 		w = false;
 		imageView = createImageView();
-		Ship.getInstance().addObserver(this);
+		//Ship.getInstance().addObserver(this);
 	}
 
 	@Override
@@ -93,22 +93,13 @@ public class Eel implements Observer, EWMoving
 		}
 	}
 	
-	private Point createLocation()
+	public Point createLocation(int x, int y)
 	{
-		Random rand = new Random();
-		int x = rand.nextInt(Explorer.getDimensions());
-		int y = rand.nextInt(Explorer.getDimensions());
-
-		while(Map.getInstance().checkLocation(x, y) != 0)
-		{
-			x = rand.nextInt(Explorer.getDimensions());
-			y = rand.nextInt(Explorer.getDimensions());
-		}
 		return new Point(x, y);
 	}
 
 	@Override
-	public void update(Observable o, Object arg)
+	/*public void update(Observable o, Object arg)
 	{
 		if(o instanceof Ship)
 		{
@@ -123,7 +114,7 @@ public class Eel implements Observer, EWMoving
 					this.goWest();
 			}
 		}
-	}
+	}*/
 
 	public ImageView getImageView() { return imageView; }
 }
