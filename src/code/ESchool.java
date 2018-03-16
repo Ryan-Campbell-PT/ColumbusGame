@@ -25,15 +25,15 @@ public class ESchool implements Observer{
 			ez.add(new Eel());
 	}
 	
-	private void add(Eel s)
+	/*private void add(Eel s)
 	{
 		ez.add(s);
-	}
+	}*/
 	
-	private void remove(int witch)
+	/*private void remove(int witch)
 	{
 		ez.remove(witch);
-	}
+	}*/
 	
 	private Eel getChild(int witch)
 	{
@@ -69,6 +69,7 @@ public class ESchool implements Observer{
 				for(int i = 0; i<getEels().size() - 1; i++)
 					getChild(i).goEast();
 			}
+		moveTime = 0;
 	}
 	
 	private void createSwarm()
@@ -89,8 +90,8 @@ public class ESchool implements Observer{
 		}
 	}
 	
-	public ImageView getImageView() { return iv; }
-    public void setImageView(ImageView imageView) { this.iv = imageView; }
+	public ImageView getImageView() {return iv;}
+    public void setImageView(ImageView imageView) {this.iv = imageView;}
 
 	@Override
 	public void update(Observable o, Object arg)

@@ -8,6 +8,8 @@ import code.Explorer;
 import code.Ship;
 import javafx.stage.Stage;
 import java.awt.Point;
+import java.io.IOException;
+import java.net.MalformedURLException;
 
 public class ShipMoveTest {
 	
@@ -16,7 +18,7 @@ public class ShipMoveTest {
 	//Map m;
 	Stage oceanStage;
 	@Test
-	public void testMoveNorth()//make sure it moved up
+	public void testMoveNorth() throws NullPointerException, IllegalStateException, MalformedURLException, IOException//make sure it moved up
 	{
 		e = new Explorer();
 		//m = new Map();

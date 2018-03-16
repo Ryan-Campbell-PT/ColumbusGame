@@ -117,7 +117,6 @@ public class Snake implements Observer, NSMoving
 			{
 				if(s==true)
 					this.goSouth();
-			
 				else if(n==true)
 					this.goNorth();
 			}
