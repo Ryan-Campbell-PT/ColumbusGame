@@ -6,12 +6,17 @@ import java.util.Random;
 import javafx.scene.image.ImageView;
 import org.junit.jupiter.api.Test;
 
+/**
+ * ESchool is the class that controls how the eels move together
+ * Eels are meant to move as a group, so we made it a composite design
+ * We also used the state pattern to decide which direction to move throughout the game
+ */
 public class ESchool implements Observer
 {
-	ArrayList<Eel> eelList;
-	State currentState;
-	State eastState;
-	State westState;
+	static ArrayList<Eel> eelList;
+	EelState currentState;
+	EelState eastState;
+	EelState westState;
 
 	ESchool()
 	{
@@ -23,7 +28,7 @@ public class ESchool implements Observer
 		Ship.getInstance().addObserver(this);
 	}
 
-	public ArrayList<Eel> getEelList() { return eelList; }
+	public static ArrayList<Eel> getEelList() { return eelList; }
 
 	private void createSwarm()
 	{
@@ -42,7 +47,7 @@ public class ESchool implements Observer
 		int iterY = eelList.get(0).getCurrentLocation().y;
 		int counter = 1;
 
-		while (true)
+		while (counter < getNumEels())
 		{
 			if (Map.getInstance().checkLocation(iterX + 1, iterY) == 0) {
 				eelList.add(new Eel(iterX + 1, iterY));
@@ -80,6 +85,10 @@ public class ESchool implements Observer
 	}
 
 
+	/*
+	Each ship movement, this checks the eels locations and decides whether the state should be moved to
+	West or East
+	 */
 	@Override
 	public void update(Observable o, Object arg)
 	{
@@ -91,12 +100,8 @@ public class ESchool implements Observer
 			if (e.canGoWest()) westCount++;
 		}
 
-		if(westCount == getNumEels())
-			currentState = westState;
-		else if (eastCount == getNumEels())
-			currentState = eastState;
 
-		if(westCount == eastCount) {} //open on both sides, dont change anything
+		if(westCount == eastCount) {} //open on both sides, continue with current state
 		else if(westCount == getNumEels())
 			currentState = westState;
 		else if(eastCount == getNumEels())
@@ -110,31 +115,4 @@ public class ESchool implements Observer
 	{
 		return 4;
 	}
-
-
-	private interface State
-	{
-		void moveEels();
 	}
-
-	private class EastState implements State
-	{
-		@Override
-		public void moveEels()
-		{
-			for (Eel e : eelList)
-				e.goEast();
-		}
-	}
-
-	private class WestState implements State
-	{
-
-		@Override
-		public void moveEels()
-		{
-			for(Eel e : eelList)
-				e.goWest();
-		}
-	}
-}

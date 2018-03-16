@@ -18,14 +18,14 @@ public class Eel implements EWMoving
 		imageView = createImageView();
 		Map.getInstance().setPoint(x, y, 3);
 
-		if(Map.getInstance().checkLocation(x + 1, y) == 0 ||
-				Map.getInstance().checkLocation(x + 1, y) == 3)
+		if(Map.getInstance().checkLocation(x + 1, y) == 0 || //empty
+				Map.getInstance().checkLocation(x + 1, y) == 3) //or another eel
 			east = true;
 		else
 			east = false;
 
-		if(Map.getInstance().checkLocation(x - 1, y) == 0 || //empty
-				Map.getInstance().checkLocation(x - 1, y) == 3) //or another eel
+		if(Map.getInstance().checkLocation(x - 1, y) == 0 ||
+				Map.getInstance().checkLocation(x - 1, y) == 3)
 			west = true;
 		else
 			west = false;
@@ -54,7 +54,8 @@ public class Eel implements EWMoving
 		Map.getInstance().setPoint(currentLocation.x - 1, currentLocation.y, 3);
 		currentLocation.setLocation(currentLocation.x - 1, currentLocation.y);
 
-		if(Map.getInstance().checkLocation(currentLocation.x - 1, currentLocation.y) == 0)
+		if(Map.getInstance().checkLocation(currentLocation.x - 1, currentLocation.y) == 0 ||
+				Map.getInstance().checkLocation(currentLocation.x - 1, currentLocation.y) == 3)
 			west = true;
 		else
 			west = false;
@@ -67,7 +68,8 @@ public class Eel implements EWMoving
 		Map.getInstance().setPoint(currentLocation.x + 1, currentLocation.y, 3);
 		currentLocation.setLocation(currentLocation.x + 1, currentLocation.y);
 
-		if(Map.getInstance().checkLocation(currentLocation.x + 1, currentLocation.y) == 0)
+		if(Map.getInstance().checkLocation(currentLocation.x + 1, currentLocation.y) == 0 ||
+				Map.getInstance().checkLocation(currentLocation.x + 1, currentLocation.y) == 3)
 			east = true;
 		else
 			east = false;

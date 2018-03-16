@@ -80,14 +80,11 @@ public class Map
 
 	public int checkLocation(int x, int y)
 	{
-		try
-		{
-			return seaMap[x][y];
-		}
 
-		catch(ArrayIndexOutOfBoundsException e) //incase location is outside bounds
-		{
-			return 100; //throw a random irrelevant number
-		}
+		if(x >= 0 && x < Explorer.getDimensions() - 1 &&
+				y >= 0 && y < Explorer.getDimensions() - 1)
+			return seaMap[x][y];
+
+		else return 100;
 	}
 }
