@@ -1,23 +1,14 @@
 package code;
 import javafx.application.*;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-
-import java.awt.SplashScreen;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.ArrayList;
-
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JWindow;
@@ -123,8 +114,8 @@ public class Explorer extends Application {
 		weighAnchor();
 	}
 
-	public static AnchorPane getAp() { return ap; }
-	public static int getDimensions() { return 10; } //dimensions without a variable
-	public static int getIslandCount() { return getDimensions() / 2; } //island count without a variable
-	public static int getScaleFactor() { return 50; }
+	public static AnchorPane getAp() {return ap;}
+	public static int getDimensions() {return 10;} //dimensions without a variable
+	public static int getIslandCount() {return getDimensions()/2;} //island count without a variable
+	public static int getScaleFactor() {return 50;}
 }

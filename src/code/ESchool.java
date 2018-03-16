@@ -1,6 +1,4 @@
 package code;
-
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -102,9 +100,7 @@ public class ESchool implements Observer{
 			if(moveTime<randy)
 				moveTime++;
 			else
-			{
 				swim();
-			}
 		}
 	}
 }

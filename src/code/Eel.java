@@ -1,11 +1,8 @@
 package code;
-
 import java.awt.Point;
 import java.io.File;
 import java.util.*;
-
 import code.Map;
-import com.sun.javafx.iio.ImageStorage;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
