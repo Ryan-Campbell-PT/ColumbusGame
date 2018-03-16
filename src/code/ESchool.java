@@ -16,10 +16,10 @@ public class ESchool implements Observer{
 	public ESchool()
 	{
 		moveTime= 0;
-		randy = new Random().nextInt(3);
+		randy = new Random().nextInt(4);//move time random val
 		Ship.getInstance().addObserver(this);
 		map = Map.getInstance();
-		randle = new Random().nextInt(4);
+		randle = new Random().nextInt(4);//number of eels random val
 		ez = new ArrayList<Eel>();
 		for(int i = 0; i<=randle; i++)
 			ez.add(new Eel());
@@ -48,29 +48,29 @@ public class ESchool implements Observer{
 	{
 		int wagreed = 0;//get consesus on who can move in valid direction
 		int eagreed = 0;
-		for(int i = 0; i<getEels().size() - 1; i++)
+		for(int i = 0; i<getEels().size(); i++)
 		{
 			if(map.checkLocation(getChild(i).getCurrentLocation().x - 1, getChild(i).getCurrentLocation().y) == 0)
 				wagreed++;
 			else if(map.checkLocation(getChild(i).getCurrentLocation().x + 1, getChild(i).getCurrentLocation().y) == 0)
 				eagreed++;
 		}
-			if(wagreed == getEels().size()-1)//if they can all move west
-			{
-				System.out.println("Agreed west");
-				e = false;
-				w = true;
-				for(int i = 0; i<getEels().size() - 1; i++)
-					getChild(i).goWest();
-			}
-			else if(eagreed == getEels().size()-1)//if they can all move east
-			{
-				System.out.println("Agreed East");
-				w = false;
-				e = true;
-				for(int i = 0; i<getEels().size() - 1; i++)
-					getChild(i).goEast();
-			}
+		if(wagreed == getEels().size()-1)//if they can all move west
+		{
+			System.out.println("Agreed west");
+			e = false;
+			w = true;
+			for(int i = 0; i<getEels().size(); i++)
+				getChild(i).goWest();
+		}
+		else if(eagreed == getEels().size()-1)//if they can all move east
+		{
+			System.out.println("Agreed East");
+			w = false;
+			e = true;
+			for(int i = 0; i<getEels().size(); i++)
+				getChild(i).goEast();
+		}
 		moveTime = 0;
 		System.out.println("movetTime at end of swim " + moveTime);
 	}
