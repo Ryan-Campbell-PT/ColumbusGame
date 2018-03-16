@@ -70,7 +70,7 @@ public class FollowPirateShip extends IPirateShip
                 else if(Map.getInstance().checkLocation(this.getCurrentLocation().x + 1, this.getCurrentLocation().y) == 5) //ship is here
                 {
                     this.goEast();
-                    Explorer.showLose();
+                    //Explorer.showLose();
                 }
 
             if(ship.getCurrentLocation().x < getCurrentLocation().x)
@@ -80,7 +80,7 @@ public class FollowPirateShip extends IPirateShip
                 else if(Map.getInstance().checkLocation(this.getCurrentLocation().x - 1, this.getCurrentLocation().y) == 5) //ship is here
                 {
                     this.goWest();
-                    Explorer.showLose();
+                    //Explorer.showLose();
                 }
 
             if(ship.getCurrentLocation().y < getCurrentLocation().y)
@@ -92,7 +92,7 @@ public class FollowPirateShip extends IPirateShip
                 else if(Map.getInstance().checkLocation(this.getCurrentLocation().x, this.getCurrentLocation().y - 1) == 5) //ship is here
                 {
                     this.goNorth();
-                    Explorer.showLose();
+                    //Explorer.showLose();
                 }
 
             if(ship.getCurrentLocation().y > getCurrentLocation().y)
@@ -104,7 +104,7 @@ public class FollowPirateShip extends IPirateShip
                 else if(Map.getInstance().checkLocation(this.getCurrentLocation().x, this.getCurrentLocation().y + 1) == 5) //ship is here
                 {
                     this.goSouth();
-                    Explorer.showLose();
+                    //Explorer.showLose();
                 }
         }
     }
