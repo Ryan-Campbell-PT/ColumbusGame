@@ -29,7 +29,7 @@ public class WhirlpoolFactory implements Observer
     private int randomNum, counter;
     private static WhirlpoolFactory instance;
 
-    static WhirlpoolFactory getInstance()
+    public static WhirlpoolFactory getInstance()
     {
         if (instance == null)
             instance = new WhirlpoolFactory();
@@ -89,6 +89,21 @@ public class WhirlpoolFactory implements Observer
 
         return null;
     }
+
+    //these methods are made to be strictly for the JUnit tests
+    public void createWhirlpool()
+    {
+        activeList.add(new Whirlpool());
+    }
+
+    public void removeWhirlpool()
+    {
+        activeList.get(0).remove();
+    }
+
+    public ArrayList<Whirlpool> getActiveList() { return activeList; }
+    public LinkedList<Whirlpool> getInactiveList() { return inactiveList; }
+    //end testing methods
 
     /**
      * Whirlpool class is a private class that is what the user will be seeing on the grid

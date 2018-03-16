@@ -11,6 +11,7 @@ import java.util.Random;
 2: Harming space (enemy)
 3: Treasure (winning condition)
 4: Whirlpool (teleport mechanic)
+5: Player
 */
 public class Map
 {

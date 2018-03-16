@@ -14,10 +14,13 @@ import java.util.Random;
  */
 public class LostPirateShip extends IPirateShip
 {
+    private Random rand; //I made this so the ship isnt constantly making a new local random variable in update (how it was before)
+
     LostPirateShip()
     {
         setCurrentLocation(createLocation());
         setImageView(createImageView());
+        rand = new Random();
     }
 
     @Override
@@ -68,28 +71,54 @@ public class LostPirateShip extends IPirateShip
     {
         if(o instanceof Ship)
         {
-            Random rand = new Random();
-
             switch(rand.nextInt(4))
             {
                 case 0:
                     if(this.getCurrentLocation().x + 1 < Explorer.getDimensions())
-                        this.goEast();
+                        if(Map.getInstance().checkLocation(this.getCurrentLocation().x + 1, this.getCurrentLocation().y) == 5) //ship is here
+                        {
+                            this.goEast();
+                            Explorer.showLose();
+                        }
+
+                        else
+                            this.goEast();
                     break;
 
                 case 1:
                     if(this.getCurrentLocation().x - 1 > 0)
-                        this.goWest();
+                        if(Map.getInstance().checkLocation(this.getCurrentLocation().x - 1, this.getCurrentLocation().y) == 5) //ship is here
+                        {
+                            this.goWest();
+                            Explorer.showLose();
+                        }
+
+                        else
+                            this.goWest();
                     break;
 
                 case 2:
                     if(this.getCurrentLocation().y + 1 < Explorer.getDimensions())
-                        this.goSouth();
+                        if(Map.getInstance().checkLocation(this.getCurrentLocation().x, this.getCurrentLocation().y + 1) == 5) //ship is here
+                        {
+                            this.goSouth();
+                            Explorer.showLose();
+                        }
+
+                        else
+                            this.goSouth();
                     break;
 
                 case 3:
                     if(this.getCurrentLocation().y - 1 > 0)
-                        this.goNorth();
+                        if(Map.getInstance().checkLocation(this.getCurrentLocation().x, this.getCurrentLocation().y - 1) == 5) //ship is here
+                        {
+                            this.goNorth();
+                            Explorer.showLose();
+                        }
+
+                        else
+                            this.goNorth();
                     break;
             }
         }

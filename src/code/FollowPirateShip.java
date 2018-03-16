@@ -15,10 +15,13 @@ import java.util.Random;
  */
 public class FollowPirateShip extends IPirateShip
 {
+    private Random rand;
+
     public FollowPirateShip() //needs to be public for Junit tests
     {
         setCurrentLocation(createLocation());
         setImageView(createImageView());
+        rand = new Random();
     }
 
     @Override
@@ -54,7 +57,7 @@ public class FollowPirateShip extends IPirateShip
         if(o instanceof Ship)
         {
             //this is so the follow ship doesnt laser directly at the player, giving it some fairness
-            if(new Random().nextInt(4) % 2 == 0)
+            if(rand.nextInt(4) % 2 == 0)
                 return;
 
             Ship ship = (Ship)o;
@@ -64,17 +67,45 @@ public class FollowPirateShip extends IPirateShip
                 if(getMap().checkLocation(getCurrentLocation().x + 1, getCurrentLocation().y) == 0) //open space
                     this.goEast();
 
+                else if(Map.getInstance().checkLocation(this.getCurrentLocation().x + 1, this.getCurrentLocation().y) == 5) //ship is here
+                {
+                    this.goEast();
+                    Explorer.showLose();
+                }
+
             if(ship.getCurrentLocation().x < getCurrentLocation().x)
                 if(getMap().checkLocation(getCurrentLocation().x - 1, getCurrentLocation().y) == 0)
+                        this.goWest();
+
+                else if(Map.getInstance().checkLocation(this.getCurrentLocation().x - 1, this.getCurrentLocation().y) == 5) //ship is here
+                {
                     this.goWest();
+                    Explorer.showLose();
+                }
 
             if(ship.getCurrentLocation().y < getCurrentLocation().y)
                 if (getMap().checkLocation(getCurrentLocation().x, getCurrentLocation().y - 1) == 0)
+                {
                     this.goNorth();
+                }
+
+                else if(Map.getInstance().checkLocation(this.getCurrentLocation().x, this.getCurrentLocation().y - 1) == 5) //ship is here
+                {
+                    this.goNorth();
+                    Explorer.showLose();
+                }
 
             if(ship.getCurrentLocation().y > getCurrentLocation().y)
                 if(getMap().checkLocation(getCurrentLocation().x, getCurrentLocation().y + 1) == 0)
+                {
                     this.goSouth();
+                }
+
+                else if(Map.getInstance().checkLocation(this.getCurrentLocation().x, this.getCurrentLocation().y + 1) == 5) //ship is here
+                {
+                    this.goSouth();
+                    Explorer.showLose();
+                }
         }
     }
 

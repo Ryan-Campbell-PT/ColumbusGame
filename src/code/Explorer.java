@@ -9,9 +9,8 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JWindow;
+import java.util.concurrent.TimeUnit;
+import javax.swing.*;
 
 public class Explorer extends Application {
 
@@ -19,6 +18,7 @@ public class Explorer extends Application {
 	//and not need to pass them into functions and classes throughout the project
 	private static AnchorPane ap;
 	private Scene scene;
+	private static Stage oceanStage;
 
 	private void drawGrid()
 	{
@@ -35,22 +35,38 @@ public class Explorer extends Application {
 		ap.getChildren().add(rect);
 	}
 	
-	 private void showLose() throws NullPointerException, IllegalStateException, MalformedURLException, IOException
+	 public static void showLose()// throws NullPointerException, IllegalStateException, MalformedURLException, IOException
 	 {
 		 JWindow window = new JWindow();
-		 window.getContentPane().add(
-		     new JLabel("", new ImageIcon(new File("images\\game-over.png").toURI().toURL()), 0));
+
+		 try
+		 {
+			 window.getContentPane().add(
+					 new JLabel("", new ImageIcon(new File("images\\game-over.png").toURI().toURL()), 0));
+		 }
+
+		 catch(Exception e) {}
 		 window.setBounds(500, 150, getDimensions()*getScaleFactor(), getDimensions()*getScaleFactor());
 		 window.setVisible(true);
 	 }
 	 
-	 private void showWin() throws NullPointerException, IllegalStateException, MalformedURLException, IOException
+	 public static void showWin()
 	 {
 		 JWindow window = new JWindow();
-		 window.getContentPane().add(
-		     new JLabel("", new ImageIcon(new File("images\\win.jpg").toURI().toURL()), 0));
-		 window.setBounds(500, 150, getDimensions()*getScaleFactor(), getDimensions()*getScaleFactor());
-		 window.setVisible(true);
+
+		 try
+		 {
+			 window.getContentPane().add(
+					 new JLabel("", new ImageIcon(new File("images\\win.jpg").toURI().toURL()), SwingConstants.CENTER));
+
+		 	window.setBounds(500, 150, getDimensions()*getScaleFactor(), getDimensions()*getScaleFactor());
+		 	window.setVisible(true);
+
+
+			 TimeUnit.SECONDS.sleep(5);
+		 } catch (Exception e) {}
+
+		 Explorer.oceanStage.close();
 	 }
 
 	public static void main(String[] args)
@@ -96,6 +112,7 @@ public class Explorer extends Application {
 	@Override
 	public void start(Stage oceanStage)// throws NullPointerException, IllegalStateException, MalformedURLException, IOException
     {
+    	Explorer.oceanStage = oceanStage;
         //create all the necessary objects
         ap = new AnchorPane();
 		scene = new Scene(getAp(), getDimensions() * getScaleFactor(), getDimensions() * getScaleFactor());
@@ -109,8 +126,6 @@ public class Explorer extends Application {
 		oceanStage.setTitle("Chrissy Columbus");
 		oceanStage.setScene(scene);
 		oceanStage.show();
-		//showLose();
-		//showWin();
 		weighAnchor();
 	}
 

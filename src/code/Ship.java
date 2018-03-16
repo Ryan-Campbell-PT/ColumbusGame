@@ -3,6 +3,7 @@ import java.awt.Point;
 import java.io.File;
 import java.util.Observable;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import com.sun.javafx.iio.ImageStorage;
 import javafx.scene.image.Image;
@@ -27,6 +28,7 @@ public class Ship extends Observable implements NSMoving, EWMoving
 	{
 		map = Map.getInstance();
 		currentLocation = createLocation();
+		map.setPoint(currentLocation.x, currentLocation.y, 5);
 		imageView = createImageView();
 	}
 
@@ -70,7 +72,7 @@ public class Ship extends Observable implements NSMoving, EWMoving
 		super.notifyObservers();
 	}
 
-	//TODO: We could likely turn these into a single method
+	@Override
 	public void goNorth()
 	{
 		if(currentLocation.y > 0)
@@ -79,6 +81,7 @@ public class Ship extends Observable implements NSMoving, EWMoving
 		this.notifyObservers();
 	}
 
+	@Override
 	public void goSouth()
 	{
 		if(currentLocation.y < Explorer.getDimensions() - 1)
@@ -87,6 +90,7 @@ public class Ship extends Observable implements NSMoving, EWMoving
 		this.notifyObservers();
 	}
 
+	@Override
 	public void goEast()
 	{
 		if(currentLocation.x < Explorer.getDimensions() - 1)
@@ -95,6 +99,7 @@ public class Ship extends Observable implements NSMoving, EWMoving
 		this.notifyObservers();
 	}
 
+	@Override
 	public void goWest()
 	{
 		if(currentLocation.x > 0)
@@ -121,9 +126,10 @@ public class Ship extends Observable implements NSMoving, EWMoving
 	// a function just to check where the player ship is trying to move
 	private void checkLocation(int x, int y)
 	{
-		switch(map.checkLocation(x, y))
-		{
+		switch(map.checkLocation(x, y)) {
 			case 0: //moveable space
+				map.setPoint(currentLocation.x, currentLocation.y, 0); //set the last location to moveable
+				map.setPoint(x, y, 5); //set the going to location to ship location
 				currentLocation.setLocation(x, y);
 				break;
 
@@ -133,7 +139,8 @@ public class Ship extends Observable implements NSMoving, EWMoving
 			case 2: //enemy
 				break;
 
-			case 3: //winning condition TODO: Need to make still
+			case 3: //winning condition
+				Explorer.showWin();
 				break;
 
 			case 4: //whirlpool

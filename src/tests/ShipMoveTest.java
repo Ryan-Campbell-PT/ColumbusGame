@@ -27,27 +27,27 @@ public class ShipMoveTest {
 		assertTrue(ship.getCurrentLocation().y == startloc.y-1);
 	}
 	
-	/*public void testMoveSouth()//make sure it moved down
+	public void testMoveSouth()//make sure it moved down
 	{
 		ship = Ship.getInstance();
-		Point startloc = ship.getLocation();
+		Point startloc = ship.getCurrentLocation();
 		ship.goSouth();
-		assertTrue(ship.getLocation().y == startloc.y+1);
+		assertTrue(ship.getCurrentLocation().y == startloc.y+1);
 	}
 	
 	public void testMoveEast()//make sure it moved right
 	{
 		ship = Ship.getInstance();
-		Point startloc = ship.getLocation();
+		Point startloc = ship.getCurrentLocation();
 		ship.goEast();
-		assertTrue(ship.getLocation().x == startloc.x+1);
+		assertTrue(ship.getCurrentLocation().x == startloc.x+1);
 	}
 	
 	public void testMoveWest()//make sure it moved left
 	{
 		ship = Ship.getInstance();
-		Point startloc = ship.getLocation();
+		Point startloc = ship.getCurrentLocation();
 		ship.goWest();
-		assertTrue(ship.getLocation().x == startloc.x-1);
-	}*/
+		assertTrue(ship.getCurrentLocation().x == startloc.x-1);
+	}
 }
