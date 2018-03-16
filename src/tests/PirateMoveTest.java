@@ -14,7 +14,7 @@ class PirateMoveTest {
 	@Test
 	void checkWhirlpoolCreation()
 	{
-		WhirlpoolFactory factory = WhirlpoolFactory.getInstance();
+		WhirlpoolFactory factory = new WhirlpoolFactory(true);
 
 		factory.createWhirlpool();
 		assertTrue(factory.getActiveList().size() == 1);

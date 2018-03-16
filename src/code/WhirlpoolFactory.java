@@ -91,14 +91,21 @@ public class WhirlpoolFactory implements Observer
     }
 
     //these methods are made to be strictly for the JUnit tests
+    public WhirlpoolFactory(boolean irrelevant)
+    {
+        inactiveList = new LinkedList<>();
+        activeList = new ArrayList<>();
+        randomNum = new Random().nextInt(15);
+    }
+
     public void createWhirlpool()
     {
-        activeList.add(new Whirlpool());
+        activeList.add(new Whirlpool(true));
     }
 
     public void removeWhirlpool()
     {
-        activeList.get(0).remove();
+        activeList.get(0).remove(true);
     }
 
     public ArrayList<Whirlpool> getActiveList() { return activeList; }
@@ -209,5 +216,19 @@ public class WhirlpoolFactory implements Observer
             inactiveList.add(this); //add it back to the factory for use later
             Ship.getInstance().deleteObserver(this); //stop following the ship observing
         }
+
+
+        //testing methods
+        Whirlpool(boolean irrelevant)
+        {
+
+        }
+
+        void remove(boolean irrelevant)
+        {
+            activeList.remove(this);
+            inactiveList.add(this);
+        }
+        //end testing methods
     }
 }
