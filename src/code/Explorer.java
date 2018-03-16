@@ -43,17 +43,17 @@ public class Explorer extends Application {
 		 {
 			 window.getContentPane().add(
 					 new JLabel("", new ImageIcon(new File("images\\game-over.png").toURI().toURL()), 0));
+			 window.setBounds(500, 150, getDimensions()*getScaleFactor(), getDimensions()*getScaleFactor());
+			 window.setVisible(true);
+			 TimeUnit.SECONDS.sleep(5);
 		 }
-
 		 catch(Exception e) {}
-		 window.setBounds(500, 150, getDimensions()*getScaleFactor(), getDimensions()*getScaleFactor());
-		 window.setVisible(true);
+		 Explorer.oceanStage.close();
 	 }
 	 
 	 public static void showWin()
 	 {
 		 JWindow window = new JWindow();
-
 		 try
 		 {
 			 window.getContentPane().add(
@@ -61,8 +61,6 @@ public class Explorer extends Application {
 
 		 	window.setBounds(500, 150, getDimensions()*getScaleFactor(), getDimensions()*getScaleFactor());
 		 	window.setVisible(true);
-
-
 			 TimeUnit.SECONDS.sleep(5);
 		 } catch (Exception e) {}
 
@@ -82,7 +80,8 @@ public class Explorer extends Application {
 		pirateShipFactory.addPirateShip(new FollowPirateShip());
 		pirateShipFactory.addPirateShip(new LostPirateShip());
 		WhirlpoolFactory.getInstance(); //no need to do anything with the whirlpool, it handles itself
-		ESchool kids = new ESchool(); //misc creations
+		ESchool kids = new ESchool();//misc creations
+		kids.createSwarm();
 		Snake snake = new Snake();
 
 		scene.setOnKeyPressed((KeyEvent event)->

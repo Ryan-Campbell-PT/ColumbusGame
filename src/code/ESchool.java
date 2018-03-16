@@ -57,6 +57,7 @@ public class ESchool implements Observer{
 		}
 			if(wagreed == getEels().size()-1)//if they can all move west
 			{
+				System.out.println("Agreed west");
 				e = false;
 				w = true;
 				for(int i = 0; i<getEels().size() - 1; i++)
@@ -64,15 +65,17 @@ public class ESchool implements Observer{
 			}
 			else if(eagreed == getEels().size()-1)//if they can all move east
 			{
+				System.out.println("Agreed East");
 				w = false;
 				e = true;
 				for(int i = 0; i<getEels().size() - 1; i++)
 					getChild(i).goEast();
 			}
 		moveTime = 0;
+		System.out.println("movetTime at end of swim " + moveTime);
 	}
 	
-	private void createSwarm()
+	public void createSwarm()
 	{
 		Random rand = new Random();
 		int x = rand.nextInt(Explorer.getDimensions());
@@ -86,7 +89,10 @@ public class ESchool implements Observer{
 		getChild(0).getCurrentLocation().setLocation(x, y);
 		for(int i =1; i<getEels().size(); i++)
 		{
-			getChild(i).getCurrentLocation().setLocation(x, y-1);
+			if(Map.getInstance().checkLocation(x, y+1) != 0)
+				getChild(i).getCurrentLocation().setLocation(x, y-1);
+			else
+				getChild(i).getCurrentLocation().setLocation(x, y+1);
 		}
 	}
 	
@@ -96,12 +102,19 @@ public class ESchool implements Observer{
 	@Override
 	public void update(Observable o, Object arg)
 	{
+		System.out.println("Notified school");
 		if(o instanceof Ship)
 		{
 			if(moveTime<randy)
+			{
 				moveTime++;
+				System.out.println(moveTime + " our of " + randy);
+			}
 			else
+			{
 				swim();
+				System.out.println("Swam");
+			}
 		}
 	}
 }
