@@ -3,7 +3,6 @@ package code;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import java.awt.*;
 import java.io.File;
 import java.util.Observable;
 import java.util.Random;

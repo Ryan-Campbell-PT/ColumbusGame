@@ -3,20 +3,21 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
-import javafx.scene.image.ImageView;
-import org.junit.jupiter.api.Test;
 
 /**
  * ESchool is the class that controls how the eels move together
  * Eels are meant to move as a group, so we made it a composite design
  * We also used the state pattern to decide which direction to move throughout the game
+ *
+ * Problems: For whatever reason, going west works fine, but going east doesnt
+ * It goes beyond the grid, which doesnt make sense as to why, but it does anyways
  */
 public class ESchool implements Observer
 {
-	static ArrayList<Eel> eelList;
-	EelState currentState;
-	EelState eastState;
-	EelState westState;
+	private static ArrayList<Eel> eelList;
+	private EelState currentState;
+	private EelState eastState;
+	private EelState westState;
 
 	ESchool()
 	{

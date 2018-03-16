@@ -3,9 +3,7 @@ import java.awt.Point;
 import java.io.File;
 import java.util.Observable;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
-import com.sun.javafx.iio.ImageStorage;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;

@@ -7,8 +7,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.concurrent.TimeUnit;
 import javax.swing.*;
 
@@ -42,7 +40,7 @@ public class Explorer extends Application {
 		 try
 		 {
 			 window.getContentPane().add(
-					 new JLabel("", new ImageIcon(new File("images\\game-over.png").toURI().toURL()), 0));
+					 new JLabel("", new ImageIcon(new File("images\\game-over.png").toURI().toURL()), SwingConstants.CENTER));
 			 window.setBounds(500, 150, getDimensions()*getScaleFactor(), getDimensions()*getScaleFactor());
 			 window.setVisible(true);
 			 TimeUnit.SECONDS.sleep(5);
@@ -99,7 +97,7 @@ public class Explorer extends Application {
 				ships.getImageView().setX(ships.getCurrentLocation().x * getScaleFactor());
 				ships.getImageView().setY(ships.getCurrentLocation().y * getScaleFactor());
 			}
-			for(Eel eels: kids.getEelList())
+			for(Eel eels: ESchool.getEelList())
 			{
 				eels.getImageView().setX(eels.getCurrentLocation().x*getScaleFactor());
 				eels.getImageView().setY(eels.getCurrentLocation().y*getScaleFactor());
@@ -128,7 +126,7 @@ public class Explorer extends Application {
 	}
 
 	public static AnchorPane getAp() {return ap;}
-	public static int getDimensions() {return 15;} //dimensions without a variable
+	public static int getDimensions() {return 10;} //dimensions without a variable
 	public static int getIslandCount() {return getDimensions()/2;} //island count without a variable
 	public static int getScaleFactor() {return 50;}
 }

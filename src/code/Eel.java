@@ -1,16 +1,14 @@
 package code;
 import java.awt.Point;
 import java.io.File;
-import java.util.*;
-import code.Map;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class Eel implements EWMoving
 {
-	Point currentLocation;
-	ImageView imageView;
-	boolean east, west;
+	private Point currentLocation;
+	private ImageView imageView;
+	private boolean east, west;
 
 	Eel(int x, int y)
 	{
@@ -50,12 +48,12 @@ public class Eel implements EWMoving
 	@Override
 	public void goWest()
 	{
-		Map.getInstance().setPoint(currentLocation.x, currentLocation.y, 0);
-		Map.getInstance().setPoint(currentLocation.x - 1, currentLocation.y, 3);
-		currentLocation.setLocation(currentLocation.x - 1, currentLocation.y);
+		Map.getInstance().setPoint(currentLocation.x, currentLocation.y, 0); //assign current location to 0
+		Map.getInstance().setPoint(currentLocation.x - 1, currentLocation.y, 3); //assign going to spot to enemy
+		currentLocation.setLocation(currentLocation.x - 1, currentLocation.y); //set its locatoint
 
-		if(Map.getInstance().checkLocation(currentLocation.x - 1, currentLocation.y) == 0 ||
-				Map.getInstance().checkLocation(currentLocation.x - 1, currentLocation.y) == 3)
+		if(Map.getInstance().checkLocation(currentLocation.x - 1, currentLocation.y) == 0 || //movable space
+				Map.getInstance().checkLocation(currentLocation.x - 1, currentLocation.y) == 3) //or an eel
 			west = true;
 		else
 			west = false;

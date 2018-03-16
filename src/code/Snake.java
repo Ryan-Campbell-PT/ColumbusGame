@@ -17,7 +17,7 @@ public class Snake implements Observer, NSMoving
 	private boolean n, s;
 	private ImageView imageView;
 
-	public Snake()
+	Snake()
 	{
 		map = Map.getInstance();
 		currentLocation = createLocation();
@@ -46,7 +46,7 @@ public class Snake implements Observer, NSMoving
 	@Override
 	public void goNorth()
 	{
-		if(n == true && moveTime == randy)
+		if(n && moveTime == randy)
 		{
 			if(currentLocation.y > 0)
 			{
@@ -70,7 +70,7 @@ public class Snake implements Observer, NSMoving
 	@Override
 	public void goSouth()
 	{
-		if(s == true && moveTime == randy)
+		if(s && moveTime == randy)
 		{
 			if(currentLocation.y < Explorer.getDimensions() - 1)
 			{
@@ -115,13 +115,39 @@ public class Snake implements Observer, NSMoving
 				moveTime++;
 			else
 			{
-				if(s==true)
+				if(s)
 					this.goSouth();
-				else if(n==true)
+				else if(n)
 					this.goNorth();
 			}
 		}		
 	}
 
 	public ImageView getImageView() { return imageView; }
+
+	//test specific methods
+	public Snake(boolean irrelevant)
+	{
+		currentLocation = new Point(new Random().nextInt(15), new Random().nextInt(15));
+	}
+
+	public void goSouth(boolean irrelevant)
+	{
+		currentLocation.setLocation(currentLocation.x, currentLocation.y + 1);
+	}
+
+	public void goNorth(boolean irrelevant)
+	{
+		currentLocation.setLocation(currentLocation.x, currentLocation.y - 1);
+	}
+	public void goEast(boolean irrelevant)
+	{
+		currentLocation.setLocation(currentLocation.x + 1, currentLocation.y);
+	}
+
+	public void goWest(boolean irrelevant)
+	{
+		currentLocation.setLocation(currentLocation.x - 1, currentLocation.y);
+	}
+	//end test methods
 }

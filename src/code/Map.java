@@ -1,7 +1,6 @@
 package code;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-//import java.awt.*;
 import java.io.File;
 import java.util.Random;
 
@@ -48,8 +47,6 @@ public class Map
 		}
 	}
 
-	//create a single treasure that leads to a win condition
-	//TODO: Will need to design a splash screen or something to indicate winning. May not want to have it random
 	public void placeTreasure()
 	{
 		Random rand = new Random();
