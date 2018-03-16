@@ -147,6 +147,7 @@ public class Ship extends Observable implements NSMoving, EWMoving
 				Point tmp = WhirlpoolFactory.getInstance().checkWhirlpool(x, y);
 				if(tmp != null)
 					this.currentLocation = tmp;
+				this.imageView.toFront();
 				break;
 		}
 	}

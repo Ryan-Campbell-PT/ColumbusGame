@@ -81,7 +81,6 @@ public class Explorer extends Application {
 		pirateShipFactory.addPirateShip(new LostPirateShip());
 		WhirlpoolFactory.getInstance(); //no need to do anything with the whirlpool, it handles itself
 		ESchool kids = new ESchool();//misc creations
-		kids.createSwarm();
 		Snake snake = new Snake();
 
 		scene.setOnKeyPressed((KeyEvent event)->
@@ -100,7 +99,7 @@ public class Explorer extends Application {
 				ships.getImageView().setX(ships.getCurrentLocation().x * getScaleFactor());
 				ships.getImageView().setY(ships.getCurrentLocation().y * getScaleFactor());
 			}
-			for(Eel eels: ESchool.getEels())
+			for(Eel eels: kids.getEelList())
 			{
 				eels.getImageView().setX(eels.getCurrentLocation().x*getScaleFactor());
 				eels.getImageView().setY(eels.getCurrentLocation().y*getScaleFactor());
@@ -129,7 +128,7 @@ public class Explorer extends Application {
 	}
 
 	public static AnchorPane getAp() {return ap;}
-	public static int getDimensions() {return 10;} //dimensions without a variable
+	public static int getDimensions() {return 15;} //dimensions without a variable
 	public static int getIslandCount() {return getDimensions()/2;} //island count without a variable
 	public static int getScaleFactor() {return 50;}
 }

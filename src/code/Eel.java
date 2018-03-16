@@ -8,89 +8,73 @@ import javafx.scene.image.ImageView;
 
 public class Eel implements EWMoving
 {
-	private Map map;
-	private Point currentLocation;
-	//private int randy, moveTime;
-	//public boolean e, w;
-	private ImageView imageView;
+	Point currentLocation;
+	ImageView imageView;
+	boolean east, west;
 
-	//TODO: Eel will implement the composite pattern, having a random number determine how many eels go in a direction and hog real estate
-	public Eel()
+	Eel(int x, int y)
 	{
-		map = Map.getInstance();
-		currentLocation = createLocation();
-		Map.getInstance().setPoint(currentLocation.x, currentLocation.y, 2);
-		//randy = new Random().nextInt(3);
-		//moveTime= 0;//I'll most likely end up using a timer
-		//e = true;
-		//w = false;
+		currentLocation = new Point(x, y);
 		imageView = createImageView();
+		Map.getInstance().setPoint(x, y, 3);
+
+		if(Map.getInstance().checkLocation(x + 1, y) == 0 || //empty
+				Map.getInstance().checkLocation(x + 1, y) == 3) //or another eel
+			east = true;
+		else
+			east = false;
+
+		if(Map.getInstance().checkLocation(x - 1, y) == 0 ||
+				Map.getInstance().checkLocation(x - 1, y) == 3)
+			west = true;
+		else
+			west = false;
 	}
+
+	@Override
+	public Point getCurrentLocation() { return currentLocation; }
+
+	public ImageView getImageView() { return imageView; }
 
 	@Override
 	public ImageView createImageView()
 	{
-		Image eelImage = new Image(new File("images\\eelboi.jpg").toURI().toString(), Explorer.getScaleFactor(), Explorer.getScaleFactor(), true, true);
-		ImageView eelImageView = new ImageView(eelImage);
-		eelImageView.setX(this.getCurrentLocation().x * Explorer.getScaleFactor());
-		eelImageView.setY(this.getCurrentLocation().y * Explorer.getScaleFactor());
-		Explorer.getAp().getChildren().add(eelImageView);
-		return eelImageView;
+		Image snakeImage = new Image(new File("images\\eelboi.jpg").toURI().toString(), Explorer.getScaleFactor(), Explorer.getScaleFactor(), true, true);
+		ImageView imageView = new ImageView(snakeImage);
+		imageView.setX(this.getCurrentLocation().x * Explorer.getScaleFactor());
+		imageView.setY(this.getCurrentLocation().y * Explorer.getScaleFactor());
+		Explorer.getAp().getChildren().add(imageView);
+		return imageView;
 	}
-
-	@Override
-	public Point getCurrentLocation() {return currentLocation;}
 
 	@Override
 	public void goWest()
 	{
-		map.setPoint(getCurrentLocation().x, getCurrentLocation().y, 0); //^^
-		map.setPoint(getCurrentLocation().x - 1, getCurrentLocation().y, 2);
-		getCurrentLocation().setLocation(currentLocation.x - 1, currentLocation.y);
-		System.out.println("went west");
+		Map.getInstance().setPoint(currentLocation.x, currentLocation.y, 0);
+		Map.getInstance().setPoint(currentLocation.x - 1, currentLocation.y, 3);
+		currentLocation.setLocation(currentLocation.x - 1, currentLocation.y);
+
+		if(Map.getInstance().checkLocation(currentLocation.x - 1, currentLocation.y) == 0 ||
+				Map.getInstance().checkLocation(currentLocation.x - 1, currentLocation.y) == 3)
+			west = true;
+		else
+			west = false;
 	}
 
 	@Override
 	public void goEast()
 	{
-		map.setPoint(getCurrentLocation().x, getCurrentLocation().y, 0); //^^
-		map.setPoint(getCurrentLocation().x + 1, getCurrentLocation().y, 2);
-		getCurrentLocation().setLocation(getCurrentLocation().x + 1, getCurrentLocation().y);
-		System.out.println("went east");
-	}
-	
-	public Point createLocation()
-	{
-		Random random = new Random();
-		int x = random.nextInt(Explorer.getDimensions());
-		int y = random.nextInt(Explorer.getDimensions());
+		Map.getInstance().setPoint(currentLocation.x, currentLocation.y, 0);
+		Map.getInstance().setPoint(currentLocation.x + 1, currentLocation.y, 3);
+		currentLocation.setLocation(currentLocation.x + 1, currentLocation.y);
 
-		while(Map.getInstance().checkLocation(x, y) != 0)
-		{
-			x = random.nextInt(Explorer.getDimensions());
-			y = random.nextInt(Explorer.getDimensions());
-		}
-
-		return new Point(x, y);
+		if(Map.getInstance().checkLocation(currentLocation.x + 1, currentLocation.y) == 0 ||
+				Map.getInstance().checkLocation(currentLocation.x + 1, currentLocation.y) == 3)
+			east = true;
+		else
+			east = false;
 	}
 
-	/*@Override
-	public void update(Observable o, Object arg)
-	{
-		if(o instanceof Ship)
-		{
-			if(moveTime<randy)
-				moveTime++;
-			else
-			{
-				if(e==true)
-					this.goEast();
-			
-				else if(w==true)
-					this.goWest();
-			}
-		}
-	}*/
-
-	public ImageView getImageView() { return imageView; }
+	boolean canGoEast() { return east; }
+	boolean canGoWest() { return west; }
 }

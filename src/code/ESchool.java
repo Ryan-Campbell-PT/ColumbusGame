@@ -4,119 +4,115 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
 import javafx.scene.image.ImageView;
+import org.junit.jupiter.api.Test;
 
-public class ESchool implements Observer{
+/**
+ * ESchool is the class that controls how the eels move together
+ * Eels are meant to move as a group, so we made it a composite design
+ * We also used the state pattern to decide which direction to move throughout the game
+ */
+public class ESchool implements Observer
+{
+	static ArrayList<Eel> eelList;
+	EelState currentState;
+	EelState eastState;
+	EelState westState;
 
-	private Map map;
-	private static ArrayList<Eel> ez;
-	private ImageView iv;
-	int randle, randy, moveTime;
-	boolean e, w;
-	
-	public ESchool()
+	ESchool()
 	{
-		moveTime= 0;
-		randy = new Random().nextInt(4);//move time random val
+		eelList = new ArrayList<>();
+		eastState = new EastState();
+		westState = new WestState();
+		currentState = westState;
+		createSwarm();
 		Ship.getInstance().addObserver(this);
-		map = Map.getInstance();
-		randle = new Random().nextInt(4);//number of eels random val
-		ez = new ArrayList<Eel>();
-		for(int i = 0; i<=randle; i++)
-			ez.add(new Eel());
 	}
-	
-	/*private void add(Eel s)
-	{
-		ez.add(s);
-	}*/
-	
-	/*private void remove(int witch)
-	{
-		ez.remove(witch);
-	}*/
-	
-	private Eel getChild(int witch)
-	{
-		return ez.get(witch);
-	}
-	public static ArrayList<Eel> getEels()
-	{
-		return ez;
-	}
-	
-	private void swim()
-	{
-		int wagreed = 0;//get consesus on who can move in valid direction
-		int eagreed = 0;
-		for(int i = 0; i<getEels().size(); i++)
-		{
-			if(map.checkLocation(getChild(i).getCurrentLocation().x - 1, getChild(i).getCurrentLocation().y) == 0)
-				wagreed++;
-			else if(map.checkLocation(getChild(i).getCurrentLocation().x + 1, getChild(i).getCurrentLocation().y) == 0)
-				eagreed++;
-		}
-		if(wagreed == getEels().size()-1)//if they can all move west
-		{
-			System.out.println("Agreed west");
-			e = false;
-			w = true;
-			for(int i = 0; i<getEels().size(); i++)
-				getChild(i).goWest();
-			//return;
-		}
-		else if(eagreed == getEels().size()-1)//if they can all move east
-		{
-			System.out.println("Agreed East");
-			w = false;
-			e = true;
-			for(int i = 0; i<getEels().size(); i++)
-				getChild(i).goEast();
-			//return;
-		}
-		moveTime = 0;
-		System.out.println("movetTime at end of swim " + moveTime);
-	}
-	
-	public void createSwarm()
+
+	public static ArrayList<Eel> getEelList() { return eelList; }
+
+	private void createSwarm()
 	{
 		Random rand = new Random();
 		int x = rand.nextInt(Explorer.getDimensions());
 		int y = rand.nextInt(Explorer.getDimensions());
 
-		while(Map.getInstance().checkLocation(x, y) != 0)
-		{
+		while (Map.getInstance().checkLocation(x, y) != 0) {
 			x = rand.nextInt(Explorer.getDimensions());
 			y = rand.nextInt(Explorer.getDimensions());
 		}
-		getChild(0).getCurrentLocation().setLocation(x, y);
-		for(int i =1; i<getEels().size(); i++)
-		{
-			if(Map.getInstance().checkLocation(x, y+1) != 0)
-				getChild(i).getCurrentLocation().setLocation(x, y-1);
-			else
-				getChild(i).getCurrentLocation().setLocation(x, y+1);
-		}
-	}
-	
-	public ImageView getImageView() {return iv;}
-    public void setImageView(ImageView imageView) {this.iv = imageView;}
 
+		eelList.add(new Eel(x, y)); //this will be the eel that they all are made around
+
+		int iterX = eelList.get(0).getCurrentLocation().x;
+		int iterY = eelList.get(0).getCurrentLocation().y;
+		int counter = 1;
+
+		while (counter < getNumEels())
+		{
+			if (Map.getInstance().checkLocation(iterX + 1, iterY) == 0) {
+				eelList.add(new Eel(iterX + 1, iterY));
+				counter++;
+
+				if(counter >= getNumEels())
+					break;
+			}
+			if (Map.getInstance().checkLocation(iterX - 1, iterY) == 0) {
+				eelList.add(new Eel(iterX - 1, iterY));
+				counter++;
+
+				if(counter >= getNumEels())
+					break;
+			}
+			if (Map.getInstance().checkLocation(iterX, iterY + 1) == 0) {
+				eelList.add(new Eel(iterX, iterY + 1));
+				counter++;
+
+				if(counter >= getNumEels())
+					break;
+			}
+			if (Map.getInstance().checkLocation(iterX, iterY + 1) == 0) {
+				eelList.add(new Eel(iterX + 1, iterY + 1));
+				counter++;
+
+				if(counter >= getNumEels())
+					break;
+			}
+
+			iterX++;
+			iterY++;
+		}
+
+	}
+
+
+	/*
+	Each ship movement, this checks the eels locations and decides whether the state should be moved to
+	West or East
+	 */
 	@Override
 	public void update(Observable o, Object arg)
 	{
-		System.out.println("Notified school");
-		if(o instanceof Ship)
+		int westCount = 0;
+		int eastCount = 0;
+		for (Eel e : eelList)
 		{
-			if(moveTime<randy)
-			{
-				moveTime++;
-				System.out.println(moveTime + " our of " + randy);
-			}
-			else
-			{
-				swim();
-				System.out.println("Swam");
-			}
+			if (e.canGoEast()) eastCount++;
+			if (e.canGoWest()) westCount++;
 		}
+
+
+		if(westCount == eastCount) {} //open on both sides, continue with current state
+		else if(westCount == getNumEels())
+			currentState = westState;
+		else if(eastCount == getNumEels())
+			currentState = eastState;
+
+		currentState.moveEels();
 	}
-}
+
+
+	private int getNumEels()
+	{
+		return 4;
+	}
+	}
