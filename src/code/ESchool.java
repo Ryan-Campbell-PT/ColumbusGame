@@ -48,25 +48,25 @@ public class ESchool implements Observer{
 	{
 		int wagreed = 0;//get consesus on who can move in valid direction
 		int eagreed = 0;
-		for(int i = 0; i<=getEels().size(); i++)
+		for(int i = 0; i<getEels().size() - 1; i++)
 		{
 			if(map.checkLocation(getChild(i).getCurrentLocation().x - 1, getChild(i).getCurrentLocation().y) == 0)
 				wagreed++;
-			if(map.checkLocation(getChild(i).getCurrentLocation().x + 1, getChild(i).getCurrentLocation().y) == 0)
+			else if(map.checkLocation(getChild(i).getCurrentLocation().x + 1, getChild(i).getCurrentLocation().y) == 0)
 				eagreed++;
 		}
 			if(wagreed == getEels().size()-1)//if they can all move west
 			{
 				e = false;
 				w = true;
-				for(int i = 0; i<getEels().size(); i++)
+				for(int i = 0; i<getEels().size() - 1; i++)
 					getChild(i).goWest();
 			}
 			else if(eagreed == getEels().size()-1)//if they can all move east
 			{
 				w = false;
 				e = true;
-				for(int i = 0; i<getEels().size(); i++)
+				for(int i = 0; i<getEels().size() - 1; i++)
 					getChild(i).goEast();
 			}
 	}

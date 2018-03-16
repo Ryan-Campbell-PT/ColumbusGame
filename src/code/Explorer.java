@@ -94,7 +94,7 @@ public class Explorer extends Application {
 	}
 
 	@Override
-	public void start(Stage oceanStage) throws NullPointerException, IllegalStateException, MalformedURLException, IOException
+	public void start(Stage oceanStage)// throws NullPointerException, IllegalStateException, MalformedURLException, IOException
     {
         //create all the necessary objects
         ap = new AnchorPane();

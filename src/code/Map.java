@@ -77,4 +77,16 @@ public class Map
 			seaMap[x][y] = status;
 	}
 
-	public int checkLocation(int x, int y) { return seaMap[x][y]; }}
+	public int checkLocation(int x, int y)
+	{
+		try
+		{
+			return seaMap[x][y];
+		}
+
+		catch(ArrayIndexOutOfBoundsException e) //incase location is outside bounds
+		{
+			return 100; //throw a random irrelevant number
+		}
+	}
+}

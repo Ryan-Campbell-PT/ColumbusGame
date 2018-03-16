@@ -18,13 +18,13 @@ public class Eel implements EWMoving
 	public Eel()
 	{
 		map = Map.getInstance();
-		//currentLocation = createLocation();
+		currentLocation = createLocation();
+		Map.getInstance().setPoint(currentLocation.x, currentLocation.y, 2);
 		randy = new Random().nextInt(3);
 		moveTime= 0;//I'll most likely end up using a timer
 		e = true;
 		w = false;
 		imageView = createImageView();
-		//Ship.getInstance().addObserver(this);
 	}
 
 	@Override
@@ -90,13 +90,23 @@ public class Eel implements EWMoving
 		}
 	}
 	
-	public Point createLocation(int x, int y)
+	public Point createLocation()
 	{
+		Random random = new Random();
+		int x = random.nextInt(Explorer.getDimensions());
+		int y = random.nextInt(Explorer.getDimensions());
+
+		while(Map.getInstance().checkLocation(x, y) != 0)
+		{
+			x = random.nextInt(Explorer.getDimensions());
+			y = random.nextInt(Explorer.getDimensions());
+		}
+
 		return new Point(x, y);
 	}
 
-	@Override
-	/*public void update(Observable o, Object arg)
+	/*@Override
+	public void update(Observable o, Object arg)
 	{
 		if(o instanceof Ship)
 		{
