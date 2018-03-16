@@ -11,7 +11,7 @@ public class Eel implements EWMoving
 	private Map map;
 	private Point currentLocation;
 	//private int randy, moveTime;
-	public boolean e, w;
+	//public boolean e, w;
 	private ImageView imageView;
 
 	//TODO: Eel will implement the composite pattern, having a random number determine how many eels go in a direction and hog real estate
@@ -22,8 +22,8 @@ public class Eel implements EWMoving
 		Map.getInstance().setPoint(currentLocation.x, currentLocation.y, 2);
 		//randy = new Random().nextInt(3);
 		//moveTime= 0;//I'll most likely end up using a timer
-		e = true;
-		w = false;
+		//e = true;
+		//w = false;
 		imageView = createImageView();
 	}
 
@@ -47,6 +47,7 @@ public class Eel implements EWMoving
 		map.setPoint(getCurrentLocation().x, getCurrentLocation().y, 0); //^^
 		map.setPoint(getCurrentLocation().x - 1, getCurrentLocation().y, 2);
 		getCurrentLocation().setLocation(currentLocation.x - 1, currentLocation.y);
+		System.out.println("went west");
 	}
 
 	@Override
@@ -55,6 +56,7 @@ public class Eel implements EWMoving
 		map.setPoint(getCurrentLocation().x, getCurrentLocation().y, 0); //^^
 		map.setPoint(getCurrentLocation().x + 1, getCurrentLocation().y, 2);
 		getCurrentLocation().setLocation(getCurrentLocation().x + 1, getCurrentLocation().y);
+		System.out.println("went east");
 	}
 	
 	public Point createLocation()

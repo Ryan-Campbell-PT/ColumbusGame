@@ -62,6 +62,7 @@ public class ESchool implements Observer{
 			w = true;
 			for(int i = 0; i<getEels().size(); i++)
 				getChild(i).goWest();
+			//return;
 		}
 		else if(eagreed == getEels().size()-1)//if they can all move east
 		{
@@ -70,6 +71,7 @@ public class ESchool implements Observer{
 			e = true;
 			for(int i = 0; i<getEels().size(); i++)
 				getChild(i).goEast();
+			//return;
 		}
 		moveTime = 0;
 		System.out.println("movetTime at end of swim " + moveTime);

@@ -50,7 +50,7 @@ public class Snake implements Observer, NSMoving
 		{
 			if(currentLocation.y > 0)
 			{
-				if(map.checkLocation(currentLocation.x, currentLocation.y - 1) == 0)
+				if(map.checkLocation(currentLocation.x, currentLocation.y - 1) == 0 || map.checkLocation(currentLocation.x, currentLocation.y - 1) ==5)
 				{
 					map.setPoint(getCurrentLocation().x, getCurrentLocation().y, 0); //^^
 					map.setPoint(getCurrentLocation().x, getCurrentLocation().y-1, 2);
@@ -74,7 +74,7 @@ public class Snake implements Observer, NSMoving
 		{
 			if(currentLocation.y < Explorer.getDimensions() - 1)
 			{
-				if(map.checkLocation(currentLocation.x, currentLocation.y + 1) == 0)
+				if(map.checkLocation(currentLocation.x, currentLocation.y + 1) == 0 || map.checkLocation(currentLocation.x, currentLocation.y + 1) == 5)
 				{
 					map.setPoint(getCurrentLocation().x, getCurrentLocation().y, 0); //^^
 					map.setPoint(getCurrentLocation().x, getCurrentLocation().y+1, 2);
