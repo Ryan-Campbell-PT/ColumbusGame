@@ -1,15 +1,12 @@
 package tests;
 
 import static org.junit.jupiter.api.Assertions.*;
-import java.awt.Point;
 
-import code.Map;
-import code.WhirlpoolFactory;
 import org.junit.jupiter.api.Test;
-import code.FollowPirateShip;
-import code.Ship;
 
-class PirateMoveTest {
+import code.WhirlpoolFactory;
+
+class WhirlpoolTest {
 
 	@Test
 	void checkWhirlpoolCreation()
