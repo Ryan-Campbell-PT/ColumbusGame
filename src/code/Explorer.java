@@ -126,7 +126,7 @@ public class Explorer extends Application {
 	}
 
 	public static AnchorPane getAp() {return ap;}
-	public static int getDimensions() {return 10;} //dimensions without a variable
+	public static int getDimensions() {return 15; } //dimensions without a variable
 	public static int getIslandCount() {return getDimensions()/2;} //island count without a variable
 	public static int getScaleFactor() {return 50;}
 }
